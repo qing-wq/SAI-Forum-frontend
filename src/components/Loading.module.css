@@ -1,0 +1,44 @@
+.loading {
+	--R: 100px;
+	--r: 40px;
+	--r1: 23px;
+	position: absolute;
+	top: calc(50% - calc(var(--R) * 0.5));
+	left: calc(50% - calc(var(--R) * 0.5));
+	/* transform: translateX(calc(var(--R)) * -1) translateY(calc(var(--R)) * -1); */
+	width: var(--R);
+	height: var(--R);
+	animation: satellite 3s infinite linear;
+	border: 2px solid hsl(var(--pf));
+	border-radius: 100%;
+}
+
+.loading:before,
+.loading:after {
+	position: absolute;
+	left: 1px;
+	top: 1px;
+	width: var(--r1);
+	height: var(--r1);
+	content: "";
+	border-radius: 100%;
+	background-color: hsl(var(--p));
+	box-shadow: 0 0 10px hsl(var(--b3));
+}
+
+.loading:after {
+	right: 0;
+	width: var(--r);
+	height: var(--r);
+	margin: calc(calc(var(--R) - var(--r)) * 0.47);
+}
+
+@keyframes satellite {
+	from {
+		transform: rotate(0) translateZ(0);
+	}
+
+	to {
+		transform: rotate(360deg) translateZ(0);
+	}
+}

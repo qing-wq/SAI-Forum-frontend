@@ -1,0 +1,68 @@
+.square {
+	position: relative;
+	min-width: var(--edge-length);
+	min-height: var(--edge-length);
+	max-width: var(--edge-length);
+	max-height: var(--edge-length);
+	/* background-color: #000; */
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	transition: all calc(var(--speed) * 1s);
+}
+
+.square > div {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	/* opacity: 0.5; */
+}
+
+.front {
+	transform: rotateY(0deg) translateZ(calc(0.5 * var(--edge-length)));
+	/* background-color: bisque; */
+}
+
+.left {
+	transform: rotateY(-90deg) translateZ(calc(0.5 * var(--edge-length)));
+	/* background-color: blue; */
+}
+
+.back {
+	transform: rotateY(180deg) translateZ(calc(0.5 * var(--edge-length)));
+	/* background-color: purple; */
+}
+
+.right {
+	transform: rotateY(90deg) translateZ(calc(0.5 * var(--edge-length)));
+	/* background-color: green; */
+}
+
+.top {
+	transform: rotateX(90deg) translateZ(calc(0.5 * var(--edge-length)));
+	/* background-color: brown; */
+}
+
+.bottom {
+	transform: rotateX(-90deg) translateZ(calc(0.5 * var(--edge-length)));
+	/* background-color: coral; */
+}
+
+.l-square {
+	transform: rotateY(var(--fromY-deg));
+}
+
+.v-square {
+	transform: rotateX(var(--fromX-deg));
+}
+
+.l-square[active] {
+	transform: rotateY(var(--rotateY-deg));
+	-webkit-transform: rotateY(var(--rotateY-deg));
+}
+
+.v-square[active] {
+	transform: rotateX(var(--rotateX-deg));
+	-webkit-transform: rotateX(var(--rotateX-deg));
+}
