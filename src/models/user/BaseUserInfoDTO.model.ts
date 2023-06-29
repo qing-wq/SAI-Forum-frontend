@@ -1,62 +1,35 @@
 import type BaseDTO from "@/models/base/BaseDTO";
-/**
- * 用户Id
- */
+
 type UserId = number;
-
-/**
- * 用户名
- */
 type UserName = string;
-
-/**
- * 用户角色
- */
 type Role = string;
-
-/**
- * 用户头像
- */
 type Photo = string;
-
-/**
- * 用户简介
- */
 type Profile = string;
-
-/**
- * 职位
- */
 type Position = string;
-
-/**
- * 扩展字段
- */
+type Company = string;
 type Extend = string;
-
-/**
- * 是否删除
- */
 type Deleted = number;
-
-/**
- * 最后登陆区域
- */
 type Region = string;
 
-/**
- * 公司
- */
-type Company = string;
-
 export default interface BaseUserInfoDTO extends BaseDTO {
+	/**用户Id*/
 	userId: UserId;
+	/**用户名*/
 	userName: UserName;
+	/**用户角色*/
 	role: Role;
+	/**用户头像*/
 	photo: Photo;
+	/**用户简介*/
+	profile: Profile;
+	/**职位*/
 	position: Position;
+	/**公司*/
 	company: Company;
+	/**扩展字段*/
 	extend: Extend;
+	/**是否删除*/
 	deleted: Deleted;
+	/**最后登陆区域*/
 	region: Region;
 }

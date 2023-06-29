@@ -1,64 +1,37 @@
-import BaseUserInfoDTO from "./BaseUserInfoDTO.model";
-/**
- * 关注数
- */
+import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
+
 type FollowCount = number;
-
-/**
- * 粉丝数
- */
 type FansCount = number;
-
-/**
- * 加入天数
- */
 type JoinDayCount = number;
-
-/**
- * 发布文章数
- */
 type ArticleCount = number;
-
-/**
- * 获得点赞数
- */
 type PraiseCount = number;
-
-/**
- * 文章被阅读数
- */
 type ReadCount = number;
-
-/**
- * 文章被收藏数
- */
 type CollectionCount = number;
-
-/**
- * 是否已关注
- */
 type Followed = boolean;
-
-/**
- * 身份信息完整度（百分比）
- */
 type InfoPercent = number;
-
-/**
- *  创作历程
- */
 type YearArticleList = [];
 //TODO: Array[YearArticleDTO]
 
+/** 用户主页信息 */
 export default interface UserStatisticInfoDTO extends BaseUserInfoDTO {
+	/**关注数*/
 	followCount: FollowCount;
+	/**粉丝数*/
 	fansCount: FansCount;
+	/**加入天数*/
 	joinDayCount: JoinDayCount;
+	/**发布文章数*/
 	articleCount: ArticleCount;
+	/**获得点赞数*/
 	praiseCount: PraiseCount;
+	/**文章被阅读数*/
 	readCount: ReadCount;
+	/**文章被收藏数*/
 	collectionCount: CollectionCount;
+	/**是否已关注*/
 	followed: Followed;
+	/**身份信息完整度（百分比）*/
 	infoPercent: InfoPercent;
+	/**创作历程*/
 	yearArticleList: YearArticleList;
 }

@@ -1,33 +1,11 @@
-import BaseUserInfoDTO from "../BaseUserInfoDTO.model";
+import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
 
-/**
- * 评论中的用户信息
- */
+/**评论中的用户信息属性*/
 type userInfoInComment = "userId" | "userName";
-
-/**
- * 评论时间
- */
 type CommentTime = string;
-
-/**
- * 评论内容
- */
 type CommentContent = string;
-
-/**
- * 评论Id
- */
 type CommentId = number;
-
-/**
- * 获得点赞数
- */
 type PraiseCount = number;
-
-/**
- * 是否已点赞
- */
 type Praised = boolean;
 
 /**
@@ -35,10 +13,27 @@ type Praised = boolean;
  */
 export default interface BaseCommentDTO
 	extends Pick<BaseUserInfoDTO, userInfoInComment> {
+	/**用户头像 */
 	userPhoto: BaseUserInfoDTO["photo"];
+	/**评论时间*/
 	commentTime: CommentTime;
+	/**评论内容*/
 	commentContent: CommentContent;
+	/**评论Id*/
 	commentId: CommentId;
+	/**获得点赞数*/
 	praiseCount: PraiseCount;
+	/**是否已点赞*/
 	praised: Praised;
 }
+
+const ii: BaseCommentDTO = {
+	userPhoto: "",
+	commentTime: "",
+	commentContent: "",
+	commentId: 0,
+	praiseCount: 0,
+	praised: false,
+	userId: 0,
+	userName: "",
+};
