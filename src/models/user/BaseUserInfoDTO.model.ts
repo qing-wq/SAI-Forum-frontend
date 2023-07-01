@@ -1,4 +1,4 @@
-import type BaseDTO from "@/models/base/BaseDTO";
+import type BaseDTO from "@/models/base/BaseDTO.model";
 
 type UserId = number;
 type UserName = string;

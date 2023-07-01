@@ -12,7 +12,7 @@ type InfoPercent = number;
 type YearArticleList = [];
 //TODO: Array[YearArticleDTO]
 
-/** 用户主页信息 */
+/** 用户统计信息 */
 export default interface UserStatisticInfoDTO extends BaseUserInfoDTO {
 	/**关注数*/
 	followCount: FollowCount;

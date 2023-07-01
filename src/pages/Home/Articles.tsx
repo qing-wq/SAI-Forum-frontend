@@ -4,18 +4,25 @@ import MiddleView from "../../layouts/MiddleView";
 import MoreLoading from "../../components/MoreLoading";
 
 import SVG from "../../svg";
+import { HomeData } from "@/models";
 
-export default memo(function Articles({ homeData }) {
-	const data = homeData.read("全部");
+type ArticlesProp = {
+	homeData: {
+		read: () => HomeData["result"];
+	};
+};
+
+export default memo(function Articles({ homeData }: ArticlesProp) {
+	const data = homeData.read();
 	const { list: articles, hasMore } = data.articles;
 	const navigate = useNavigate();
-	const openArticleDetail = (id) => {
+	const openArticleDetail = (id: number) => {
 		navigate(`/article/${id}`);
 	};
-	const openAuthorDetail = (id) => {
+	const openAuthorDetail = (id: number) => {
 		navigate(`/user/${id}`);
 	};
-	const clickAuthor = (authorId, e) => {
+	const clickAuthor = (authorId: number, e: React.MouseEvent) => {
 		e.stopPropagation();
 		openAuthorDetail(authorId);
 	};
@@ -99,7 +106,7 @@ export default memo(function Articles({ homeData }) {
 	);
 });
 
-function formatTime(time) {
+function formatTime(time: string) {
 	const date = new Date(time);
 	const str =
 		date.getFullYear() +
@@ -116,7 +123,10 @@ function formatTime(time) {
 	return str;
 }
 
-function CountView({ count }) {
+type CountViewProp = {
+	count: HomeData["result"]["articles"]["list"][number]["count"];
+};
+function CountView({ count }: CountViewProp) {
 	return (
 		<div className='absolute leading-10 left-20vw xl:left-30vw flex whitespace-nowrap gap-3 group-hover:text-primary-focus'>
 			<span className='flex items-center'>

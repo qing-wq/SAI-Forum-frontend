@@ -7,30 +7,31 @@ import bg from "../../asset/images/login-bg.svg";
 const Login = () => {
 	const [boxActive, setBoxActive] = useState(false);
 	return (
-		<div className="group">
+		<div className='group'>
 			{/* background */}
-			<div className="absolute bottom-0 w-screen overflow-hidden select-none">
+			<div className='absolute bottom-0 w-screen overflow-hidden select-none'>
 				<img
-					className="select-none"
+					className='select-none'
 					src={bg}
-					alt="bg"
+					alt='bg'
 					style={{ minWidth: "1920px" }}
 					onDragStart={(e) => {
 						if (e && e.preventDefault) {
 							e.preventDefault();
-						} else {
-							window.event.returnValue = false;
 						}
+						// else {
+						// 	window.event?.returnValue = false;
+						// }
 					}}
 				/>
 			</div>
-			<div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+			<div className=' absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
 				<SquareBox
 					square={{
 						front: <LoginBox change={setBoxActive} />,
 						right: <RegisterBox change={setBoxActive} />,
 					}}
-					edgeLength="500px"
+					edgeLength='500px'
 					rotate={{
 						direction: "right",
 						fromDeg: 0,

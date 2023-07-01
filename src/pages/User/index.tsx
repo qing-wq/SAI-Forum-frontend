@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getUser } from "../../apis/user";
+import { getUserInfo } from "../../apis/user";
 import MiddleView from "../../layouts/MiddleView";
 import UserInfo from "./UserInfo";
 import UserArticles from "./UserArticles";
 import OtherData from "./OtherData";
 import Loading from "../../components/Loading";
+import { UnPromise } from "@/models";
 
 export default function User() {
 	const { id } = useParams();
-	const [userData, setUserData] = useState(null);
+	const [userData, setUserData] =
+		useState<UnPromise<ReturnType<typeof getUserInfo>>>();
 	useEffect(() => {
-		getUser(id).then((res) => {
+		getUserInfo(id!).then((res) => {
 			setUserData(res);
 		});
+		154866;
 		return () => {};
 	}, [id]);
 
@@ -22,7 +25,7 @@ export default function User() {
 			{userData ? (
 				<MiddleView>
 					<UserInfo info={userData?.userHome} />
-					<div className="flex mt-3 gap-3 min-h-full">
+					<div className='flex mt-3 gap-3 min-h-full'>
 						<UserArticles
 							articles={userData?.homeSelectList.list}
 						/>

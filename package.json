@@ -8,6 +8,18 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@bytemd/plugin-breaks": "^1.21.0",
+		"@bytemd/plugin-frontmatter": "^1.21.0",
+		"@bytemd/plugin-gemoji": "^1.21.0",
+		"@bytemd/plugin-gfm": "^1.21.0",
+		"@bytemd/plugin-highlight": "^1.21.0",
+		"@bytemd/plugin-highlight-ssr": "^1.21.0",
+		"@bytemd/plugin-math": "^1.21.0",
+		"@bytemd/plugin-math-ssr": "^1.21.0",
+		"@bytemd/plugin-medium-zoom": "^1.21.0",
+		"@bytemd/plugin-mermaid": "^1.21.0",
+		"@bytemd/react": "^1.21.0",
+		"bytemd": "^1.21.0",
 		"github-markdown-css": "^5.2.0",
 		"postcss-import": "^15.1.0",
 		"postcss-nesting": "^11.2.2",
@@ -17,6 +29,7 @@
 		"zustand": "^4.3.7"
 	},
 	"devDependencies": {
+		"@types/react": "^18.2.14",
 		"@vitejs/plugin-react": "^1.0.7",
 		"autoprefixer": "^10.4.2",
 		"daisyui": "^2.6.0",

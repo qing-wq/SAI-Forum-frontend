@@ -7,8 +7,8 @@ const OriginFetch = window.fetch;
  * @param {string} path 接口路径
  * @param {object?} props 请求参数
  */
-export default function xFetch(path, props) {
-	return new Promise(async (resolve, reject) => {
+function xFetch<T = unknown>(path: string, props?: object) {
+	return new Promise<T>(async (resolve, reject) => {
 		OriginFetch(baseURL + path, {
 			method: "GET",
 			...props,
@@ -21,3 +21,5 @@ export default function xFetch(path, props) {
 			});
 	});
 }
+
+export default xFetch;

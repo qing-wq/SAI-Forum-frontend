@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getArticlesByCategory } from "../../apis/articles";
+import { UnPromise } from "@/models";
 
-/**
- * 获取首页数据
- * @param {string} category 分类
- * @returns
- */
-export default function useArticleCache(category) {
+/** 获取首页数据 */
+export default function useArticleCache(category: string) {
 	const [promise, setPromise] = useState(getData(category));
 	useEffect(() => {
 		setPromise(getData(category));
@@ -15,13 +12,11 @@ export default function useArticleCache(category) {
 	return [promise, setPromise];
 }
 
-/**
- * 包裹函数统一封装
- * @param {string} category 分类
- * @returns
- */
-function getData(category) {
-	return wrapPromise(category, () => getArticlesByCategory(category));
+/** 包裹函数统一封装  */
+function getData(category: string) {
+	return wrapPromise<DataCache[string]>(category, () =>
+		getArticlesByCategory(category)
+	);
 }
 
 /**
@@ -30,7 +25,7 @@ function getData(category) {
  * @param {promise} promise 请求
  * @returns
  */
-function wrapPromise(category, promise) {
+function wrapPromise<T = unknown>(category: string, promise: () => Promise<T>) {
 	if (dataCache[category]) {
 		return {
 			read() {
@@ -39,12 +34,12 @@ function wrapPromise(category, promise) {
 		};
 	}
 	let status = 0;
-	let result;
+	let result: T | Error;
 	const callPromise = promise().then(
 		(res) => {
 			status = 1;
 			result = res;
-			dataCache[category] = res;
+			dataCache[category] = res as DataCache[string];
 		},
 		(err) => {
 			status = -1;
@@ -65,5 +60,9 @@ function wrapPromise(category, promise) {
 	};
 }
 
+// TODO: 缓存类型
+type DataCache = {
+	[categoryName: string]: UnPromise<ReturnType<typeof getArticlesByCategory>>;
+};
 // 分类数量有限，使用数组缓存不同分类的首页数据
-const dataCache = {};
+const dataCache: DataCache = {};

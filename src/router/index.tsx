@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
 
-import Main from "../pages/Main";
-import Login from "../pages/Login";
-import ArticleList from "../pages/Home";
-import Article from "../pages/Article";
-import User from "../pages/User";
+import Main from "@/pages/Main";
+import Login from "@/pages/Login";
+import ArticleList from "@/pages/Home";
+import Article from "@/pages/Article";
+import User from "@/pages/User";
+import EditArticle from "@/pages/EditArticle";
 
 export default [
 	{
@@ -24,8 +25,12 @@ export default [
 				element: <User />,
 			},
 			{
+				path: "edit-article/:id",
+				element: <EditArticle />,
+			},
+			{
 				path: "",
-				element: <Navigate to="home/?category=全部" />,
+				element: <Navigate to='home/?category=全部' />,
 			},
 		],
 	},
@@ -35,6 +40,6 @@ export default [
 	},
 	{
 		path: "*",
-		element: <Navigate to="/" />,
+		element: <Navigate to='/' />,
 	},
 ];

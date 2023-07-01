@@ -11,7 +11,7 @@ type Status = {
 };
 
 /**请求返回值*/
-interface ResVo<T> {
+export default interface ResVo<T> {
 	status: Status;
 	result: T;
 }

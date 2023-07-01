@@ -3,21 +3,23 @@ import { useParams } from "react-router-dom";
 import MiddleView from "../../layouts/MiddleView";
 import { getArticle } from "../../apis/articles";
 import "github-markdown-css";
+import { UnPromise } from "@/models";
 
 export default memo(function Article() {
 	const { id } = useParams();
-	const [detail, setDetail] = useState("");
+	const [detail, setDetail] =
+		useState<UnPromise<ReturnType<typeof getArticle>>>();
 	// useEffect(() => {
 	// 	getArticle(id).then((res) => setDetail(res));
 	// 	return () => {};
 	// }, [id]);
 	return (
 		<>
-			<div className="bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg" />
+			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
 			<MiddleView>
-				<article className="markdown-body px-10">
+				<article className='markdown-body px-10'>
 					<br />
-					<h1>{detail.article?.title}</h1>
+					<h1>{detail?.article.title}</h1>
 					<p></p>
 					<p>
 						分布式的概念存在年头有点久了，在正式进入我们《分布式专栏》之前，感觉有必要来聊一聊，什么是分布式，分布式特点是什么，它又有哪些问题，在了解完这个概念之后，再去看它的架构设计，理论奠基可能帮助会更大
@@ -40,7 +42,7 @@ export default memo(function Article() {
 						</p>
 						<ul>
 							<li>
-								<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/4905336">
+								<a href='https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/4905336'>
 									分布式系统（建立在网络之上的软件系统）_百度百科
 								</a>
 							</li>
@@ -53,7 +55,7 @@ export default memo(function Article() {
 						</p>
 						<ul>
 							<li>
-								<a href="https://zh.m.wikipedia.org/zh-hans/%E5%88%86%E5%B8%83%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">
+								<a href='https://zh.m.wikipedia.org/zh-hans/%E5%88%86%E5%B8%83%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F'>
 									分布式操作系统 - 维基百科，自由的百科全书
 								</a>
 							</li>
@@ -69,7 +71,7 @@ export default memo(function Article() {
 						</p>
 						<ul>
 							<li>
-								<a href="https://computersciencewiki.org/index.php/Distributed_systems">
+								<a href='https://computersciencewiki.org/index.php/Distributed_systems'>
 									Distributed systems - Computer Science Wiki
 								</a>
 							</li>
@@ -103,7 +105,7 @@ export default memo(function Article() {
 					<h2>2. 分布式系统面临的问题</h2>
 					<p>
 						当系统分布在多个节点之上时，自然而然就带来了很多单机场景下不会有问题，如经典的{" "}
-						<a href="https://hhui.top/%E5%88%86%E5%B8%83%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%848%E4%B8%AA%E8%B0%AC%E8%AF%AF/">
+						<a href='https://hhui.top/%E5%88%86%E5%B8%83%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%848%E4%B8%AA%E8%B0%AC%E8%AF%AF/'>
 							分布式系统的8个谬误 | 一灰灰Learning
 						</a>
 					</p>
@@ -163,7 +165,7 @@ export default memo(function Article() {
 					<p>
 						实际上分布式系统面临的挑战并不止于上面这些，一个具体的系统面临的问题可能各不相同，但总的来说，分布式系统的理论基础会给我们非常好的指引方向，这一节推荐查看
 						*{" "}
-						<a href="https://hhui.top/%E5%88%86%E5%B8%83%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%BC%E8%BF%B0/">
+						<a href='https://hhui.top/%E5%88%86%E5%B8%83%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%BC%E8%BF%B0/'>
 							分布式设计模式综述 | 一灰灰Learning
 						</a>
 					</p>
@@ -233,7 +235,7 @@ export default memo(function Article() {
 						</p>
 						<ul>
 							<li>
-								<a href="https://hhui.top/%E5%88%86%E5%B8%83%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+								<a href='https://hhui.top/%E5%88%86%E5%B8%83%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/'>
 									分布式常用的设计模式 | 一灰灰Learning
 								</a>
 							</li>
@@ -241,12 +243,12 @@ export default memo(function Article() {
 						<p>最后强烈推荐阅读下面两个万字干货</p>
 						<ul>
 							<li>
-								<a href="https://mp.weixin.qq.com/s?__biz=MzU3MTAzNTMzMQ==&mid=2247487507&idx=1&sn=9c4ff02747e8335ee5e3c7765cc80b3c&chksm=fce70bbfcb9082a9a8d972af80f19a9b66a5425c949bc400872727cc2da9f401047a5a523ac4&token=1624762777&lang=zh_CN#rd">
+								<a href='https://mp.weixin.qq.com/s?__biz=MzU3MTAzNTMzMQ==&mid=2247487507&idx=1&sn=9c4ff02747e8335ee5e3c7765cc80b3c&chksm=fce70bbfcb9082a9a8d972af80f19a9b66a5425c949bc400872727cc2da9f401047a5a523ac4&token=1624762777&lang=zh_CN#rd'>
 									1w5字详细介绍分布式系统的38个技术方案
 								</a>
 							</li>
 							<li>
-								<a href="https://mp.weixin.qq.com/s?__biz=MzU3MTAzNTMzMQ==&mid=2247487533&idx=1&sn=cd07d5d601986fd3911858ea5f3a18d4&chksm=fce70b81cb908297fe66eac564028a6c7ef197f8f10921c4dfe05cf8d433b5ee45566099e467&token=1624762777&lang=zh_CN#rd">
+								<a href='https://mp.weixin.qq.com/s?__biz=MzU3MTAzNTMzMQ==&mid=2247487533&idx=1&sn=cd07d5d601986fd3911858ea5f3a18d4&chksm=fce70b81cb908297fe66eac564028a6c7ef197f8f10921c4dfe05cf8d433b5ee45566099e467&token=1624762777&lang=zh_CN#rd'>
 									基于MySql,Redis,Mq,ES的高可用方案解析
 								</a>
 							</li>

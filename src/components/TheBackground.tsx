@@ -6,12 +6,12 @@ import React from "react";
  * @property {string} bgName 背景名字
  */
 
-/**
- *  背景组件
- * @param {Props} prop
- * @returns
- */
-export default function TheBackground({ bgName }) {
+/**背景组件*/
+type TheBackgroundProp = {
+	bgName: string;
+};
+
+export default function TheBackground({ bgName }: TheBackgroundProp) {
 	const bg = `bg-${bgName}-bg`;
 	return (
 		<div
