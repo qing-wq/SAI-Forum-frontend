@@ -6,12 +6,12 @@ import UserInfo from "./UserInfo";
 import UserArticles from "./UserArticles";
 import OtherData from "./OtherData";
 import Loading from "../../components/Loading";
-import { UnPromise } from "@/models";
+import { Await } from "@/models";
 
 export default function User() {
 	const { id } = useParams();
 	const [userData, setUserData] =
-		useState<UnPromise<ReturnType<typeof getUserInfo>>>();
+		useState<Await<ReturnType<typeof getUserInfo>>>();
 	useEffect(() => {
 		getUserInfo(id!).then((res) => {
 			setUserData(res);

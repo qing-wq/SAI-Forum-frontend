@@ -25,14 +25,14 @@ export default [
 				element: <User />,
 			},
 			{
-				path: "edit-article/:id",
-				element: <EditArticle />,
-			},
-			{
 				path: "",
 				element: <Navigate to='home/?category=全部' />,
 			},
 		],
+	},
+	{
+		path: "edit-article/:id",
+		element: <EditArticle />,
 	},
 	{
 		path: "/login",

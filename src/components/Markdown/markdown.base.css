@@ -1,0 +1,26 @@
+.markdown-page > div:nth-child(2) {
+	height: calc(100vh - 4rem);
+}
+
+.bytemd {
+	height: 100%;
+}
+
+.markdown-body {
+	height: 100%;
+}
+
+/* ol缺失序列号样式修复 */
+.markdown-body ol li {
+	list-style-type: auto !important;
+}
+
+/* ul缺失序列点样式修复 */
+.markdown-body ul li {
+	list-style-type: initial !important;
+}
+
+/* 屏蔽源代码按钮 */
+.bytemd-toolbar-right div[bytemd-tippy-path="5"] {
+	display: none;
+}

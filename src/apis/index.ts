@@ -7,7 +7,7 @@ const OriginFetch = window.fetch;
  * @param {string} path 接口路径
  * @param {object?} props 请求参数
  */
-function xFetch<T = unknown>(path: string, props?: object) {
+function xFetch<T = unknown>(path: string, props?: RequestInit) {
 	return new Promise<T>(async (resolve, reject) => {
 		OriginFetch(baseURL + path, {
 			method: "GET",

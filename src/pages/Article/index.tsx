@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import MiddleView from "../../layouts/MiddleView";
 import { getArticle } from "../../apis/articles";
 import "github-markdown-css";
-import { UnPromise } from "@/models";
+import { Await } from "@/models";
 
 export default memo(function Article() {
 	const { id } = useParams();
 	const [detail, setDetail] =
-		useState<UnPromise<ReturnType<typeof getArticle>>>();
+		useState<Await<ReturnType<typeof getArticle>>>();
 	// useEffect(() => {
 	// 	getArticle(id).then((res) => setDetail(res));
 	// 	return () => {};

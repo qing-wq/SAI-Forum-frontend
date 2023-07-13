@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import MarkdownEditor from "@/components/MarkdownEditor";
+import MarkdownEditor from "@/components/Markdown";
+import useArticle from "@/stores/useArticle";
 /**
- * 文章编辑器
+ * 文章编辑页面
  */
 export default function EditArticle() {
 	const { id } = useParams<string>();
 	const navigate = useNavigate();
+	const getArticleInfo = useArticle((state) => state.getArticleInfo);
 	// 处理param参数，数值化、异常参数处理
 	/**
 	 * 编辑器文章Id
@@ -23,13 +25,15 @@ export default function EditArticle() {
 	useEffect(() => {
 		if (articleID === -1) {
 			navigate("/edit-article/new");
+		} else {
+			// 获取文章信息
+			getArticleInfo(articleID);
 		}
 	}, [articleID]);
 
-	const [value, setValue] = useState("");
 	return (
 		<div style={{ height: "100%" }}>
-			Edit{articleID} <MarkdownEditor />
+			<MarkdownEditor />
 		</div>
 	);
 }
