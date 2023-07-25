@@ -1,4 +1,9 @@
-import { generateSummary, getArticle, postArticle } from "@/apis/articles";
+import {
+	generateSummary,
+	getArticle,
+	postArticle,
+	saveArticle,
+} from "@/apis/articles";
 import type { Await } from "@/models";
 import ArticlePostReq from "@/models/article/ArticlePostReq.model";
 import { create } from "zustand";
@@ -88,7 +93,8 @@ const useArticle = create<UseArticle>((set, get) => ({
 		}
 		// 已存在文章保存
 		else {
-			const { result: articleId } = await postArticle({
+			console.log("自动保存", articleInfo);
+			const { result: articleId } = await saveArticle({
 				articleId: get().articleInfo.articleId,
 				...articleInfo,
 			});

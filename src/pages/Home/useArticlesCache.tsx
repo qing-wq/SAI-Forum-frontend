@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getArticlesByCategory } from "../../apis/articles";
+import { getHomeData } from "../../apis/articles";
 import { Await } from "@/models";
 
 /** 获取首页数据 */
@@ -15,7 +15,7 @@ export default function useArticleCache(category: string) {
 /** 包裹函数统一封装  */
 function getData(category: string) {
 	return wrapPromise<DataCache[string]>(category, () =>
-		getArticlesByCategory(category)
+		getHomeData(category)
 	);
 }
 
@@ -62,7 +62,7 @@ function wrapPromise<T = unknown>(category: string, promise: () => Promise<T>) {
 
 // TODO: 缓存类型
 type DataCache = {
-	[categoryName: string]: Await<ReturnType<typeof getArticlesByCategory>>;
+	[categoryName: string]: Await<ReturnType<typeof getHomeData>>;
 };
 // 分类数量有限，使用数组缓存不同分类的首页数据
 const dataCache: DataCache = {};

@@ -5,13 +5,10 @@ import { Outlet } from "react-router-dom";
 
 const Mian = () => {
 	return (
-		<>
+		<main className='h-[100vh] overflow-y-auto'>
 			<TheHeader />
-			<main className=" min-h-screen">
-				<Outlet />
-			</main>
-			<TheFooter />
-		</>
+			<Outlet />
+		</main>
 	);
 };
 

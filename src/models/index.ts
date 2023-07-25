@@ -6,6 +6,7 @@ import ImageVO from "./article/ImageVO.model";
 import CategoryDTO from "./article/CategoryDTO.model";
 import TagDTO from "./article/TagDTO.model";
 import ArticleDTO from "./article/ArticleDTO.model";
+import PageListVo from "./page/PageListVo.model";
 
 /** 反向推导Promise */
 export type Await<T extends Promise<any>> = T extends Promise<infer P>
@@ -14,6 +15,9 @@ export type Await<T extends Promise<any>> = T extends Promise<infer P>
 
 /** 首页接口 */
 export interface HomeData extends ResVO<IndexVo> {}
+
+/** 文章分页查询接口 */
+export interface ArticleList extends ResVO<PageListVo<ArticleDTO>> {}
 
 /** 文章详情接口 */
 export interface ArticleDetail extends ResVO<ArticleDetailVo> {}

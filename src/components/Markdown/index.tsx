@@ -39,6 +39,7 @@ export default function MarkdownEditor() {
 	}, [articleInfo]);
 	/** 文章防抖保存 */
 	const saveArticleContent = (value: string) => {
+		console.log(value);
 		setValue(value);
 		debounce(() => saveArticleInfo({ content: value }), 1000);
 	};
@@ -63,5 +64,20 @@ export default function MarkdownEditor() {
 			/>
 			{/* <Viewer value={value} plugins={plugins} /> */}
 		</div>
+	);
+}
+
+type MarkdownViewerProp = {
+	content: string;
+};
+/**
+ * Markdown查看器
+ */
+export function MarkdownViewer({ content }: MarkdownViewerProp) {
+	return (
+		<Viewer
+			value={JSON.parse(`{"content": "${content}"}`)["content"]}
+			plugins={plugins}
+		/>
 	);
 }

@@ -1,6 +1,7 @@
 import React, { useState, memo } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import "./TheHeader.css";
+import useLogin from "@/stores/useLogin";
 
 /**
  * 页头组件
@@ -21,6 +22,7 @@ export default memo(function TheHeader() {
 		setSearchInput(currentTarget.value);
 	};
 	return (
+		// TODO: 下滑收缩页头
 		<header className='navbar gap-0 2xl:gap-6 bg-base-100 sticky top-0 shadow-md z-10'>
 			{/* title */}
 			<div className='flex-none'>
@@ -61,37 +63,12 @@ export default memo(function TheHeader() {
 					/>
 				</div>
 				{/* user */}
-				<div className='dropdown dropdown-end'>
-					<label
-						tabIndex={0}
-						className='btn btn-ghost btn-circle avatar'
-					>
-						<div className='w-10 rounded-full'>
-							<img src='https://cdn.tobebetterjavaer.com/paicoding/avatar/0082.png' />
-						</div>
-					</label>
-					<ul
-						tabIndex={0}
-						className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
-					>
-						{/* <li>
-							<a className="justify-between">
-								配置
-								<span className="badge">New</span>
-							</a>
-						</li> */}
-						<li>
-							<Link to={"/user/self"}>主页</Link>
-						</li>
-						<li>
-							<a>登出</a>
-						</li>
-					</ul>
-				</div>
+				<UserInfo />
 			</div>
 		</header>
 	);
 });
+
 const navList = [
 	"全部",
 	"人工智能",
@@ -103,3 +80,38 @@ const navList = [
 	"代码人生",
 	"阅读",
 ];
+
+/** 页头用户信息 */
+function UserInfo() {
+	const userInfo = useLogin((state) => state.userInfo);
+	if (!userInfo) {
+		// TODO: 未登录
+		return <div>未登录</div>;
+	}
+	return (
+		<div className='dropdown dropdown-end'>
+			<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
+				<div className='w-10 rounded-full'>
+					<img src={userInfo.photo} />
+				</div>
+			</label>
+			<ul
+				tabIndex={0}
+				className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
+			>
+				{/* <li>
+			<a className="justify-between">
+				配置
+				<span className="badge">New</span>
+			</a>
+		</li> */}
+				<li>
+					<Link to={"/user/self"}>主页</Link>
+				</li>
+				<li>
+					<a>登出</a>
+				</li>
+			</ul>
+		</div>
+	);
+}

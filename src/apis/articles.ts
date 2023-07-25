@@ -2,6 +2,7 @@ import ArticleDTO from "@/models/article/ArticleDTO.model";
 import xFetch from ".";
 import {
 	ArticleDetail,
+	ArticleList,
 	ArticleSave,
 	ArticleSummary,
 	HomeData,
@@ -10,15 +11,29 @@ import {
 import ArticlePostReq from "@/models/article/ArticlePostReq.model";
 
 /**
- * 请求首页文章
+ * 请求首页文章与用户信息
  * @param {string} category
  */
-export function getArticlesByCategory(category = "全部") {
+export function getHomeData(category = "全部") {
 	return new Promise<HomeData["result"]>((resolve, reject) => {
 		xFetch<HomeData>(`?category=${category}`).then((res) => {
 			resolve(res.result);
 		});
 	});
+}
+
+/**
+ * 分页请求文章接口
+ */
+export function getArticlesPerPage(category: string, page: number) {
+	return new Promise<ArticleList["result"]>((resolve) =>
+		xFetch<ArticleList>(
+			`article/api/list/category/${category}?page=${page}`,
+			{
+				method: "GET",
+			}
+		).then((res) => resolve(res.result))
+	);
 }
 
 /**
@@ -48,10 +63,23 @@ export function postImage(image: File) {
 }
 
 /**
- * 保存文章信息（作者发布、修改）
+ * 文章新建、发布状态修改接口
  */
 export function postArticle(articleInfo: ArticlePostReq) {
 	return xFetch<ArticleSave>("article/api/post", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(articleInfo),
+	});
+}
+
+/**
+ * 文章自动保存接口(草稿)
+ */
+export function saveArticle(articleInfo: ArticlePostReq) {
+	return xFetch<ArticleSave>("draft/update", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

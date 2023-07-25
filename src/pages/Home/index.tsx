@@ -23,14 +23,20 @@ const ArticleList = () => {
 		<>
 			{/* 背景 */}
 			<div
+				onScroll={(e) => console.log(e)}
 				className={`${
 					category ? categoryBg[category] : categoryBg["全部"]
 				} bg-cover bg-no-repeat bg-fixed fixed top-0 left-0 origin-left scale-x-20 md:scale-x-40 2xl:scale-x-95 z-bg min-w-bg md:min-w-screen min-h-screen `}
 			/>
 			<Suspense fallback={<Loading />}>
-				<Articles
-					homeData={articles as { read: () => HomeData["result"] }}
-				/>
+				<div className='w-full'>
+					<Articles
+						homeData={
+							articles as { read: () => HomeData["result"] }
+						}
+						category={category || "全部"}
+					/>
+				</div>
 			</Suspense>
 		</>
 	);

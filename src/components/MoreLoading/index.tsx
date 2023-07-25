@@ -1,9 +1,12 @@
-import React, { memo } from "react";
+import React, { forwardRef } from "react";
 import style from "./MoreLoading.module.css";
 
-const MoreLoading = memo(() => {
+const MoreLoading = forwardRef<HTMLDivElement>(function MoreLoading(
+	props,
+	moreLoading
+) {
 	return (
-		<div className={style.loading}>
+		<div className={style.loading} {...props} ref={moreLoading}>
 			<div></div>
 			<div></div>
 			<div></div>

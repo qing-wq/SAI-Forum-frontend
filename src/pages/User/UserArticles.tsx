@@ -1,33 +1,51 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { UserInfo } from "@/models/index";
+import { useNavigate } from "react-router-dom";
 
 type UserArticlesProp = {
-	articles: UserInfo["result"]["homeSelectList"]["list"];
+	articles: UserInfo["result"]["homeSelectList"];
 };
 
+/** 用户文章列表页 */
 export default function UserArticles({ articles }: UserArticlesProp) {
+	const navigate = useNavigate();
+	const openArticle = (id: number) => {
+		navigate("/article/" + id);
+	};
 	return (
 		<div className='card w-full min-h-screen bg-base-100 shadow-xl hover:shadow-2xl transition-all '>
-			<div className='flex px-4 h-10 leading-10 rounded-t-xl border-solid border-b-2 border-opacity-50 border-b-primary'>
+			{/* <div className='flex px-4 h-10 leading-10 rounded-t-xl border-solid border-b-2 border-opacity-50 border-b-primary'>
 				<div className='text-center w-24 font-black hover:text-primary border-b-2'>
 					动态
 				</div>
 				<div className='text-center w-24 font-black'>文章</div>
 				<div className='text-center w-24 font-black'>专栏</div>
 				<div className='text-center w-24 font-black'>收藏</div>
-			</div>
-			{articles.map((article) => (
-				<Article key={article.articleId} article={article} />
+			</div> */}
+			{articles.list.map((article) => (
+				<Article
+					key={article.articleId}
+					article={article}
+					onClick={() => {
+						openArticle(article.articleId);
+					}}
+				/>
 			))}
 		</div>
 	);
 }
 
-type ArticleProp = { article: UserArticlesProp["articles"][number] };
+type ArticleProp = {
+	article: UserArticlesProp["articles"]["list"][number];
+	onClick?: MouseEventHandler<HTMLDivElement>;
+};
 
-function Article({ article }: ArticleProp) {
+function Article({ article, onClick }: ArticleProp) {
 	return (
-		<div className='w-full h-32 p-4  border-solid border-b-[1px] border-opacity-10 border-b-black bg-base-100 group cursor-pointer last:rounded-b-xl'>
+		<div
+			onClick={onClick}
+			className='w-full h-32 p-4  border-solid border-b-[1px] border-opacity-10 border-b-black bg-base-100 group cursor-pointer first:rounded-t-xl last:rounded-b-xl'
+		>
 			<div className='flex'>
 				{/* text */}
 				<div className='flex-1'>
@@ -42,8 +60,8 @@ function Article({ article }: ArticleProp) {
 				<div className={`pl-5 ${article.cover ? "" : "hidden"}`}>
 					<img
 						className=' inline-block max-h-24 rounded-md'
-						src='https://th.bing.com/th/id/OIP.HmkpEMapxGo07fZc_fr8ZwHaE7?w=281&h=187&c=7&r=0&o=5&pid=1.7'
-						alt='cover'
+						src={article.cover}
+						alt='文章封面'
 					/>
 				</div>
 			</div>
