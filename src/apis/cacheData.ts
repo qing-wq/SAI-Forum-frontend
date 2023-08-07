@@ -8,5 +8,6 @@ export function getCategorys() {
 
 /** 查询文章标签 */
 export function getTags() {
-	return xFetch<ArticleTag>("article/tags");
+	// TODO: 分页查询
+	return xFetch<ArticleTag>(`article/tags?page=1`);
 }

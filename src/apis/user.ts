@@ -31,3 +31,21 @@ export function postUserFollow(
 		body: JSON.stringify({ userId, followUserId, followed }),
 	});
 }
+
+/**
+ * 用户登陆
+ */
+export function postLogin(
+	/** 用户名 */
+	username: string,
+	/** 密码 */
+	password: string
+) {
+	return xFetch("admin/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+		},
+		body: `username=${username}&password=${password}`,
+	});
+}

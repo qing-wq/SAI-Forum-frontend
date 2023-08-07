@@ -52,7 +52,7 @@ const categoryBg: CategoryBg = {
 	后端: "bg-backEnd-bg",
 	人工智能: "bg-AI-bg",
 	大数据: "bg-bigData-bg",
-	安卓: "bg-android-bg",
+	Android: "bg-android-bg",
 	开发工具: "bg-tool-bg",
 	代码人生: "bg-life-bg",
 	阅读: "bg-read-bg",

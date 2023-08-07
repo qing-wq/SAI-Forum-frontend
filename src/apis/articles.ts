@@ -25,10 +25,10 @@ export function getHomeData(category = "全部") {
 /**
  * 分页请求文章接口
  */
-export function getArticlesPerPage(category: string, page: number) {
+export function getArticlesPerPage(categoryId: number, page: number) {
 	return new Promise<ArticleList["result"]>((resolve) =>
 		xFetch<ArticleList>(
-			`article/api/list/category/${category}?page=${page}`,
+			`article/api/list/category/${categoryId}?page=${page}`,
 			{
 				method: "GET",
 			}
@@ -98,5 +98,31 @@ export function generateSummary(content: ArticleDTO["summary"]) {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ content }),
+	});
+}
+
+/** 评论信息 */
+export interface PostCommentProp {
+	/** 文章Id */
+	articleId: number;
+	/** 评论内容 */
+	commentContent: string;
+	/** 评论者Id */
+	userId: number;
+	/** 父评论Id */
+	parentCommentId?: number;
+	/** 顶级评论Id */
+	topCommentId?: number;
+}
+/**
+ * 发布评论
+ */
+export function postComment(commentInfo: PostCommentProp) {
+	return xFetch<ArticleSave>("comment/api/post", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(commentInfo),
 	});
 }

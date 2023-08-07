@@ -76,7 +76,7 @@ type MarkdownViewerProp = {
 export function MarkdownViewer({ content }: MarkdownViewerProp) {
 	return (
 		<Viewer
-			value={JSON.parse(`{"content": "${content}"}`)["content"]}
+			value={content}
 			plugins={plugins}
 		/>
 	);

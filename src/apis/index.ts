@@ -1,4 +1,5 @@
-const baseURL = "https://mock.apifox.cn/m1/2654035-0-default/";
+// const baseURL = "https://mock.apifox.cn/m1/2654035-0-default/";
+const baseURL = "http://172.22.1.232:8080/"
 
 const OriginFetch = window.fetch;
 

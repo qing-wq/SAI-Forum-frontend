@@ -8,6 +8,8 @@ import { HomeData } from "@/models";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
 import numberFormat from "@/utils/numberFormat";
 import { getArticlesPerPage } from "@/apis/articles";
+import useCategorys from "@/stores/useCategorys";
+import UserAvatar from "@/components/UserAvatar";
 
 type ArticlesProp = {
 	homeData: {
@@ -21,8 +23,9 @@ type ArticlesProp = {
  */
 export default memo(function Articles({ homeData, category }: ArticlesProp) {
 	const data = homeData.read();
-
 	const { list, hasMore: more } = data.articles;
+	// 分类
+	const getCategoryId = useCategorys((state) => state.getCategoryId);
 	// 当前分类的文章列表
 	const [articles, setArticles] = useState(list);
 	// 当前文章页数
@@ -38,7 +41,10 @@ export default memo(function Articles({ homeData, category }: ArticlesProp) {
 	/** 加载更多文章 */
 	const loadMoreArticles = async () => {
 		const nextPage = page + 1;
-		const articlesListInfo = await getArticlesPerPage(category, nextPage);
+		const articlesListInfo = await getArticlesPerPage(
+			getCategoryId(category),
+			nextPage
+		);
 		setArticles((articles) => [...articles, ...articlesListInfo.list]);
 		setHasMore(articlesListInfo.hasMore);
 		setPage(nextPage);
@@ -52,7 +58,7 @@ export default memo(function Articles({ homeData, category }: ArticlesProp) {
 				key={"osdosd"}
 				className=' w-full h-[30px] leading-7 bg-purple-200 bg-opacity-10'
 			>
-				{hasMore ? (
+				{!hasMore ? (
 					<div className='w-full text-center leading-8'>
 						没有更多了
 					</div>
@@ -116,11 +122,7 @@ function ArticleItem({ article }: ArticleItemProp) {
 					}}
 				>
 					<div className='flex gap-3'>
-						<div className='avatar'>
-							<div className=' w-6 h-6 inline-block rounded-full'>
-								<img src='https://cdn.tobebetterjavaer.com/paicoding/avatar/0082.png' />
-							</div>
-						</div>
+						<UserAvatar src={article.authorAvatar} />
 						<p>{article.authorName}</p>
 					</div>
 				</div>
