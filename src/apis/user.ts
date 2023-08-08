@@ -1,5 +1,5 @@
 import xFetch from ".";
-import { UserInfo } from "@/models";
+import { Await, LoginInfo, UserInfo } from "@/models";
 
 /**
  * 请求用户数据
@@ -35,17 +35,19 @@ export function postUserFollow(
 /**
  * 用户登陆
  */
-export function postLogin(
+export async function postLogin(
 	/** 用户名 */
 	username: string,
 	/** 密码 */
 	password: string
 ) {
-	return xFetch("admin/login", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/x-www-form-urlencoded",
-		},
-		body: `username=${username}&password=${password}`,
+	return new Promise<LoginInfo["result"]>((resolve) => {
+		xFetch<LoginInfo>("admin/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			body: `username=${username}&password=${password}`,
+		}).then((res) => resolve(res.result));
 	});
 }

@@ -19,6 +19,7 @@
 		"@bytemd/plugin-medium-zoom": "^1.21.0",
 		"@bytemd/plugin-mermaid": "^1.21.0",
 		"@bytemd/react": "^1.21.0",
+		"@types/node": "^20.4.8",
 		"bytemd": "^1.21.0",
 		"dayjs": "^1.11.9",
 		"github-markdown-css": "^5.2.0",

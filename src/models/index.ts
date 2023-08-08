@@ -7,6 +7,7 @@ import CategoryDTO from "./article/CategoryDTO.model";
 import TagDTO from "./article/TagDTO.model";
 import ArticleDTO from "./article/ArticleDTO.model";
 import PageListVo from "./page/PageListVo.model";
+import BaseUserInfoDTO from "./user/BaseUserInfoDTO.model";
 
 /** 反向推导Promise */
 export type Await<T extends Promise<any>> = T extends Promise<infer P>
@@ -39,3 +40,6 @@ export interface ArticleSave extends ResVO<ArticleDTO["articleId"]> {}
 
 /** 生成文章摘要接口 */
 export interface ArticleSummary extends ResVO<ArticleDTO["summary"]> {}
+
+/** 登陆接口 */
+export interface LoginInfo extends ResVO<BaseUserInfoDTO> {}

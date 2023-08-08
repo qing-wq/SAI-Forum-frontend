@@ -1,5 +1,7 @@
 import { postLogin } from "@/apis/user";
+import useLogin from "@/stores/useLogin";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 type LoginBoxProp = { change: React.Dispatch<React.SetStateAction<boolean>> };
 
@@ -16,10 +18,15 @@ export default function LoginBox({ change }: LoginBoxProp) {
 		}
 		return true;
 	};
+	const login = useLogin((state) => state.logn);
+	const navigate = useNavigate();
 	/** 登陆 */
-	const login = async () => {
+	const loginHandler = () => {
 		if (!validate()) return;
-		await postLogin(username, password);
+		login(username, password).then(
+			// 登陆成功跳转首页
+			() => navigate("/")
+		);
 	};
 	return (
 		<div className='card w-96 glass absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2'>
@@ -55,7 +62,7 @@ export default function LoginBox({ change }: LoginBoxProp) {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 				<div className='card-actions justify-end'>
-					<button className='btn btn-primary' onClick={login}>
+					<button className='btn btn-primary' onClick={loginHandler}>
 						登 陆
 					</button>
 				</div>
