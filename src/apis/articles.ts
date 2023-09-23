@@ -15,24 +15,18 @@ import ArticlePostReq from "@/models/article/ArticlePostReq.model";
  * @param {string} category
  */
 export function getHomeData(category = "全部") {
-	return new Promise<HomeData["result"]>((resolve, reject) => {
-		xFetch<HomeData>(`?category=${category}`).then((res) => {
-			resolve(res.result);
-		});
-	});
+	return xFetch<HomeData>(`?category=${category}`);
 }
 
 /**
  * 分页请求文章接口
  */
 export function getArticlesPerPage(categoryId: number, page: number) {
-	return new Promise<ArticleList["result"]>((resolve) =>
-		xFetch<ArticleList>(
-			`article/api/list/category/${categoryId}?page=${page}`,
-			{
-				method: "GET",
-			}
-		).then((res) => resolve(res.result))
+	return xFetch<ArticleList>(
+		`article/api/list/category/${categoryId}?page=${page}`,
+		{
+			method: "GET",
+		}
 	);
 }
 
@@ -41,24 +35,16 @@ export function getArticlesPerPage(categoryId: number, page: number) {
  * @param {string} id
  */
 export function getArticle(id: number) {
-	return new Promise<ArticleDetail["result"]>((resolve, reject) => {
-		xFetch<ArticleDetail>(`article/detail/${id}`).then((res) => {
-			resolve(res.result);
-		});
-	});
+	return xFetch<ArticleDetail>(`article/detail/${id}`);
 }
 
 /**
  * 上传图片
  */
 export function postImage(image: File) {
-	return new Promise<UploadImage["result"]>((resolve) => {
-		xFetch<UploadImage>("image/upload", {
-			method: "POST",
-			body: image,
-		}).then((res) => {
-			resolve(res.result);
-		});
+	return xFetch<UploadImage>("image/upload", {
+		method: "POST",
+		body: image,
 	});
 }
 

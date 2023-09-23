@@ -31,9 +31,7 @@ const ArticleList = () => {
 			<Suspense fallback={<Loading />}>
 				<div className='w-full'>
 					<Articles
-						homeData={
-							articles as { read: () => HomeData["result"] }
-						}
+						homeData={articles as { read: () => HomeData }}
 						category={category || "全部"}
 					/>
 				</div>

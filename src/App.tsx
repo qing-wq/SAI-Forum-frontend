@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useRoutes } from "react-router-dom";
 import routes from "./router";
 
-import useGlobalInit from "./stores/useGlobalInit";
+import useGlobalStoreInit from "./stores/useGlobalStoreInit";
 import "./App.css";
 
 function App() {
 	const router = useRoutes(routes);
-	useGlobalInit();
+	useGlobalStoreInit();
 	return <>{router}</>;
 }
 

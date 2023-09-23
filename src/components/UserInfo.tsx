@@ -1,12 +1,12 @@
 import { postUserFollow } from "@/apis/user";
 import { UserInfo as UserInfoType } from "@/models";
-import useLogin from "@/stores/useLogin";
+import useLoginStore from "@/stores/useLoginStore";
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import numberFormat from "../utils/numberFormat";
 
 type UserInfoProp = {
-	info: UserInfoType["result"]["userHome"];
+	info: UserInfoType["userHome"];
 };
 
 /**
@@ -86,8 +86,8 @@ type RelationalFuncProp = {
 };
 
 /** 用户关系操作区 */
-function RelationalFunc({ self, followed, userId }: RelationalFuncProp) {
-	const myInfo = useLogin((state) => state.userInfo);
+export function RelationalFunc({ self, followed, userId }: RelationalFuncProp) {
+	const myInfo = useLoginStore((state) => state.userInfo);
 	const navigate = useNavigate();
 	/** 关注、取关用户 */
 	const follow = (followed: boolean) => {

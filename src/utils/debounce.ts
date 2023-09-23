@@ -1,4 +1,4 @@
-let timer: number;
+let timer: NodeJS.Timeout;
 
 /** 无参函数防抖 */
 function debounce(

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import useCategorys from "@/stores/useCategorys";
-import useTags from "@/stores/useTags";
+import useCategorysStore from "@/stores/useCategorysStore";
+import useTagsStore from "@/stores/useTags";
 import { postImage } from "@/apis/articles";
-import useArticleInfo from "@/hooks/useArticleInfo";
+import useArticleEditInfo from "@/hooks/useArticleInfo";
 
 export default function ArticleInfo() {
 	return (
@@ -25,8 +25,8 @@ function ArticleCategoryRadio() {
 	const {
 		articleInfo: { category },
 		saveArticleInfoBus,
-	} = useArticleInfo();
-	const categorys = useCategorys((state) => state.categorys);
+	} = useArticleEditInfo();
+	const categorys = useCategorysStore((state) => state.categorys);
 	const [categoryId, setCategoryId] = useState<number>(
 		category?.categoryId || categorys[0]?.categoryId || 0
 	);
@@ -72,8 +72,8 @@ function ArticleTageSelect() {
 	const {
 		articleInfo: { tags: articleTags },
 		saveArticleInfoBus,
-	} = useArticleInfo();
-	const tags = useTags((state) => state.tags);
+	} = useArticleEditInfo();
+	const tags = useTagsStore((state) => state.tags);
 	const [tagId, setTagId] = useState<number>(
 		articleTags ? articleTags[0].tagId : -1
 	);
@@ -118,7 +118,7 @@ function ArticleCover() {
 	const {
 		articleInfo: { cover },
 		saveArticleInfoBus,
-	} = useArticleInfo();
+	} = useArticleEditInfo();
 	const fileInput = useRef<HTMLInputElement>(null);
 	const [coverUrl, setCoverUrl] = useState<string | undefined>(cover);
 	useEffect(() => {
@@ -174,7 +174,7 @@ function ArticleSummary() {
 		articleInfo: { summary: articleSummary },
 		articleSummaryAutoGenerate,
 		saveArticleInfo,
-	} = useArticleInfo();
+	} = useArticleEditInfo();
 	const [summary, setSummary] = useState<string>(
 		articleSummary || articleSummaryAutoGenerate || ""
 	);

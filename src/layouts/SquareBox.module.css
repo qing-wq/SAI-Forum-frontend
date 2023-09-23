@@ -57,12 +57,12 @@
 	transform: rotateX(var(--fromX-deg));
 }
 
-.l-square[active] {
+.l-square[data-active] {
 	transform: rotateY(var(--rotateY-deg));
 	-webkit-transform: rotateY(var(--rotateY-deg));
 }
 
-.v-square[active] {
+.v-square[data-active] {
 	transform: rotateX(var(--rotateX-deg));
 	-webkit-transform: rotateX(var(--rotateX-deg));
 }

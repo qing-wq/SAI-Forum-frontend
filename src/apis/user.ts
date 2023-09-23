@@ -5,11 +5,7 @@ import { Await, LoginInfo, UserInfo } from "@/models";
  * 请求用户数据
  */
 export function getUserInfo(id: string) {
-	return new Promise<UserInfo["result"]>((resolve, reject) => {
-		xFetch<UserInfo>(`user/${id}?`).then((res) => {
-			resolve(res.result);
-		});
-	});
+	return xFetch<UserInfo>(`user/${id}?`);
 }
 
 /**
@@ -41,13 +37,11 @@ export async function postLogin(
 	/** 密码 */
 	password: string
 ) {
-	return new Promise<LoginInfo["result"]>((resolve) => {
-		xFetch<LoginInfo>("admin/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
-			},
-			body: `username=${username}&password=${password}`,
-		}).then((res) => resolve(res.result));
+	return xFetch<LoginInfo>("admin/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+		},
+		body: `username=${username}&password=${password}`,
 	});
 }

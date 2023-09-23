@@ -3,7 +3,7 @@ import { postLogin } from "@/apis/user";
 import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
 import { create } from "zustand";
 
-type UseLogin = {
+type UseLoginStore = {
 	/** 用户信息 */
 	userInfo?: BaseUserInfoDTO;
 	/** 获取用户信息 */
@@ -13,7 +13,7 @@ type UseLogin = {
 };
 
 /** 用户登陆状态管理 */
-const useLogin = create<UseLogin>((set) => ({
+const useLoginStore = create<UseLoginStore>((set) => ({
 	userInfo: undefined,
 	getUserInfo: async () => {
 		// TODO: 获取当前用户信息，顺便处理首页登陆逻辑
@@ -26,9 +26,15 @@ const useLogin = create<UseLogin>((set) => ({
 		}
 	},
 	logn: async (username: string, password: string) => {
-		const userInfo = await postLogin(username, password);
-		set(() => ({ userInfo }));
+		let userInfo: BaseUserInfoDTO | undefined = undefined;
+		try {
+			userInfo = await postLogin(username, password);
+		} catch (e) {
+			// 登录失败提醒
+			alert(e);
+		}
+		if (userInfo) set(() => ({ userInfo }));
 	},
 }));
 
-export default useLogin;
+export default useLoginStore;

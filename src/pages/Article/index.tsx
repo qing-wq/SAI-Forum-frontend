@@ -1,27 +1,22 @@
 import React, { useState, useEffect, memo } from "react";
 import { useParams } from "react-router-dom";
-import MiddleView from "../../layouts/MiddleView";
-import { getArticle } from "../../apis/articles";
+import MiddleViewVertical from "../../layouts/MiddleViewVertical";
 import "github-markdown-css";
-import { Await } from "@/models";
 import { MarkdownViewer } from "@/components/Markdown";
-import UserInfo from "@/components/UserInfo";
+import UserInfo, { RelationalFunc } from "@/components/UserInfo";
 import { CommentsSection } from "./CommentsSection";
-import useArticleView from "@/stores/useArticleView";
-import { shallow } from "zustand/shallow";
+import useArticleViewStore from "@/stores/useArticleViewStore";
+import UserAvatar from "@/components/UserAvatar";
 
 export default memo(function Article() {
 	const { id } = useParams();
 	const { articleInfo, authorInfo, getArticleInfo, resetArticleInfo } =
-		useArticleView(
-			(state) => ({
-				articleInfo: state.articleInfo,
-				authorInfo: state.authorInfo,
-				getArticleInfo: state.getArticleInfo,
-				resetArticleInfo: state.resetArticleInfo,
-			}),
-			shallow
-		);
+		useArticleViewStore((state) => ({
+			articleInfo: state.articleInfo,
+			authorInfo: state.authorInfo,
+			getArticleInfo: state.getArticleInfo,
+			resetArticleInfo: state.resetArticleInfo,
+		}));
 	useEffect(() => {
 		if (isNaN(Number(id))) {
 			// TODO: 403处理
@@ -36,15 +31,36 @@ export default memo(function Article() {
 	return (
 		<>
 			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
-			<MiddleView>
-				<UserInfo info={authorInfo} />
-				<img src={articleInfo.cover} alt='封面' />
-				<div className='divider' />
-				<article className='markdown-body px-10'>
-					<MarkdownViewer content={articleInfo.content || ""} />
-				</article>
-				<CommentsSection />
-			</MiddleView>
+			<MiddleViewVertical>
+				<div className='w-[1000px] h-full flex flex-col gap-[10px] items-center'>
+					{articleInfo.cover != "" ? (
+						<img
+							src={articleInfo.cover}
+							alt='封面'
+							className='bg-base-100 w-full'
+						/>
+					) : null}
+					<article className='markdown-body px-10 py-3'>
+						<h1 className=' text-4xl font-black text-black'>
+							{articleInfo.title}
+						</h1>
+						<MarkdownViewer content={articleInfo.content || ""} />
+					</article>
+					<CommentsSection />
+				</div>
+				{/* <UserInfo info={authorInfo} /> */}
+				<div className='w-[190px] h-full border-solid flex flex-col gap-[10px] items-center'>
+					<div className='w-full bg-base-100 flex flex-col gap-[10px] items-center py-3'>
+						<UserAvatar src={authorInfo.photo} size='large' />
+						<div>{authorInfo.userName}</div>
+						<RelationalFunc
+							self={false}
+							followed={false}
+							userId={0}
+						/>
+					</div>
+				</div>
+			</MiddleViewVertical>
 		</>
 	);
 });

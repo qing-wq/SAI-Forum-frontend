@@ -1,7 +1,7 @@
 import React, { useState, memo } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import "./TheHeader.css";
-import useLogin from "@/stores/useLogin";
+import useLoginStore from "@/stores/useLoginStore";
 
 /**
  * 页头组件
@@ -10,12 +10,15 @@ export default memo(function TheHeader() {
 	const [searchInput, setSearchInput] = useState<string>();
 	const [search, setSearch] = useSearchParams();
 	const navigate = useNavigate();
-	
-	const userInfo = useLogin((state) => state.userInfo);
+
+	const userInfo = useLoginStore((state) => state.userInfo);
 	// 打开“写文章”页面
 	const openEditArticleView = () => {
-		if(!userInfo){navigate('/login')}
-		else{navigate("./edit-article/new");}
+		if (!userInfo) {
+			navigate("/login");
+		} else {
+			navigate("./edit-article/new");
+		}
 	};
 	// 获取分类激活当前分类的导航选项
 	const category = search.get("category");
@@ -86,21 +89,23 @@ const navList = [
 
 /** 页头用户信息 */
 function UserInfo() {
-	const userInfo = useLogin((state) => state.userInfo);
+	const userInfo = useLoginStore((state) => state.userInfo);
 	if (!userInfo) {
-		return <div className='dropdown dropdown-end'>
-		<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-				未登录
-		</label>
-		<ul
-			tabIndex={0}
-			className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
-		>
-			<li>
-				<Link to={"/login"}>登录</Link>
-			</li>
-		</ul>
-	</div>;
+		return (
+			<div className='dropdown dropdown-end'>
+				<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
+					未登录
+				</label>
+				<ul
+					tabIndex={0}
+					className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
+				>
+					<li>
+						<Link to={"/login"}>登录</Link>
+					</li>
+				</ul>
+			</div>
+		);
 	}
 	return (
 		<div className='dropdown dropdown-end'>

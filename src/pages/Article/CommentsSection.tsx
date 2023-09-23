@@ -1,6 +1,6 @@
 import UserAvatar from "@/components/UserAvatar";
 import TopCommentDTO from "@/models/comment/TopCommentDTO.model";
-import useLogin from "@/stores/useLogin";
+import useLoginStore from "@/stores/useLoginStore";
 import fromNow from "@/utils/fromNow";
 import React, {
 	forwardRef,
@@ -10,15 +10,15 @@ import React, {
 	useState,
 } from "react";
 import CommentBox, { CommentBoxHandler } from "./CommentBox";
-import useArticleView from "@/stores/useArticleView";
+import useArticleViewStore from "@/stores/useArticleViewStore";
 
 /**
  * 文章评论区
  */
 export function CommentsSection() {
-	const comments = useArticleView((state) => state.comments);
+	const comments = useArticleViewStore((state) => state.comments);
 	return (
-		<div className='px-10'>
+		<div className='px-10 w-full bg-base-100 py-3'>
 			<h1 className='font-black text-2xl'>评论</h1>
 			<ArticleCommentBox />
 			{comments ? <CommentsList comments={comments} /> : null}
@@ -30,8 +30,8 @@ export function CommentsSection() {
  * 主评论框
  */
 function ArticleCommentBox() {
-	const userInfo = useLogin((state) => state.userInfo);
-	const articleId = useArticleView((state) => state.articleId);
+	const userInfo = useLoginStore((state) => state.userInfo);
+	const articleId = useArticleViewStore((state) => state.articleId);
 	return (
 		<div className='flex w-full gap-4 py-4'>
 			<div>

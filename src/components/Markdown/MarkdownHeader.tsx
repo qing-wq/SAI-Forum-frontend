@@ -1,8 +1,8 @@
 import React, { useState, memo, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import ArticleInfo from "./ArticleInfo";
-import useArticle from "@/stores/useArticle";
-import useArticleInfo from "@/hooks/useArticleInfo";
+import useArticleEditStore from "@/stores/useArticleEditStore";
+import useArticleEditInfo from "@/hooks/useArticleInfo";
 import debounce from "@/utils/debounce";
 // import "./TheHeader.css";
 
@@ -11,13 +11,13 @@ import debounce from "@/utils/debounce";
  */
 export default memo(function MarkdownHeader() {
 	const [search, setSearch] = useSearchParams();
-	const onSave = useArticle((state) => state.onSave);
+	const onSave = useArticleEditStore((state) => state.onSave);
 	const navigate = useNavigate();
 	/** 生成摘要方法 */
-	const generateArticleSummart = useArticle(
+	const generateArticleSummart = useArticleEditStore(
 		(state) => state.generateArticleSummart
 	);
-	const { articleInfo } = useArticleInfo();
+	const { articleInfo } = useArticleEditInfo();
 	// 打开提交文章事件
 	const clickPublish = () => {
 		if (!articleInfo.summary) generateArticleSummart();
@@ -87,7 +87,7 @@ export default memo(function MarkdownHeader() {
 /** 文章标题编辑框 */
 function ArticleTitle() {
 	// 获取、绑定文章标题信息
-	const { articleInfo, saveArticleInfoBus } = useArticleInfo();
+	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
 	const [title, setTitle] = useState<string>(articleInfo.title || "");
 	useEffect(() => {
 		if (articleInfo.title == title) return;
@@ -115,7 +115,7 @@ function ArticleTitle() {
 /** 文章其他信息编辑框 */
 function SubmitArticleBox() {
 	const navigate = useNavigate();
-	const { saveArticleInfoBus, articleInfo } = useArticleInfo();
+	const { saveArticleInfoBus, articleInfo } = useArticleEditInfo();
 	// 验证文章信息是否完整
 	const isArticleInfoUseable =
 		articleInfo.content != "" &&

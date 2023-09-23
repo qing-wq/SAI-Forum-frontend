@@ -15,31 +15,31 @@ export type Await<T extends Promise<any>> = T extends Promise<infer P>
 	: never;
 
 /** 首页接口 */
-export interface HomeData extends ResVO<IndexVo> {}
+export type HomeData = IndexVo;
 
 /** 文章分页查询接口 */
-export interface ArticleList extends ResVO<PageListVo<ArticleDTO>> {}
+export type ArticleList = PageListVo<ArticleDTO>;
 
 /** 文章详情接口 */
-export interface ArticleDetail extends ResVO<ArticleDetailVo> {}
+export type ArticleDetail = ArticleDetailVo;
 
 /** 用户主页接口 */
-export interface UserInfo extends ResVO<UserHomeVo> {}
+export type UserInfo = UserHomeVo;
 
 /** 图片上传接口 */
-export interface UploadImage extends ResVO<ImageVO> {}
+export type UploadImage = ImageVO;
 
 /** 文章分类接口 */
-export interface ArticleCategory extends ResVO<CategoryDTO[]> {}
+export type ArticleCategory = CategoryDTO[];
 
 /** 文章标签接口 */
-export interface ArticleTag extends ResVO<TagDTO[]> {}
+export type ArticleTag = TagDTO[];
 
 /** 文章提交接口 */
-export interface ArticleSave extends ResVO<ArticleDTO["articleId"]> {}
+export type ArticleSave = ArticleDTO["articleId"];
 
 /** 生成文章摘要接口 */
-export interface ArticleSummary extends ResVO<ArticleDTO["summary"]> {}
+export type ArticleSummary = ArticleDTO["summary"];
 
 /** 登陆接口 */
-export interface LoginInfo extends ResVO<BaseUserInfoDTO> {}
+export type LoginInfo = BaseUserInfoDTO;

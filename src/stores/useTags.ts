@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import { getTags } from "@/apis/cacheData";
-import { Await, ArticleTag } from "@/models";
+import { ArticleTag } from "@/models";
 
-type TagList = ArticleTag["result"];
-type UseTagsType = {
+type UseTagsStore = {
 	/** 文章标签列表 */
-	tags: TagList;
+	tags: ArticleTag;
 	/** 获取文章标签 */
 	getTags: () => Promise<void>;
 };
@@ -13,14 +12,14 @@ type UseTagsType = {
 /**
  * 文章标签获取
  */
-const useTags = create<UseTagsType>((set) => ({
+const useTagsStore = create<UseTagsStore>((set) => ({
 	tags: [],
 	getTags: async () => {
-		const { result: tags } = await getTags();
+		const tags = await getTags();
 		set({
 			tags,
 		});
 	},
 }));
 
-export default useTags;
+export default useTagsStore;

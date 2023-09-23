@@ -1,17 +1,13 @@
-import { shallow } from "zustand/shallow";
-import useArticle from "@/stores/useArticle";
+import useArticleEditStore from "@/stores/useArticleEditStore";
 
 /** 快速展开useArticle的Hook */
-const useArticleInfo = () => {
-	return useArticle(
-		(state) => ({
-			articleInfo: state.articleInfo,
-			articleSummaryAutoGenerate: state.articleSummaryAutoGenerate,
-			saveArticleInfo: state.saveArticleInfo,
-			saveArticleInfoBus: state.saveArticleInfoBus,
-		}),
-		shallow
-	);
+const useArticleEditInfo = () => {
+	return useArticleEditStore((state) => ({
+		articleInfo: state.articleInfo,
+		articleSummaryAutoGenerate: state.articleSummaryAutoGenerate,
+		saveArticleInfo: state.saveArticleInfo,
+		saveArticleInfoBus: state.saveArticleInfoBus,
+	}));
 };
 
-export default useArticleInfo;
+export default useArticleEditInfo;

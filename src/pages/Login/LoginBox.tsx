@@ -1,5 +1,5 @@
 import { postLogin } from "@/apis/user";
-import useLogin from "@/stores/useLogin";
+import useLoginStore from "@/stores/useLoginStore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ export default function LoginBox({ change }: LoginBoxProp) {
 		}
 		return true;
 	};
-	const login = useLogin((state) => state.logn);
+	const login = useLoginStore((state) => state.logn);
 	const navigate = useNavigate();
 	/** 登陆 */
 	const loginHandler = () => {

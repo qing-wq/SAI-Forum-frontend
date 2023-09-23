@@ -1,6 +1,6 @@
 import { PostCommentProp, postComment } from "@/apis/articles";
-import useArticleView from "@/stores/useArticleView";
-import useLogin from "@/stores/useLogin";
+import useArticleViewStore from "@/stores/useArticleViewStore";
+import useLoginStore from "@/stores/useLoginStore";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 type CommentBoxProp = Pick<
 	PostCommentProp,
@@ -19,9 +19,9 @@ const CommentBox = forwardRef<CommentBoxHandler, CommentBoxProp>(
 		const [comment, setComment] = useState<string>("");
 		const commentTextarea = useRef<HTMLTextAreaElement>(null);
 		/** 当前用户信息 */
-		const userInfo = useLogin((state) => state.userInfo);
+		const userInfo = useLoginStore((state) => state.userInfo);
 		/** 当前文章信息 */
-		const articleInfo = useArticleView((state) => state.articleInfo);
+		const articleInfo = useArticleViewStore((state) => state.articleInfo);
 		/** 评论信息检查 */
 		const getCommentInfo = () => {
 			// TODO: 状态检查

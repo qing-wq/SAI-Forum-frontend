@@ -8,12 +8,12 @@ import { HomeData } from "@/models";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
 import numberFormat from "@/utils/numberFormat";
 import { getArticlesPerPage } from "@/apis/articles";
-import useCategorys from "@/stores/useCategorys";
+import useCategorysStore from "@/stores/useCategorysStore";
 import UserAvatar from "@/components/UserAvatar";
 
 type ArticlesProp = {
 	homeData: {
-		read: () => HomeData["result"];
+		read: () => HomeData;
 	};
 	category: string;
 };
@@ -25,7 +25,7 @@ export default memo(function Articles({ homeData, category }: ArticlesProp) {
 	const data = homeData.read();
 	const { list, hasMore: more } = data.articles;
 	// 分类
-	const getCategoryId = useCategorys((state) => state.getCategoryId);
+	const getCategoryId = useCategorysStore((state) => state.getCategoryId);
 	// 当前分类的文章列表
 	const [articles, setArticles] = useState(list);
 	// 当前文章页数
@@ -167,7 +167,7 @@ function formatTime(time: string) {
 }
 
 type CountViewProp = {
-	count: HomeData["result"]["articles"]["list"][number]["count"];
+	count: HomeData["articles"]["list"][number]["count"];
 };
 function CountView({ count }: CountViewProp) {
 	return (

@@ -6,7 +6,7 @@ import plugins from "./plugins";
 import zh_Hans from "bytemd/locales/zh_Hans.json";
 import "./markdown.base.css";
 import { postImage } from "@/apis/articles";
-import useArticle from "@/stores/useArticle";
+import useArticleEditStore from "@/stores/useArticleEditStore";
 import debounce from "@/utils/debounce";
 
 /** 图片长传返回插入文章格式 */
@@ -31,8 +31,10 @@ const uploadImages = (images: File[]): Promise<ImageUploadRes[]> => {
 /** 封装Markdown编辑器 */
 export default function MarkdownEditor() {
 	// 获取、绑定文章信息
-	const articleInfo = useArticle((state) => state.articleInfo);
-	const saveArticleInfo = useArticle((state) => state.saveArticleInfo);
+	const articleInfo = useArticleEditStore((state) => state.articleInfo);
+	const saveArticleInfo = useArticleEditStore(
+		(state) => state.saveArticleInfo
+	);
 	const [value, setValue] = useState<string>(articleInfo.content);
 	useEffect(() => {
 		setValue(articleInfo.content);
@@ -74,10 +76,5 @@ type MarkdownViewerProp = {
  * Markdown查看器
  */
 export function MarkdownViewer({ content }: MarkdownViewerProp) {
-	return (
-		<Viewer
-			value={content}
-			plugins={plugins}
-		/>
-	);
+	return <Viewer value={content} plugins={plugins} />;
 }

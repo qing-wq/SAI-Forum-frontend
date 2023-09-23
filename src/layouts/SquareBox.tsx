@@ -1,42 +1,41 @@
 import React from "react";
 import style from "./SquareBox.module.css";
 
-/**
- * 立方体
- * @typedef {object} Square
- * @property {React.ReactElement?} front
- * @property {React.ReactElement?} right
- * @property {React.ReactElement?} back
- * @property {React.ReactElement?} left
- * @property {React.ReactElement?} top
- * @property {React.ReactElement?} bottom
- */
+/** 立方体 */
+type Square = {
+	front?: React.ReactElement;
+	right?: React.ReactElement;
+	back?: React.ReactElement;
+	left?: React.ReactElement;
+	top?: React.ReactElement;
+	bottom?: React.ReactElement;
+};
 
-/**
- * 旋转效果
- * @typedef {object} Rotate
- * @property {("up"|"down"|"right"|"left")} direction
- * @property {number} fromDeg
- * @property {number} deg
- * @property {number} speed
- * @property {("up"|"down"|"right"|"left")} elseDirection
- * @property {number} elseDeg
- */
+/** 旋转效果 */
+type Rotate = {
+	direction: "up" | "down" | "right" | "left";
+	fromDeg: number;
+	deg: number;
+	speed: number;
+	elseDirection: "up" | "down" | "right" | "left";
+	elseDeg: number;
+};
 
-/**组件参数
- * @typedef {object} Props
- * @property {Square} square
- * @property {string?} edgeLength
- * @property {Rotate} rotate
- */
+/** 立方体效果参数 */
+type Props = {
+	square: Square;
+	edgeLength?: string;
+	rotate: Rotate;
+	active?: boolean;
+};
 
 /**
  * 立方体组件
- * @param {Props} prop
  */
-
-const SquareBox = ({ square, edgeLength = "100px", rotate, active }) => {
-	const squareStyle = {
+const SquareBox = ({ square, edgeLength = "100px", rotate, active }: Props) => {
+	const squareStyle: {
+		[key: string]: string | number;
+	} = {
 		"--edge-length": edgeLength,
 		"--speed": rotate.speed,
 	};
@@ -81,7 +80,7 @@ const SquareBox = ({ square, edgeLength = "100px", rotate, active }) => {
 		<div
 			className={style.square + " " + style[direction]}
 			style={squareStyle}
-			active={active ? "true" : null}
+			data-active={active ? "true" : null}
 		>
 			<div className={style.front}>
 				{square?.front || <div className={style.box} />}

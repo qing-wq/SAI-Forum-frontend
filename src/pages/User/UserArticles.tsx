@@ -3,7 +3,7 @@ import { UserInfo } from "@/models/index";
 import { useNavigate } from "react-router-dom";
 
 type UserArticlesProp = {
-	articles: UserInfo["result"]["homeSelectList"];
+	articles: UserInfo["homeSelectList"];
 };
 
 /** 用户文章列表页 */
