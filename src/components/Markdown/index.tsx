@@ -8,6 +8,8 @@ import "./markdown.base.css";
 import { postImage } from "@/apis/articles";
 import useArticleEditStore from "@/stores/useArticleEditStore";
 import debounce from "@/utils/debounce";
+import { getProcessor } from "bytemd";
+import { visit } from "unist-util-visit";
 
 /** 图片长传返回插入文章格式 */
 type ImageUploadRes = { title: string; alt: string; url: string };
@@ -76,5 +78,9 @@ type MarkdownViewerProp = {
  * Markdown查看器
  */
 export function MarkdownViewer({ content }: MarkdownViewerProp) {
+	let a = getProcessor({
+		plugins,
+	}).parse(content);
+	console.log(a);
 	return <Viewer value={content} plugins={plugins} />;
 }

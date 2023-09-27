@@ -7,7 +7,11 @@ import UserInfo, { RelationalFunc } from "@/components/UserInfo";
 import { CommentsSection } from "./CommentsSection";
 import useArticleViewStore from "@/stores/useArticleViewStore";
 import UserAvatar from "@/components/UserAvatar";
+import dayjs from "dayjs";
 
+/**
+ * 文章详情页（展示）
+ */
 export default memo(function Article() {
 	const { id } = useParams();
 	const { articleInfo, authorInfo, getArticleInfo, resetArticleInfo } =
@@ -44,6 +48,13 @@ export default memo(function Article() {
 						<h1 className=' text-4xl font-black text-black'>
 							{articleInfo.title}
 						</h1>
+						<p>
+							{`${articleInfo.authorName}  ${dayjs(
+								articleInfo.lastUpdateTime
+							).format("YYYY-MM-DD")}  ${
+								articleInfo.count.readCount
+							}阅读 `}
+						</p>
 						<MarkdownViewer content={articleInfo.content || ""} />
 					</article>
 					<CommentsSection />
@@ -51,7 +62,11 @@ export default memo(function Article() {
 				{/* <UserInfo info={authorInfo} /> */}
 				<div className='w-[190px] h-full border-solid flex flex-col gap-[10px] items-center'>
 					<div className='w-full bg-base-100 flex flex-col gap-[10px] items-center py-3'>
-						<UserAvatar src={authorInfo.photo} size='large' />
+						<UserAvatar
+							src={authorInfo.photo}
+							size='large'
+							clickId={authorInfo.id}
+						/>
 						<div>{authorInfo.userName}</div>
 						<RelationalFunc
 							self={false}

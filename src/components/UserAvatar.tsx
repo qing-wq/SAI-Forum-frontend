@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 type UserAvatarProp = {
 	src: string;
 	size?: "small" | "mid" | "large";
+	clickId?: number;
 };
 const sizeClass = {
 	small: "w-6 h-6",
@@ -10,9 +13,23 @@ const sizeClass = {
 /**
  * 用户头像
  */
-export default function UserAvatar({ src, size = "small" }: UserAvatarProp) {
+export default function UserAvatar({
+	src,
+	size = "small",
+	clickId,
+}: UserAvatarProp) {
+	const navigate = useNavigate();
 	return (
-		<div className='avatar'>
+		<div
+			className={`avatar ${clickId ? "cursor-pointer" : ""}`}
+			onClick={
+				clickId
+					? () => {
+							navigate(`/user/${clickId}`);
+					  }
+					: () => {}
+			}
+		>
 			<div className={`${sizeClass[size]} inline-block rounded-full`}>
 				<img src={src} alt='头像' />
 			</div>

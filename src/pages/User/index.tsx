@@ -19,9 +19,10 @@ export default function User() {
 		useState<Await<ReturnType<typeof getUserInfo>>>();
 	const navigate = useNavigate();
 	useEffect(() => {
+		// 访问自己主页路由跳转
 		if (id === "self") {
-			if (!currentUser) navigate("/");
-			else navigate(`/user/${currentUser.id}`);
+			if (!currentUser) navigate("/", { replace: true });
+			else navigate(`/user/${currentUser.id}`, { replace: true });
 		}
 		if (id)
 			getUserInfo(id).then((res) => {
