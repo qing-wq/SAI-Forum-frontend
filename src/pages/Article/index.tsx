@@ -87,7 +87,7 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
 function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
 	return (
 		<div className='w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3'>
-			<div className='flex flex-col items-center'>
+			<div className='flex flex-col items-center px-4'>
 				<UserAvatar
 					src={authorInfo.photo}
 					size='large'
@@ -108,9 +108,13 @@ function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
  */
 function CatalogBlock() {
 	return (
-		<div className='w-full bg-base-100 flex flex-col gap-[10px] items-center py-3 px-3'>
+		<div className='w-full bg-base-100 flex flex-col gap-[1px] items-center py-3 px-3'>
 			<h1 className='w-full font-black text-xl'>目录</h1>
 			<p className='divider m-0' />
+			{/* TODO: 目录循环 */}
+			<p className='w-full font-medium text-gray-500 hover:text-inherit cursor-pointer'>
+				catalog items
+			</p>
 		</div>
 	);
 }
