@@ -15,9 +15,9 @@ type UseTagsStore = {
 const useTagsStore = create<UseTagsStore>((set) => ({
 	tags: [],
 	getTags: async () => {
-		const tags = await getTags();
+		const tag = await getTags();
 		set({
-			tags,
+			tags: tag.list,
 		});
 	},
 }));

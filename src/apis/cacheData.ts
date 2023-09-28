@@ -9,5 +9,7 @@ export function getCategorys() {
 /** 查询文章标签 */
 export function getTags() {
 	// TODO: 分页查询
-	return xFetch<ArticleTag>(`article/tags?page=1`);
+	return xFetch<{ list: ArticleTag; hsaMore: boolean }>(
+		`article/tags?page=1`
+	);
 }

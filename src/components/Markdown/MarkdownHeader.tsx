@@ -4,6 +4,7 @@ import ArticleInfo from "./ArticleInfo";
 import useArticleEditStore from "@/stores/useArticleEditStore";
 import useArticleEditInfo from "@/hooks/useArticleInfo";
 import debounce from "@/utils/debounce";
+import useLoginStore from "@/stores/useLoginStore";
 // import "./TheHeader.css";
 
 /**
@@ -22,6 +23,7 @@ export default memo(function MarkdownHeader() {
 	const clickPublish = () => {
 		if (!articleInfo.summary) generateArticleSummart();
 	};
+	const userInfo = useLoginStore((state) => state.userInfo);
 	return (
 		<header className='navbar gap-2 2xl:gap-6 bg-base-100  shadow-md z-10'>
 			{/* 文章信息 */}
@@ -58,7 +60,7 @@ export default memo(function MarkdownHeader() {
 						className='btn btn-ghost btn-circle avatar'
 					>
 						<div className='w-10 rounded-full'>
-							<img src='https://cdn.tobebetterjavaer.com/paicoding/avatar/0082.png' />
+							<img src={userInfo?.photo} />
 						</div>
 					</label>
 					<ul
@@ -115,19 +117,20 @@ function ArticleTitle() {
 /** 文章其他信息编辑框 */
 function SubmitArticleBox() {
 	const navigate = useNavigate();
-	const { saveArticleInfoBus, articleInfo } = useArticleEditInfo();
+	const { saveArticleInfoBus, articleInfo, postArticle } =
+		useArticleEditInfo();
 	// 验证文章信息是否完整
 	const isArticleInfoUseable =
 		articleInfo.content != "" &&
 		articleInfo.title != "" &&
 		articleInfo.category &&
 		articleInfo.tags &&
-		articleInfo.cover &&
 		articleInfo.summary &&
 		articleInfo.summary.length >= 50;
 	// 发布文章方法
 	const publishArticle = async () => {
-		await saveArticleInfoBus({ actionType: "POST" });
+		// await saveArticleInfoBus({ actionType: "POST" });
+		await postArticle({ status: 1 });
 		navigate("/");
 	};
 	return (

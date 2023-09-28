@@ -43,3 +43,6 @@ export type ArticleSummary = ArticleDTO["summary"];
 
 /** 登陆接口 */
 export type LoginInfo = BaseUserInfoDTO;
+
+/** 登出接口 */
+export type LogoutInfo = string;

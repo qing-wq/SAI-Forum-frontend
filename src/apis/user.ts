@@ -1,5 +1,5 @@
 import xFetch from ".";
-import { Await, LoginInfo, UserInfo } from "@/models";
+import { Await, LoginInfo, LogoutInfo, UserInfo } from "@/models";
 
 /**
  * 请求用户数据
@@ -14,8 +14,6 @@ export function getUserInfo(id: string) {
 export function postUserFollow(
 	/** 目标用户Id */
 	userId: number,
-	/** 关注者Id */
-	followUserId: number,
 	/** 是否关注 */
 	followed: boolean
 ) {
@@ -24,7 +22,7 @@ export function postUserFollow(
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ userId, followUserId, followed }),
+		body: JSON.stringify({ userId, followed }),
 	});
 }
 
@@ -44,4 +42,11 @@ export async function postLogin(
 		},
 		body: `username=${username}&password=${password}`,
 	});
+}
+
+/**
+ * 用户登出
+ */
+export async function getLogout() {
+	return xFetch<LogoutInfo>("admin/login/logout");
 }

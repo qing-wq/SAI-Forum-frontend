@@ -36,11 +36,7 @@ const UserInfo = memo(({ info }: UserInfoProp) => {
 				<StatBox title='加入了' data={info.joinDayCount} desc='天' />
 				<StatBox title='关注了' data={info.followCount} desc='用户' />
 				<StatBox title='被关注' data={info.fansCount} desc='用户' />
-				<RelationalFunc
-					self={false}
-					followed={info.followed}
-					userId={info.userId}
-				/>
+				<RelationalFunc followed={info.followed} userId={info.userId} />
 			</div>
 		</div>
 	);
@@ -80,28 +76,44 @@ function StatBox({ title, data, desc }: StatBoxProp) {
 }
 
 type RelationalFuncProp = {
-	self: boolean;
 	followed: boolean;
 	userId: number;
 };
 
 /** 用户关系操作区 */
-export function RelationalFunc({ self, followed, userId }: RelationalFuncProp) {
+export function RelationalFunc({ followed, userId }: RelationalFuncProp) {
 	const myInfo = useLoginStore((state) => state.userInfo);
 	const navigate = useNavigate();
 	/** 关注、取关用户 */
 	const follow = (followed: boolean) => {
 		if (!myInfo) {
 			// 未登录处理
-			// TODO: 提示未登录
+			alert("未登录，请先登录");
 			return;
 		}
-		postUserFollow(myInfo.id, userId, followed).then(() => {
-			// TODO: 关注关系变更后状态更新
-			navigate(0);
-		});
+		postUserFollow(userId, followed)
+			.then(() => {
+				// TODO: 关注关系变更后状态更新
+				navigate(0);
+			})
+			.catch((err) => {
+				alert("关注失败: " + err.message);
+			});
 	};
-	//TODO: 对自己主页的处理
+	//对自己主页的处理
+	if (myInfo?.id === userId)
+		return (
+			<div className='flex flex-col justify-center px-4 gap-2 min-w-[100px]'>
+				<button
+					className='btn btn-sm btn-primary h-3'
+					onClick={() => {
+						// follow(false);
+					}}
+				>
+					我的设置
+				</button>
+			</div>
+		);
 	return (
 		<div className='flex flex-col justify-center px-4 gap-2 min-w-[100px]'>
 			{followed ? (

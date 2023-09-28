@@ -2,6 +2,7 @@ import React, { useState, memo } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import "./TheHeader.css";
 import useLoginStore from "@/stores/useLoginStore";
+import { log } from "console";
 
 /**
  * 页头组件
@@ -90,11 +91,17 @@ const navList = [
 /** 页头用户信息 */
 function UserInfo() {
 	const userInfo = useLoginStore((state) => state.userInfo);
+	const logout = useLoginStore((state) => state.logout);
+	const navigate = useNavigate();
+	const logoutHandle = () => {
+		logout();
+		navigate(0);
+	};
 	if (!userInfo) {
 		return (
 			<div className='dropdown dropdown-end'>
 				<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-					未登录
+					游客
 				</label>
 				<ul
 					tabIndex={0}
@@ -127,7 +134,7 @@ function UserInfo() {
 				<li>
 					<Link to={"/user/self"}>主页</Link>
 				</li>
-				<li>
+				<li onClick={logoutHandle}>
 					<a>登出</a>
 				</li>
 			</ul>

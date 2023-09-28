@@ -18,7 +18,7 @@ export default function LoginBox({ change }: LoginBoxProp) {
 		}
 		return true;
 	};
-	const login = useLoginStore((state) => state.logn);
+	const login = useLoginStore((state) => state.login);
 	const navigate = useNavigate();
 	/** 登陆 */
 	const loginHandler = () => {

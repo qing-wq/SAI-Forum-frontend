@@ -11,11 +11,12 @@ import React, {
 } from "react";
 import CommentBox, { CommentBoxHandler } from "./CommentBox";
 import useArticleViewStore from "@/stores/useArticleViewStore";
+import { userInfo } from "os";
 
 /**
- * 文章评论区
+ * 文章评论区块
  */
-export function CommentsSection() {
+export function CommentsBlock() {
 	const comments = useArticleViewStore((state) => state.comments);
 	return (
 		<div className='px-10 w-full bg-base-100 py-3'>
@@ -75,17 +76,23 @@ export function CommentsList({ comments }: CommentsListProp) {
 
 type SubCommitsListProp = {
 	subComments: CommentsListProp["comments"][number]["childComments"];
+	topCommentId: number;
 };
 /**
  * 文章子评论列表
  */
 export function SubCommitsList({
 	subComments: subCommits,
+	topCommentId,
 }: SubCommitsListProp) {
 	return (
 		<div className='bg-slate-50 px-2 py-4 mt-4'>
 			{subCommits.map((subComment) => (
-				<CommentItem key={subComment.commentId} comment={subComment} />
+				<CommentItem
+					key={subComment.commentId}
+					comment={subComment}
+					topCommentId={topCommentId}
+				/>
 			))}
 		</div>
 	);
@@ -95,11 +102,12 @@ type CommentItemProp = {
 	comment:
 		| CommentsListProp["comments"][number]
 		| CommentsListProp["comments"][number]["childComments"][number];
+	topCommentId?: number;
 };
 /**
  * 文章评论项
  */
-export function CommentItem({ comment }: CommentItemProp) {
+export function CommentItem({ comment, topCommentId }: CommentItemProp) {
 	const isTopComment =
 		"commentCount" in comment && "childComments" in comment;
 	return (
@@ -114,7 +122,12 @@ export function CommentItem({ comment }: CommentItemProp) {
 			<div className='w-full'>
 				<CommentItemBaseInfo comment={comment} />
 				<div className='my-2'>{comment.commentContent}</div>
-				<CommentItemActive comment={comment} />
+				<CommentItemActive
+					comment={comment}
+					topCommentId={
+						isTopComment ? comment.commentId : topCommentId
+					}
+				/>
 				<CommentItemReference comment={comment} />
 			</div>
 		</div>
@@ -138,7 +151,7 @@ function CommentItemBaseInfo({ comment }: CommentItemProp) {
 /**
  * 文章评论互动区（点赞、回复）
  */
-function CommentItemActive({ comment }: CommentItemProp) {
+function CommentItemActive({ comment, topCommentId }: CommentItemProp) {
 	const isTopComment =
 		"commentCount" in comment && "childComments" in comment;
 	// 评论框可见性
@@ -171,7 +184,13 @@ function CommentItemActive({ comment }: CommentItemProp) {
 			<span className='hover:text-primary-focus cursor-pointer ml-4'>
 				更多
 			</span>
-			<CommentBox visible={commentBoxVisible} ref={commentBoxRef} />
+			<CommentBox
+				visible={commentBoxVisible}
+				ref={commentBoxRef}
+				// TODO: Top评论Id
+				topCommentId={isTopComment ? comment.commentId : topCommentId}
+				parentCommentId={comment.commentId}
+			/>
 		</div>
 	);
 }
@@ -183,7 +202,12 @@ function CommentItemReference({ comment }: CommentItemProp) {
 	const isTopComment =
 		"commentCount" in comment && "childComments" in comment;
 	if (isTopComment && comment.childComments.length > 0) {
-		return <SubCommitsList subComments={comment.childComments} />;
+		return (
+			<SubCommitsList
+				topCommentId={comment.commentId}
+				subComments={comment.childComments}
+			/>
+		);
 	} else if (!isTopComment && comment.parentContent) {
 		return (
 			<div className='px-3 mt-2 bg-base-200'>{comment.parentContent}</div>

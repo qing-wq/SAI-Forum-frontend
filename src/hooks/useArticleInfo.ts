@@ -7,6 +7,7 @@ const useArticleEditInfo = () => {
 		articleSummaryAutoGenerate: state.articleSummaryAutoGenerate,
 		saveArticleInfo: state.saveArticleInfo,
 		saveArticleInfoBus: state.saveArticleInfoBus,
+		postArticle: state.postArticle,
 	}));
 };
 

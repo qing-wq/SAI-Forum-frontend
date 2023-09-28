@@ -173,7 +173,7 @@ function ArticleSummary() {
 	const {
 		articleInfo: { summary: articleSummary },
 		articleSummaryAutoGenerate,
-		saveArticleInfo,
+		saveArticleInfoBus,
 	} = useArticleEditInfo();
 	const [summary, setSummary] = useState<string>(
 		articleSummary || articleSummaryAutoGenerate || ""
@@ -183,7 +183,7 @@ function ArticleSummary() {
 	}, [ArticleInfo, articleSummaryAutoGenerate]);
 	const changeSummary = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setSummary(e.target.value);
-		saveArticleInfo({ summary: e.target.value });
+		saveArticleInfoBus({ summary: e.target.value });
 	};
 	const summaryLength = summary.length;
 	return (

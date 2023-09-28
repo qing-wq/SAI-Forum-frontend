@@ -1,5 +1,5 @@
 import { getHomeData } from "@/apis/articles";
-import { postLogin } from "@/apis/user";
+import { getLogout, postLogin } from "@/apis/user";
 import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
 import { create } from "zustand";
 
@@ -9,7 +9,9 @@ type UseLoginStore = {
 	/** 获取用户信息 */
 	getUserInfo: () => Promise<void>;
 	/** 登陆 */
-	logn: (username: string, password: string) => Promise<void>;
+	login: (username: string, password: string) => Promise<void>;
+	/** 登出 */
+	logout: () => Promise<void>;
 };
 
 /** 用户登陆状态管理 */
@@ -25,7 +27,7 @@ const useLoginStore = create<UseLoginStore>((set) => ({
 			// TODO: 未登录提醒
 		}
 	},
-	logn: async (username: string, password: string) => {
+	login: async (username: string, password: string) => {
 		let userInfo: BaseUserInfoDTO | undefined = undefined;
 		try {
 			userInfo = await postLogin(username, password);
@@ -34,6 +36,10 @@ const useLoginStore = create<UseLoginStore>((set) => ({
 			alert(e);
 		}
 		if (userInfo) set(() => ({ userInfo }));
+	},
+	logout: async () => {
+		await getLogout();
+		set(() => ({ userInfo: undefined }));
 	},
 }));
 

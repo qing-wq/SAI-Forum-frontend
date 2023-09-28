@@ -42,9 +42,12 @@ export function getArticle(id: number) {
  * 上传图片
  */
 export function postImage(image: File) {
+	const formdata = new FormData();
+	formdata.append("image", image);
+	console.log(image);
 	return xFetch<UploadImage>("image/upload", {
 		method: "POST",
-		body: image,
+		body: formdata,
 	});
 }
 
@@ -53,6 +56,17 @@ export function postImage(image: File) {
  */
 export function postArticle(articleInfo: ArticlePostReq) {
 	return xFetch<ArticleSave>("article/api/post", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(articleInfo),
+	});
+}
+
+/** 初始化草稿接口 */
+export function postArticleInit(articleInfo: ArticlePostReq) {
+	return xFetch<ArticleSave>("article/api/init", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

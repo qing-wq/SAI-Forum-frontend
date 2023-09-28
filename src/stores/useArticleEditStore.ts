@@ -2,6 +2,7 @@ import {
 	generateSummary,
 	getArticle,
 	postArticle,
+	postArticleInit,
 	saveArticle,
 } from "@/apis/articles";
 import type { Await } from "@/models";
@@ -38,6 +39,8 @@ type UseArticleEditStore = {
 	saveArticleInfo: (articleInfo: ArticlePostReq) => Promise<void>;
 	/** 保存文章信息(汇总节流) */
 	saveArticleInfoBus: (articleInfo: ArticlePostReq) => Promise<void>;
+	/** 发布文章 */
+	postArticle: (articleInfo: ArticlePostReq) => Promise<void>;
 };
 
 /** 文章详情数据(编辑) */
@@ -84,7 +87,8 @@ const useArticleEditStore = createWithEqualityFn<
 			}));
 			// 新文章初始化
 			if (!get().articleInfo.articleId) {
-				const articleId = await postArticle(articleInfo);
+				console.log("初始化草稿", articleInfo);
+				const articleId = await postArticleInit(articleInfo);
 				set((state) => ({
 					articleInfo: {
 						...state.articleInfo,
@@ -97,7 +101,7 @@ const useArticleEditStore = createWithEqualityFn<
 			// 已存在文章保存
 			else {
 				console.log("自动保存", articleInfo);
-				const articleId = await saveArticle({
+				await saveArticle({
 					articleId: get().articleInfo.articleId,
 					...articleInfo,
 				});
@@ -105,7 +109,6 @@ const useArticleEditStore = createWithEqualityFn<
 					articleInfo: {
 						...state.articleInfo,
 						...articleInfo,
-						articleId,
 					},
 					onSave: false,
 				}));
@@ -133,6 +136,12 @@ const useArticleEditStore = createWithEqualityFn<
 				await get().saveArticleInfoDirect(cache);
 				onSaveArticleInfo = false;
 			}
+		},
+		postArticle: async (articleInfo) => {
+			await postArticle({
+				...articleInfo,
+				articleId: get().articleInfo.articleId,
+			});
 		},
 	}),
 	shallow

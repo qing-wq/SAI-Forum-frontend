@@ -21,7 +21,7 @@ enum SourceTypeEnum {
 	"翻译",
 }
 type SourceUrl = string;
-type Status = boolean;
+type Status = 0 | 1;
 type OfficalStat = boolean;
 type ToppingStat = boolean;
 type CreamStat = boolean;
