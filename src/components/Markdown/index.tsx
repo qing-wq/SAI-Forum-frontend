@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor, Viewer } from "@bytemd/react";
 import useMarkdownTheme from "./useMarkdownTheme";
 import MarkdownHeader from "./MarkdownHeader";
@@ -10,6 +10,7 @@ import useArticleEditStore from "@/stores/useArticleEditStore";
 import debounce from "@/utils/debounce";
 import { getProcessor } from "bytemd";
 import { visit } from "unist-util-visit";
+import useArticleViewStore from "@/stores/useArticleViewStore";
 
 /** 图片长传返回插入文章格式 */
 type ImageUploadRes = { title: string; alt: string; url: string };
@@ -78,9 +79,42 @@ type MarkdownViewerProp = {
  * Markdown查看器
  */
 export function MarkdownViewer({ content }: MarkdownViewerProp) {
-	let a = getProcessor({
-		plugins,
+	let tree = getProcessor({
+		plugins: [
+			...plugins,
+			{
+				rehype: (p) =>
+					p.use(() => (tree: { children: string | any[] }) => {
+						console.log(tree, "mytree");
+						if (tree && tree.children.length) {
+						}
+					}),
+			},
+		],
 	}).parse(content);
-	console.log(a);
-	return <Viewer value={content} plugins={plugins} />;
+	// let ntree = tree.children.filter(
+	// 	(v) =>
+	// 		v.type === ("html" as "element") /** 写的是牛魔？ 类型都能定歪来*/
+	// );
+	// 	.forEach((node) => {
+	// 		if (node.tagName[0] === "h" && !!node.children.length) {
+	// 			const i = Number(node.tagName[1]);
+	// 			this.minLevel = Math.min(this.minLevel, i);
+	// 			items.push({
+	// 				level: i,
+	// 				text: stringifyHeading(node),
+	// 			});
+	// 		}
+	// 	});
+	// console.log(tree);
+	const ref = useRef<HTMLDivElement>(null);
+	const setViewer = useArticleViewStore((state) => state.setViewer);
+	useEffect(() => {
+		setViewer(ref.current);
+	}, [ref]);
+	return (
+		<div ref={ref}>
+			<Viewer value={content} plugins={plugins} />
+		</div>
+	);
 }

@@ -11,6 +11,7 @@ import ArticleDTO from "@/models/article/ArticleDTO.model";
 import UserStatisticInfoDTO from "@/models/user/UserStatisticInfoDTO.model";
 import ArticleInteractionBlock from "./ArticleInteractionBlock";
 import CommentsBlock from "./CommentsBlock";
+import Toc from "@/components/Markdown/Toc";
 
 /**
  * 文章详情页（展示）
@@ -46,7 +47,7 @@ export default memo(function Article() {
 				<div className='w-[20%] h-full border-solid flex flex-col gap-[10px] items-center sticky top-[5rem]'>
 					<AuthorBlock authorInfo={authorInfo} />
 					<ArticleInteractionBlock articleInfo={articleInfo} />
-					<CatalogBlock />
+					<CatalogBlock content={articleInfo.content} />
 				</div>
 			</MiddleViewVertical>
 		</>
@@ -108,15 +109,16 @@ function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
 /**
  * 目录区块
  */
-function CatalogBlock() {
+function CatalogBlock({ content }: { content: string }) {
 	return (
 		<div className='w-full bg-base-100 flex flex-col gap-[1px] items-center py-3 px-3'>
 			<h1 className='w-full font-black text-xl'>目录</h1>
 			<p className='divider m-0' />
-			{/* TODO: 目录循环 */}
+			<Toc value={content} />
+			{/* TODO: 目录循环
 			<p className='w-full font-medium text-gray-500 hover:text-inherit cursor-pointer'>
 				catalog items
-			</p>
+			</p> */}
 		</div>
 	);
 }
