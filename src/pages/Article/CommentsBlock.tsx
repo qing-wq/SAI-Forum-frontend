@@ -16,7 +16,7 @@ import { userInfo } from "os";
 /**
  * 文章评论区块
  */
-export function CommentsBlock() {
+export default function CommentsBlock() {
 	const comments = useArticleViewStore((state) => state.comments);
 	return (
 		<div className='px-10 w-full bg-base-100 py-3'>

@@ -4,13 +4,13 @@ import MiddleViewVertical from "../../layouts/MiddleViewVertical";
 import "github-markdown-css";
 import { MarkdownViewer } from "@/components/Markdown";
 import UserInfo, { RelationalFunc } from "@/components/UserInfo";
-import { CommentsBlock } from "./CommentsSection";
 import useArticleViewStore from "@/stores/useArticleViewStore";
 import UserAvatar from "@/components/UserAvatar";
 import dayjs from "dayjs";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
 import UserStatisticInfoDTO from "@/models/user/UserStatisticInfoDTO.model";
-import Svg from "@/svg";
+import ArticleInteractionBlock from "./ArticleInteractionBlock";
+import CommentsBlock from "./CommentsBlock";
 
 /**
  * 文章详情页（展示）
@@ -45,7 +45,7 @@ export default memo(function Article() {
 				</div>
 				<div className='w-[20%] h-full border-solid flex flex-col gap-[10px] items-center sticky top-[5rem]'>
 					<AuthorBlock authorInfo={authorInfo} />
-					<ArticleInteractionBlock />
+					<ArticleInteractionBlock articleInfo={articleInfo} />
 					<CatalogBlock />
 				</div>
 			</MiddleViewVertical>
@@ -101,28 +101,6 @@ function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
 				followed={authorInfo.followed}
 				userId={authorInfo.id}
 			/>
-		</div>
-	);
-}
-
-/**
- * 文章互动区块
- */
-function ArticleInteractionBlock() {
-	return (
-		<div className='w-full bg-base-100 flex gap-[1px] items-center justify-around py-3 px-3'>
-			<span>
-				<Svg name='handThumbUp' />
-				点赞
-			</span>
-			<span>
-				<Svg name='star' />
-				收藏
-			</span>
-			<span>
-				<Svg name='share' />
-				分享
-			</span>
 		</div>
 	);
 }

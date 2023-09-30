@@ -126,3 +126,22 @@ export function postComment(commentInfo: PostCommentProp) {
 		body: JSON.stringify(commentInfo),
 	});
 }
+
+export enum ArticleInterationOperate {
+	"点赞" = 2,
+	"收藏" = 3,
+	"取消点赞" = 4,
+	"取消收藏" = 5,
+}
+
+/**
+ * 文章互动
+ */
+export function articleInteraction(
+	articleId: number,
+	operate: ArticleInterationOperate
+) {
+	return xFetch<boolean>(
+		`article/favor?articleId=${articleId}&operate=${operate}`
+	);
+}
