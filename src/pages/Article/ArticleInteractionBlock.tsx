@@ -4,6 +4,7 @@ import Svg from "@/svg";
 import { Svgs } from "@/svg/svgs";
 import numberFormat from "@/utils/numberFormat";
 import { ArticleInterationOperate, articleInteraction } from "@/apis/articles";
+import useLoginStore from "@/stores/useLoginStore";
 
 /**
  * 文章互动区块
@@ -74,6 +75,8 @@ const ArticleInteractionItem = memo(function ArticleInteractionItem({
 	const [isActived, setIsActived] = useState(actived);
 	// 请求节流标记
 	const [requestThrottle, setRequestThrottle] = useState(false);
+	// 用户登陆信息
+	const userInfo = useLoginStore((state) => state.userInfo);
 	const InterationOperateMap = () => {
 		if (!isActived) return ArticleInterationOperate[title];
 		else
@@ -83,6 +86,11 @@ const ArticleInteractionItem = memo(function ArticleInteractionItem({
 	};
 	/** 互动事件处理(通过对互动事件异步请求结果的控制，控制展示) */
 	const handleInteraction = () => {
+		// 未登录提示
+		if (!userInfo) {
+			alert("请先登录");
+			return;
+		}
 		if (requestThrottle) return;
 		setIsActived(!isActived);
 		setRequestThrottle(true);
@@ -109,7 +117,17 @@ const ArticleInteractionItem = memo(function ArticleInteractionItem({
 			onClick={handleInteraction}
 		>
 			<Svg name={iconName} />
-			<p>{numberFormat(isActived ? count + 1 : count)}</p>
+			<p>
+				{numberFormat(
+					actived
+						? isActived
+							? count
+							: count - 1
+						: isActived
+						? count + 1
+						: count
+				)}
+			</p>
 		</span>
 	);
 });
