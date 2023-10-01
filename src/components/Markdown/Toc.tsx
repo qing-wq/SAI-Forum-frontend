@@ -150,11 +150,11 @@ export default ({ value }: IProps) => {
 								title={item.text}
 								className={`${
 									currentHeadingIndex === index
-										? "active"
+										? "active after:content-['🔍']"
 										: ""
 								} ${
 									itemLevelMapClassName[item.level]
-								} overflow-x-hidden cursor-pointer text-ellipsis whitespace-nowrap`}
+								} overflow-x-hidden cursor-pointer text-ellipsis whitespace-nowrap hover:text-primary active: hover:after:content-["👈"]`}
 								style={{
 									paddingLeft:
 										(item.level - minLevel) * 16 + 8,
@@ -175,10 +175,10 @@ export default ({ value }: IProps) => {
  * 标题级别对应的样式
  */
 const itemLevelMapClassName: { [key: number]: string } = {
-	1: "text-xl font-bold",
-	2: "text-lg font-semibold",
-	3: "text-base font-medium",
-	4: "text-sm font-normal",
-	5: "text-xs font-normal",
-	6: "text-xs font-normal",
+	1: "font-bold",
+	2: "font-semibold",
+	3: "font-medium",
+	4: "font-normal",
+	5: "font-normal",
+	6: "font-normal",
 };
