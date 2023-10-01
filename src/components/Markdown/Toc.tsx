@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import useArticleViewStore from "@/stores/useArticleViewStore";
 import useMainPageStore from "@/stores/useMainPageStore";
 import remToPx from "@/utils/remToPx";
+import style from "./toc.module.scss";
 
 type IProps = {
 	value: string;
@@ -85,6 +86,9 @@ export default ({ value }: IProps) => {
 					setCurrentHeadingIndex(i - 1 > 0 ? i - 1 : 0);
 					break;
 				}
+				if (rect.top < 0 && i === headings.length - 1) {
+					setCurrentHeadingIndex(i);
+				}
 			}
 		};
 		main.addEventListener("scroll", handleScroll);
@@ -109,7 +113,7 @@ export default ({ value }: IProps) => {
 					ul.getBoundingClientRect().top +
 					ul.scrollTop -
 					2 * topMargin,
-				behavior: "smooth",
+				// behavior: "smooth",
 			});
 		}, 200);
 	}, [currentHeadingIndex]);
@@ -141,7 +145,10 @@ export default ({ value }: IProps) => {
 				<div>
 					{/* toc */}
 					<ul
-						className='w-full max-h-96 overflow-y-auto'
+						className={
+							"w-full max-h-96 overflow-y-auto scroll-smooth " +
+							style.ul
+						}
 						ref={TocUlRef}
 					>
 						{items.map((item, index) => (
@@ -149,12 +156,20 @@ export default ({ value }: IProps) => {
 								key={String(index)}
 								title={item.text}
 								className={`${
-									currentHeadingIndex === index
-										? "active after:content-['🔍']"
-										: ""
-								} ${
 									itemLevelMapClassName[item.level]
-								} overflow-x-hidden cursor-pointer text-ellipsis whitespace-nowrap hover:text-primary active: hover:after:content-["👈"]`}
+								} 
+								${
+									currentHeadingIndex === index
+										? "active after:content-['🔍'] !text-primary"
+										: ""
+								} 
+								overflow-x-hidden 
+								cursor-pointer 
+								text-ellipsis 
+								whitespace-nowrap 
+								hover:text-primary 
+								hover:after:content-["👈"] 
+								text-gray-600 `}
 								style={{
 									paddingLeft:
 										(item.level - minLevel) * 16 + 8,
