@@ -145,3 +145,20 @@ export function articleInteraction(
 		`article/favor?articleId=${articleId}&operate=${operate}`
 	);
 }
+
+export enum CommentInterationType {
+	"点赞" = 2,
+	"取消点赞" = 4,
+}
+
+/**
+ * 文章评论点赞
+ */
+export function commentInteraction(
+	commentId: number,
+	type: CommentInterationType
+) {
+	return xFetch<boolean>(
+		`comment/api/favor?commentId=${commentId}&type=${type}`
+	);
+}

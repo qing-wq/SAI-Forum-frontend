@@ -23,6 +23,8 @@ type UseArticleViewStore = {
 	viewer: HTMLElement | null;
 	/** 设置viewer */
 	setViewer: (viewer: HTMLElement | null) => void;
+	/** 重载文章信息 */
+	reloadArticleInfo: () => Promise<boolean>;
 };
 
 /**
@@ -32,7 +34,7 @@ const useArticleViewStore = createWithEqualityFn<
 	UseArticleViewStore,
 	[never, unknown][]
 >(
-	(set) => ({
+	(set, get) => ({
 		articleInfo: undefined,
 		authorInfo: undefined,
 		comments: undefined,
@@ -61,6 +63,15 @@ const useArticleViewStore = createWithEqualityFn<
 			set({
 				viewer,
 			});
+		},
+		reloadArticleInfo: async () => {
+			try {
+				await get().getArticleInfo(get().articleId!);
+				return true;
+			} catch (e) {
+				console.error(e);
+				return false;
+			}
 		},
 	}),
 	shallow

@@ -43,14 +43,18 @@ const CommentBox = forwardRef<CommentBoxHandler, CommentBoxProp>(
 				topCommentId,
 			};
 		};
-		const navigate = useNavigate();
+
+		const reloadArticleInfo = useArticleViewStore(
+			(state) => state.reloadArticleInfo
+		);
 		/** 提交评论 */
 		const submitComment = () => {
 			const commentInfo = getCommentInfo();
 			if (commentInfo)
 				postComment(commentInfo)
 					.then(() => {
-						navigate(0);
+						reloadArticleInfo();
+						setComment("");
 					})
 					.catch((err) => {
 						alert("评论失败: " + err.message);

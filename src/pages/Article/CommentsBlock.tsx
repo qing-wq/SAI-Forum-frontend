@@ -2,16 +2,10 @@ import UserAvatar from "@/components/UserAvatar";
 import TopCommentDTO from "@/models/comment/TopCommentDTO.model";
 import useLoginStore from "@/stores/useLoginStore";
 import fromNow from "@/utils/fromNow";
-import React, {
-	forwardRef,
-	useEffect,
-	useImperativeHandle,
-	useRef,
-	useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CommentBox, { CommentBoxHandler } from "./CommentBox";
 import useArticleViewStore from "@/stores/useArticleViewStore";
-import { userInfo } from "os";
+import { CommentInterationType, commentInteraction } from "@/apis/articles";
 
 /**
  * 文章评论区块
@@ -32,7 +26,6 @@ export default function CommentsBlock() {
  */
 function ArticleCommentBox() {
 	const userInfo = useLoginStore((state) => state.userInfo);
-	const articleId = useArticleViewStore((state) => state.articleId);
 	return (
 		<div className='flex w-full gap-4 py-4'>
 			<div>
@@ -122,7 +115,7 @@ export function CommentItem({ comment, topCommentId }: CommentItemProp) {
 			<div className='w-full'>
 				<CommentItemBaseInfo comment={comment} />
 				<div className='my-2'>{comment.commentContent}</div>
-				<CommentItemActive
+				<CommentItemInteraction
 					comment={comment}
 					topCommentId={
 						isTopComment ? comment.commentId : topCommentId
@@ -151,7 +144,7 @@ function CommentItemBaseInfo({ comment }: CommentItemProp) {
 /**
  * 文章评论互动区（点赞、回复）
  */
-function CommentItemActive({ comment, topCommentId }: CommentItemProp) {
+function CommentItemInteraction({ comment, topCommentId }: CommentItemProp) {
 	const isTopComment =
 		"commentCount" in comment && "childComments" in comment;
 	// 评论框可见性
@@ -161,6 +154,24 @@ function CommentItemActive({ comment, topCommentId }: CommentItemProp) {
 	const openCommentBox: React.MouseEventHandler<HTMLSpanElement> = () => {
 		setCommentBoxVisible((v) => !v);
 	};
+	const reloadArticleInfo = useArticleViewStore(
+		(state) => state.reloadArticleInfo
+	);
+	const [isParised, setIsParised] = useState<boolean>(comment.praised);
+	/** 点赞 */
+	const praiseComment = async () => {
+		setIsParised((parised) => !parised);
+		commentInteraction(
+			comment.commentId,
+			isParised
+				? CommentInterationType["取消点赞"]
+				: CommentInterationType["点赞"]
+		)
+			.then(() => reloadArticleInfo())
+			.catch(() => {
+				setIsParised(isParised);
+			});
+	};
 	useEffect(() => {
 		if (commentBoxVisible) commentBoxRef.current?.focus();
 	}, [commentBoxVisible]);
@@ -168,8 +179,9 @@ function CommentItemActive({ comment, topCommentId }: CommentItemProp) {
 		<div className='font-black'>
 			<span
 				className={`hover:text-primary-focus  cursor-pointer ${
-					comment.praised ? "text-primary-focus" : ""
+					isParised ? "text-primary-focus" : ""
 				}`}
+				onClick={praiseComment}
 			>
 				点赞 {comment.praiseCount}
 			</span>
@@ -210,7 +222,11 @@ function CommentItemReference({ comment }: CommentItemProp) {
 		);
 	} else if (!isTopComment && comment.parentContent) {
 		return (
-			<div className='px-3 mt-2 bg-base-200'>{comment.parentContent}</div>
+			<div
+				className={`before:content-["↪_"]  px-3 mr-3 mt-2 bg-base-200 text-ellipsis whitespace-nowrap`}
+			>
+				{comment.parentContent}
+			</div>
 		);
 	}
 	return null;

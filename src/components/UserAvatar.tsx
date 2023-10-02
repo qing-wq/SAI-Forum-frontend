@@ -21,7 +21,9 @@ export default function UserAvatar({
 	const navigate = useNavigate();
 	return (
 		<div
-			className={`avatar ${clickId ? "cursor-pointer" : ""}`}
+			className={`avatar rounded-full p-[.1rem] btn-ghost ${
+				clickId ? "cursor-pointer" : ""
+			}`}
 			onClick={
 				clickId
 					? () => {

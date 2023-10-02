@@ -96,7 +96,7 @@ function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
 					size='large'
 					clickId={authorInfo.id}
 				/>
-				<div>{authorInfo.userName}</div>
+				<div className=' font-bold'>{authorInfo.userName}</div>
 			</div>
 			<RelationalFunc
 				followed={authorInfo.followed}
@@ -115,10 +115,6 @@ function CatalogBlock({ content }: { content: string }) {
 			<h1 className='w-full font-black text-xl'>目录</h1>
 			<p className='divider m-0' />
 			<Toc value={content} />
-			{/* TODO: 目录循环
-			<p className='w-full font-medium text-gray-500 hover:text-inherit cursor-pointer'>
-				catalog items
-			</p> */}
 		</div>
 	);
 }

@@ -121,9 +121,9 @@ function ArticleItem({ article }: ArticleItemProp) {
 						clickAuthor(article.author, e);
 					}}
 				>
-					<div className='flex gap-3'>
+					<div className='flex gap-3 items-center'>
 						<UserAvatar src={article.authorAvatar} />
-						<p>{article.authorName}</p>
+						<p className='font-bold'>{article.authorName}</p>
 					</div>
 				</div>
 
