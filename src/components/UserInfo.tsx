@@ -7,12 +7,13 @@ import numberFormat from "../utils/numberFormat";
 
 type UserInfoProp = {
 	info: UserInfoType["userHome"];
+	refresh?: () => void;
 };
 
 /**
  * 用户基本信息展示组件
  */
-const UserInfo = memo(({ info }: UserInfoProp) => {
+const UserInfo = memo(({ info, refresh }: UserInfoProp) => {
 	const navigate = useNavigate();
 	return (
 		<div className='card card-side p-4 items-center bg-base-100 shadow-xl hover:shadow-2xl transition-all mt-2'>
@@ -36,7 +37,11 @@ const UserInfo = memo(({ info }: UserInfoProp) => {
 				<StatBox title='加入了' data={info.joinDayCount} desc='天' />
 				<StatBox title='关注了' data={info.followCount} desc='用户' />
 				<StatBox title='被关注' data={info.fansCount} desc='用户' />
-				<RelationalFunc followed={info.followed} userId={info.userId} />
+				<RelationalFunc
+					followed={info.followed}
+					userId={info.userId}
+					refresh={refresh}
+				/>
 			</div>
 		</div>
 	);
@@ -78,10 +83,15 @@ function StatBox({ title, data, desc }: StatBoxProp) {
 type RelationalFuncProp = {
 	followed: boolean;
 	userId: number;
+	refresh?: () => void;
 };
 
 /** 用户关系操作区 */
-export function RelationalFunc({ followed, userId }: RelationalFuncProp) {
+export function RelationalFunc({
+	followed,
+	userId,
+	refresh,
+}: RelationalFuncProp) {
 	const myInfo = useLoginStore((state) => state.userInfo);
 	const navigate = useNavigate();
 	/** 关注、取关用户 */
@@ -94,7 +104,8 @@ export function RelationalFunc({ followed, userId }: RelationalFuncProp) {
 		postUserFollow(userId, followed)
 			.then(() => {
 				// TODO: 关注关系变更后状态更新
-				navigate(0);
+				// navigate(0);
+				if (refresh) refresh();
 			})
 			.catch((err) => {
 				alert("关注失败: " + err.message);

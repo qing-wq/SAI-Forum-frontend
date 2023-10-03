@@ -31,15 +31,20 @@ const useLoginStore = create<UseLoginStore>((set) => ({
 		let userInfo: BaseUserInfoDTO | undefined = undefined;
 		try {
 			userInfo = await postLogin(username, password);
+			set(() => ({ userInfo }));
 		} catch (e) {
 			// 登录失败提醒
 			alert(e);
 		}
-		if (userInfo) set(() => ({ userInfo }));
+		// if (userInfo) set(() => ({ userInfo }));
 	},
 	logout: async () => {
-		await getLogout();
-		set(() => ({ userInfo: undefined }));
+		try {
+			await getLogout();
+			set(() => ({ userInfo: undefined }));
+		} catch (e) {
+			alert(e);
+		}
 	},
 }));
 

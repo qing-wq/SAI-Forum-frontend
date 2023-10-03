@@ -18,8 +18,8 @@ export default function EditArticle() {
 	 */
 	const articleID = useMemo((): number => {
 		if (id === "new") return 0;
-		let re = Number(id);
-		return isNaN(re) ? -1 : re;
+		let formatedId = Number(id);
+		return isNaN(formatedId) ? -1 : formatedId;
 	}, [id]);
 	//当params参数错误时跳转至新建文章页面
 	useEffect(() => {

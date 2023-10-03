@@ -75,13 +75,16 @@ function ArticleTageSelect() {
 	} = useArticleEditInfo();
 	const tags = useTagsStore((state) => state.tags);
 	const [tagId, setTagId] = useState<number>(
-		articleTags ? articleTags[0].tagId : -1
+		articleTags && articleTags[0] ? articleTags[0]?.tagId : -1
 	);
 	useEffect(() => {
-		setTagId(articleTags ? articleTags[0].tagId : -1);
+		setTagId(articleTags && articleTags[0] ? articleTags[0].tagId : -1);
 	}, [tags]);
 	useEffect(() => {
-		if (tagId == (articleTags ? articleTags[0].tagId : -1)) return;
+		if (
+			tagId == (articleTags && articleTags[0] ? articleTags[0].tagId : -1)
+		)
+			return;
 		let activeTag: (typeof tags)[number];
 		tags.forEach((tag) => {
 			if (tag.tagId === tagId) activeTag = tag;

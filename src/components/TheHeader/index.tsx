@@ -3,6 +3,7 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import "./TheHeader.css";
 import useLoginStore from "@/stores/useLoginStore";
 import { log } from "console";
+import useAuthTo from "@/auth/useAuthTo";
 
 /**
  * 页头组件
@@ -10,17 +11,8 @@ import { log } from "console";
 export default memo(function TheHeader() {
 	const [searchInput, setSearchInput] = useState<string>();
 	const [search, setSearch] = useSearchParams();
-	const navigate = useNavigate();
+	const authTo = useAuthTo();
 
-	const userInfo = useLoginStore((state) => state.userInfo);
-	// 打开“写文章”页面
-	const openEditArticleView = () => {
-		if (!userInfo) {
-			navigate("/login");
-		} else {
-			navigate("./edit-article/new");
-		}
-	};
 	// 获取分类激活当前分类的导航选项
 	const category = search.get("category");
 	const inputSearch = ({
@@ -54,12 +46,24 @@ export default memo(function TheHeader() {
 			</div>
 			<div className='flex-none gap-2'>
 				{/* write */}
-				<button
-					className='btn btn-primary text-base font-black'
-					onClick={openEditArticleView}
-				>
-					写文章
-				</button>
+				<div className='btn-group'>
+					<button
+						className='btn btn-primary text-base font-black'
+						onClick={() => {
+							authTo("./edit-article/new", false, true);
+						}}
+					>
+						写文章
+					</button>
+					<button
+						className='btn btn-outline text-base font-black'
+						onClick={() => {
+							authTo("./draft", false, true);
+						}}
+					>
+						草稿
+					</button>
+				</div>
 				{/* search */}
 				<div className='form-control'>
 					<input
@@ -92,11 +96,6 @@ const navList = [
 function UserInfo() {
 	const userInfo = useLoginStore((state) => state.userInfo);
 	const logout = useLoginStore((state) => state.logout);
-	const navigate = useNavigate();
-	const logoutHandle = () => {
-		logout();
-		navigate(0);
-	};
 	if (!userInfo) {
 		return (
 			<div className='dropdown dropdown-end'>
@@ -134,7 +133,7 @@ function UserInfo() {
 				<li>
 					<Link to={"/user/self"}>主页</Link>
 				</li>
-				<li onClick={logoutHandle}>
+				<li onClick={logout}>
 					<a>登出</a>
 				</li>
 			</ul>

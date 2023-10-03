@@ -6,6 +6,7 @@ import ArticleList from "@/pages/Home";
 import Article from "@/pages/Article";
 import User from "@/pages/User";
 import EditArticle from "@/pages/EditArticle";
+import DraftList from "@/pages/Draft";
 
 export default [
 	{
@@ -23,6 +24,10 @@ export default [
 			{
 				path: "user/:id",
 				element: <User />,
+			},
+			{
+				path: "draft",
+				element: <DraftList />,
 			},
 			{
 				path: "",

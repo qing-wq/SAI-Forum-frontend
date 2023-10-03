@@ -25,7 +25,7 @@ export default function LoginBox({ change }: LoginBoxProp) {
 		if (!validate()) return;
 		login(username, password).then(
 			// 登陆成功跳转首页
-			() => navigate("/")
+			() => navigate(-1)
 		);
 	};
 	return (

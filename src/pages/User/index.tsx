@@ -18,16 +18,18 @@ export default function User() {
 	const [userData, setUserData] =
 		useState<Await<ReturnType<typeof getUserInfo>>>();
 	const navigate = useNavigate();
+	const getUserInfoById = (id: string) => {
+		getUserInfo(id).then((res) => {
+			setUserData(res);
+		});
+	};
 	useEffect(() => {
 		// 访问自己主页路由跳转
 		if (id === "self") {
 			if (!currentUser) navigate("/", { replace: true });
 			else navigate(`/user/${currentUser.id}`, { replace: true });
 		}
-		if (id)
-			getUserInfo(id).then((res) => {
-				setUserData(res);
-			});
+		if (id) getUserInfoById(id);
 		return () => {};
 	}, [id]);
 
@@ -35,7 +37,12 @@ export default function User() {
 		<>
 			{userData ? (
 				<MiddleView>
-					<UserInfo info={userData.userHome} />
+					<UserInfo
+						info={userData.userHome}
+						refresh={() => {
+							if (id) getUserInfoById(id);
+						}}
+					/>
 					<div className='flex mt-3 gap-3 min-h-full'>
 						<UserArticles articles={userData.homeSelectList} />
 						<OtherData info={userData.userHome} />

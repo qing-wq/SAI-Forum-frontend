@@ -46,3 +46,6 @@ export type LoginInfo = BaseUserInfoDTO;
 
 /** 登出接口 */
 export type LogoutInfo = string;
+
+/** 草稿分页查询接口  */
+export type DraftList = ArticleList;

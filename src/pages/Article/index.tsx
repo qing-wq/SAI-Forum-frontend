@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MiddleViewVertical from "../../layouts/MiddleViewVertical";
 import "github-markdown-css";
 import { MarkdownViewer } from "@/components/Markdown";
-import UserInfo, { RelationalFunc } from "@/components/UserInfo";
+import { RelationalFunc } from "@/components/UserInfo";
 import useArticleViewStore from "@/stores/useArticleViewStore";
 import UserAvatar from "@/components/UserAvatar";
 import dayjs from "dayjs";
@@ -18,13 +18,19 @@ import Toc from "@/components/Markdown/Toc";
  */
 export default memo(function Article() {
 	const { id } = useParams();
-	const { articleInfo, authorInfo, getArticleInfo, resetArticleInfo } =
-		useArticleViewStore((state) => ({
-			articleInfo: state.articleInfo,
-			authorInfo: state.authorInfo,
-			getArticleInfo: state.getArticleInfo,
-			resetArticleInfo: state.resetArticleInfo,
-		}));
+	const {
+		articleInfo,
+		authorInfo,
+		getArticleInfo,
+		resetArticleInfo,
+		reloadArticleInfo,
+	} = useArticleViewStore((state) => ({
+		articleInfo: state.articleInfo,
+		authorInfo: state.authorInfo,
+		getArticleInfo: state.getArticleInfo,
+		resetArticleInfo: state.resetArticleInfo,
+		reloadArticleInfo: state.reloadArticleInfo,
+	}));
 	useEffect(() => {
 		if (isNaN(Number(id))) {
 			// TODO: 403处理
@@ -45,7 +51,10 @@ export default memo(function Article() {
 					<CommentsBlock />
 				</div>
 				<div className='w-[20%] h-full border-solid flex flex-col gap-[10px] items-center sticky top-[5rem]'>
-					<AuthorBlock authorInfo={authorInfo} />
+					<AuthorBlock
+						authorInfo={authorInfo}
+						refresh={reloadArticleInfo}
+					/>
 					<ArticleInteractionBlock articleInfo={articleInfo} />
 					<CatalogBlock content={articleInfo.content} />
 				</div>
@@ -87,7 +96,13 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
 /**
  * 作者区块
  */
-function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
+function AuthorBlock({
+	authorInfo,
+	refresh,
+}: {
+	authorInfo: UserStatisticInfoDTO;
+	refresh: () => Promise<boolean>;
+}) {
 	return (
 		<div className='w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3'>
 			<div className='flex flex-col items-center px-4'>
@@ -101,6 +116,7 @@ function AuthorBlock({ authorInfo }: { authorInfo: UserStatisticInfoDTO }) {
 			<RelationalFunc
 				followed={authorInfo.followed}
 				userId={authorInfo.id}
+				refresh={refresh}
 			/>
 		</div>
 	);
