@@ -2,7 +2,7 @@ import { postUserFollow } from "@/apis/user";
 import { UserInfo as UserInfoType } from "@/models";
 import useLoginStore from "@/stores/useLoginStore";
 import React, { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import numberFormat from "../utils/numberFormat";
 
 type UserInfoProp = {
@@ -93,7 +93,6 @@ export function RelationalFunc({
 	refresh,
 }: RelationalFuncProp) {
 	const myInfo = useLoginStore((state) => state.userInfo);
-	const navigate = useNavigate();
 	/** 关注、取关用户 */
 	const follow = (followed: boolean) => {
 		if (!myInfo) {
@@ -115,14 +114,9 @@ export function RelationalFunc({
 	if (myInfo?.id === userId)
 		return (
 			<div className='flex flex-col justify-center px-4 gap-2 min-w-[100px]'>
-				<button
-					className='btn btn-sm btn-primary h-3'
-					onClick={() => {
-						// follow(false);
-					}}
-				>
+				<Link to='/user/setting' className='btn btn-sm btn-primary h-3'>
 					我的设置
-				</button>
+				</Link>
 			</div>
 		);
 	return (

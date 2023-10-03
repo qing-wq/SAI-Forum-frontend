@@ -122,7 +122,7 @@ function UserInfo() {
 			</label>
 			<ul
 				tabIndex={0}
-				className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
+				className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-40'
 			>
 				{/* <li>
 			<a className="justify-between">
@@ -131,10 +131,13 @@ function UserInfo() {
 			</a>
 		</li> */}
 				<li>
-					<Link to={"/user/self"}>主页</Link>
+					<Link to={"/user/self"}>我的主页</Link>
+				</li>
+				<li>
+					<Link to={"/user/setting"}>账号设置</Link>
 				</li>
 				<li onClick={logout}>
-					<a>登出</a>
+					<a>账号登出</a>
 				</li>
 			</ul>
 		</div>

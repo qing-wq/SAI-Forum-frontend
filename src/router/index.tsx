@@ -7,6 +7,7 @@ import Article from "@/pages/Article";
 import User from "@/pages/User";
 import EditArticle from "@/pages/EditArticle";
 import DraftList from "@/pages/Draft";
+import UserSetting from "@/pages/User/UserSetting";
 
 export default [
 	{
@@ -22,8 +23,17 @@ export default [
 				element: <Article />,
 			},
 			{
-				path: "user/:id",
-				element: <User />,
+				path: "user/",
+				children: [
+					{
+						path: ":id",
+						element: <User />,
+					},
+					{
+						path: "setting",
+						element: <UserSetting />,
+					},
+				],
 			},
 			{
 				path: "draft",
