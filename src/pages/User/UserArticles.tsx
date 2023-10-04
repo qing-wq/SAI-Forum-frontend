@@ -13,7 +13,12 @@ export default function UserArticles({ articles }: UserArticlesProp) {
 		navigate("/article/" + id);
 	};
 	return (
-		<div className='card w-full min-h-screen bg-base-100 shadow-xl hover:shadow-2xl transition-all '>
+		<div className='card w-[79%] min-h-screen bg-base-100 shadow-xl hover:shadow-2xl transition-all '>
+			<div className='tabs w-full'>
+				<a className='tab tab-lg tab-lifted !px-8 tab-active'>文章</a>
+				<a className='tab tab-lg tab-lifted !px-8'>收藏</a>
+				<a className='tab tab-lg tab-lifted !px-8'>草稿</a>
+			</div>
 			{/* <div className='flex px-4 h-10 leading-10 rounded-t-xl border-solid border-b-2 border-opacity-50 border-b-primary'>
 				<div className='text-center w-24 font-black hover:text-primary border-b-2'>
 					动态

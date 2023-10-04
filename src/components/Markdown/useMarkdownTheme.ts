@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import themes from "juejin-markdown-themes";
 
 /** 掘金Markdown主题列表 */
-const themeKeys: readonly string[] = Object.keys(themes);
+const themeKeys: string[] = Object.keys(themes);
 
 /** Markdown主题Hook */
 const useMarkdownTheme = (initialTheme = "juejin") => {
 	/** 当前主题 */
 	const [theme, setTheme] = useState<string>(initialTheme);
 	/** 修改当前主题 */
-	const changeTheme = (themeName: string = "juejin") => {
+	const changeTheme = (themeName: (typeof themeKeys)[number] = "juejin") => {
 		// 主题不存在时设为默认
 		if (!themeKeys.includes(themeName)) themeName = "juejin";
 		if (theme != themeName) setTheme(themeName);

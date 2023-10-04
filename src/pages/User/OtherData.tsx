@@ -2,13 +2,13 @@ import { UserInfo } from "@/models";
 import React from "react";
 
 type OtherDataProp = {
-	info: UserInfo["result"]["userHome"];
+	info: UserInfo["userHome"];
 };
 
 export default function OtherData({ info }: OtherDataProp) {
 	return (
-		<div className='sticky top-20 h-2/3'>
-			<div className=' card bg-base-100 w-1/5 min-w-[300px]  shadow-xl hover:shadow-2xl transition-all'>
+		<div className='sticky top-20 h-2/3 w-[20%]'>
+			<div className=' card bg-base-100 w-full  min-w-[200px]  shadow-xl hover:shadow-2xl transition-all'>
 				<div className='stats stats-vertical shadow'>
 					<div className='stat'>
 						<div className='stat-title'>已发布文章数</div>

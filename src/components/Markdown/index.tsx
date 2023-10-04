@@ -8,7 +8,6 @@ import "./markdown.base.css";
 import { postImage } from "@/apis/articles";
 import useArticleEditStore from "@/stores/useArticleEditStore";
 import debounce from "@/utils/debounce";
-import { getProcessor } from "bytemd";
 import useArticleViewStore from "@/stores/useArticleViewStore";
 
 /** 图片长传返回插入文章格式 */
@@ -40,9 +39,17 @@ export default function MarkdownEditor() {
 	const [value, setValue] = useState<string>(
 		articleInfo != "await" ? articleInfo.content || "" : ""
 	);
-	useEffect(() => {
-		if (articleInfo === "await") return;
-		setValue(articleInfo.content || "");
+	const cleanArticleInfo = useArticleEditStore(
+		(state) => state.cleanArticleInfo
+	);
+	useLayoutEffect(() => {
+		return () => {
+			cleanArticleInfo();
+		};
+	}, []);
+	useLayoutEffect(() => {
+		// if (articleInfo === "await") return;
+		setValue(articleInfo === "await" ? "" : articleInfo.content || "");
 	}, [articleInfo]);
 	/** 文章防抖保存 */
 	const saveArticleContent = (value: string) => {
@@ -70,7 +77,6 @@ export default function MarkdownEditor() {
 				locale={zh_Hans}
 				uploadImages={uploadImages}
 			/>
-			{/* <Viewer value={value} plugins={plugins} /> */}
 		</div>
 	);
 }

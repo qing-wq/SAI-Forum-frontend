@@ -12,6 +12,8 @@ import UserStatisticInfoDTO from "@/models/user/UserStatisticInfoDTO.model";
 import ArticleInteractionBlock from "./ArticleInteractionBlock";
 import CommentsBlock from "./CommentsBlock";
 import Toc from "@/components/Markdown/Toc";
+import useAuth from "@/auth/useAuth";
+import useAuthTo from "@/auth/useAuthTo";
 
 /**
  * 文章详情页（展示）
@@ -53,6 +55,7 @@ export default memo(function Article() {
 				<div className='w-[20%] h-full border-solid flex flex-col gap-[10px] items-center sticky top-[5rem]'>
 					<AuthorBlock
 						authorInfo={authorInfo}
+						articleId={articleInfo.articleId}
 						refresh={reloadArticleInfo}
 					/>
 					<ArticleInteractionBlock articleInfo={articleInfo} />
@@ -98,9 +101,11 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
  */
 function AuthorBlock({
 	authorInfo,
+	articleId,
 	refresh,
 }: {
 	authorInfo: UserStatisticInfoDTO;
+	articleId: number;
 	refresh: () => Promise<boolean>;
 }) {
 	return (
@@ -118,23 +123,42 @@ function AuthorBlock({
 				userId={authorInfo.id}
 				refresh={refresh}
 			>
-				<div className='dropdown dropdown-end'>
-					<label tabIndex={0} className='btn btn-sm'>
-						文章管理
-					</label>
-					<ul
-						tabIndex={0}
-						className='dropdown-content menu p-2 mt-2 shadow bg-base-100 rounded-box w-24 gap-1'
-					>
-						<li>
-							<a className='h-8'>编辑</a>
-						</li>
-						<li>
-							<a className='h-8 bg-warning text-white'>删除</a>
-						</li>
-					</ul>
-				</div>
+				<ArticleManageBlock articleId={articleId} />
 			</RelationalFunc>
+		</div>
+	);
+}
+
+/**
+ * 个人文章管理
+ */
+function ArticleManageBlock({ articleId }: { articleId: number }) {
+	const authTo = useAuthTo();
+	return (
+		<div className='dropdown dropdown-end'>
+			<label tabIndex={0} className='btn btn-sm'>
+				文章管理
+			</label>
+			<ul
+				tabIndex={0}
+				className='dropdown-content menu p-2 mt-2 shadow bg-base-100 rounded-box w-24 gap-1'
+			>
+				<li>
+					<a
+						className='h-8'
+						onClick={() => {
+							authTo(`/edit-article/${articleId}`);
+						}}
+					>
+						编辑
+					</a>
+				</li>
+				<li>
+					<a className='h-8 bg-warning text-white' onClick={() => {}}>
+						删除
+					</a>
+				</li>
+			</ul>
 		</div>
 	);
 }

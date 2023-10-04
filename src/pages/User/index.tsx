@@ -9,6 +9,7 @@ import Loading from "../../components/Loading";
 import { Await } from "@/models";
 import { useNavigate } from "react-router-dom";
 import useLoginStore from "@/stores/useLoginStore";
+import MiddleViewVertical from "@/layouts/MiddleViewVertical";
 
 export default function User() {
 	const { id } = useParams();
@@ -28,26 +29,26 @@ export default function User() {
 		if (id === "self") {
 			if (!currentUser) navigate("/", { replace: true });
 			else navigate(`/user/${currentUser.id}`, { replace: true });
-		}
-		if (id) getUserInfoById(id);
+		} else if (id) getUserInfoById(id);
 		return () => {};
 	}, [id]);
 
 	return (
 		<>
 			{userData ? (
-				<MiddleView>
-					<UserInfo
-						info={userData.userHome}
-						refresh={() => {
-							if (id) getUserInfoById(id);
-						}}
-					/>
-					<div className='flex mt-3 gap-3 min-h-full'>
-						<UserArticles articles={userData.homeSelectList} />
-						<OtherData info={userData.userHome} />
-					</div>
-				</MiddleView>
+				<MiddleViewVertical
+					top={
+						<UserInfo
+							info={userData.userHome}
+							refresh={() => {
+								if (id) getUserInfoById(id);
+							}}
+						/>
+					}
+				>
+					<UserArticles articles={userData.homeSelectList} />
+					<OtherData info={userData.userHome} />
+				</MiddleViewVertical>
 			) : (
 				<Loading />
 			)}
