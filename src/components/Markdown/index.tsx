@@ -37,17 +37,21 @@ export default function MarkdownEditor() {
 	const saveArticleInfo = useArticleEditStore(
 		(state) => state.saveArticleInfo
 	);
-	const [value, setValue] = useState<string>(articleInfo.content);
+	const [value, setValue] = useState<string>(
+		articleInfo != "await" ? articleInfo.content || "" : ""
+	);
 	useEffect(() => {
-		setValue(articleInfo.content);
+		if (articleInfo === "await") return;
+		setValue(articleInfo.content || "");
 	}, [articleInfo]);
 	/** 文章防抖保存 */
 	const saveArticleContent = (value: string) => {
-		console.log(value);
+		if (value === "") return;
 		setValue(value);
 		debounce(() => saveArticleInfo({ content: value }), 1000);
 	};
 	const [theme, changeTheme, themeKeys] = useMarkdownTheme();
+	if (articleInfo === "await") return null;
 	return (
 		<div
 			onKeyDown={(e) => {

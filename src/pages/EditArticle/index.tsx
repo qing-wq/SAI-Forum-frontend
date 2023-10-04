@@ -24,7 +24,7 @@ export default function EditArticle() {
 	//当params参数错误时跳转至新建文章页面
 	useEffect(() => {
 		if (articleID === -1) {
-			navigate("/edit-article/new");
+			navigate("/edit-article/new", { replace: true });
 		} else {
 			// 获取文章信息
 			getArticleInfo(articleID);

@@ -117,7 +117,24 @@ function AuthorBlock({
 				followed={authorInfo.followed}
 				userId={authorInfo.id}
 				refresh={refresh}
-			/>
+			>
+				<div className='dropdown dropdown-end'>
+					<label tabIndex={0} className='btn btn-sm'>
+						文章管理
+					</label>
+					<ul
+						tabIndex={0}
+						className='dropdown-content menu p-2 mt-2 shadow bg-base-100 rounded-box w-24 gap-1'
+					>
+						<li>
+							<a className='h-8'>编辑</a>
+						</li>
+						<li>
+							<a className='h-8 bg-warning text-white'>删除</a>
+						</li>
+					</ul>
+				</div>
+			</RelationalFunc>
 		</div>
 	);
 }

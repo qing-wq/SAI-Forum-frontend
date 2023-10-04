@@ -76,10 +76,17 @@ export function postArticleInit(articleInfo: ArticlePostReq) {
 }
 
 /**
+ * 文章修改获取信息接口
+ */
+export function getArticleEdit(id: number) {
+	return xFetch<ArticleDTO>(`common/edit/${id}`);
+}
+
+/**
  * 文章自动保存接口(草稿)
  */
 export function saveArticle(articleInfo: ArticlePostReq) {
-	return xFetch<ArticleSave>("draft/update", {
+	return xFetch<ArticleSave>("common/update", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

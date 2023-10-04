@@ -84,6 +84,7 @@ type RelationalFuncProp = {
 	followed: boolean;
 	userId: number;
 	refresh?: () => void;
+	children?: React.ReactNode;
 };
 
 /** 用户关系操作区 */
@@ -91,6 +92,7 @@ export function RelationalFunc({
 	followed,
 	userId,
 	refresh,
+	children,
 }: RelationalFuncProp) {
 	const myInfo = useLoginStore((state) => state.userInfo);
 	/** 关注、取关用户 */
@@ -117,6 +119,7 @@ export function RelationalFunc({
 				<Link to='/user/setting' className='btn btn-sm btn-primary h-3'>
 					我的设置
 				</Link>
+				{children}
 			</div>
 		);
 	return (

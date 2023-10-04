@@ -1,6 +1,7 @@
 import {
 	generateSummary,
 	getArticle,
+	getArticleEdit,
 	postArticle,
 	postArticleInit,
 	saveArticle,
@@ -21,7 +22,9 @@ type UseArticleEditStore = {
 	/** 请求中状态 */
 	onSave: boolean;
 	/** 文章详情信息 */
-	articleInfo: Partial<ArticleVO["article"]> & { content: string };
+	articleInfo:
+		| (Partial<ArticleVO["article"]> & { content: string })
+		| "await";
 	/** 自动生成的文章简介 */
 	articleSummaryAutoGenerate: string;
 	/** 自动生成文章简介 */
@@ -55,64 +58,68 @@ const useArticleEditStore = createWithEqualityFn<
 		},
 		articleSummaryAutoGenerate: "",
 		generateArticleSummart: async () => {
-			if (get().articleInfo.content === "") return;
-			const summary = await generateSummary(get().articleInfo.content);
+			const articleInfo = get().articleInfo;
+			if (articleInfo === "await" || articleInfo.content === "") return;
+			const summary = await generateSummary(articleInfo.content);
 			set(() => ({ articleSummaryAutoGenerate: summary }));
 		},
 		getArticleInfo: async (articleId) => {
 			// 新建文章，初始化
 			if (articleId === 0 || articleId === -1) {
 				get().cleanArticleInfo();
+				console.log("初始化草稿");
+				const articleId = await postArticleInit({});
+				set((state) => {
+					return {
+						articleInfo: {
+							// ...articleInfo,
+							content: "",
+							articleId,
+						},
+						onSave: false,
+					};
+				});
 				return;
 			}
 			// 获取文章信息
-			const { article: articleInfo } = await getArticle(articleId);
+			const articleInfo = await getArticleEdit(articleId);
 			set(() => ({ articleInfo }));
 			return;
 		},
 		cleanArticleInfo: () => {
 			set(() => ({
-				articleInfo: {
-					content: "",
-				},
+				articleInfo: "await",
 				comments: [],
 				author: undefined,
 			}));
 			articleInfoCache = {};
 			onSaveArticleInfo = false;
 		},
-		saveArticleInfoDirect: async (articleInfo) => {
+		saveArticleInfoDirect: async (newArticleInfo) => {
 			set(() => ({
 				onSave: true,
 			}));
-			// 新文章初始化
-			if (!get().articleInfo.articleId) {
-				console.log("初始化草稿", articleInfo);
-				const articleId = await postArticleInit(articleInfo);
-				set((state) => ({
+			let articleInfo = get().articleInfo;
+			if (articleInfo === "await" || !articleInfo.articleId) return;
+
+			console.log("自动保存", articleInfo);
+			await saveArticle({
+				articleId: articleInfo.articleId,
+				...newArticleInfo,
+			});
+			set((state) => {
+				let articleInfo = state.articleInfo;
+				articleInfo =
+					articleInfo === "await" ? { content: "" } : articleInfo;
+				return {
 					articleInfo: {
-						...state.articleInfo,
 						...articleInfo,
-						articleId,
+						...newArticleInfo,
 					},
 					onSave: false,
-				}));
-			}
-			// 已存在文章保存
-			else {
-				console.log("自动保存", articleInfo);
-				await saveArticle({
-					articleId: get().articleInfo.articleId,
-					...articleInfo,
-				});
-				set((state) => ({
-					articleInfo: {
-						...state.articleInfo,
-						...articleInfo,
-					},
-					onSave: false,
-				}));
-			}
+				};
+			});
+			// }
 		},
 		saveArticleInfo: async (articleInfo) => {
 			// 节流
@@ -137,10 +144,12 @@ const useArticleEditStore = createWithEqualityFn<
 				onSaveArticleInfo = false;
 			}
 		},
-		postArticle: async (articleInfo) => {
+		postArticle: async (newArticleInfo) => {
+			const articleInfo = get().articleInfo;
+			if (articleInfo === "await") return;
 			await postArticle({
-				...articleInfo,
-				articleId: get().articleInfo.articleId,
+				...newArticleInfo,
+				articleId: articleInfo.articleId,
 			});
 		},
 	}),
