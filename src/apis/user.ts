@@ -1,11 +1,19 @@
 import xFetch from ".";
 import { Await, LoginInfo, LogoutInfo, UserInfo } from "@/models";
 
+export type HomeSelectType = "article" | "read" | "follow" | "collection";
+type FollowSelectType = "follow" | "fans";
 /**
  * 请求用户数据
  */
-export function getUserInfo(id: string) {
-	return xFetch<UserInfo>(`user/${id}?`);
+export function getUserInfo(
+	id: string,
+	homeSelectType: HomeSelectType = "article",
+	followSelectType: FollowSelectType = "follow"
+) {
+	return xFetch<UserInfo>(
+		`user/${id}?homeSelectType=${homeSelectType}&followSelectType=${followSelectType}`
+	);
 }
 
 /**

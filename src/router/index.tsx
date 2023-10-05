@@ -28,6 +28,12 @@ export default [
 					{
 						path: ":id",
 						element: <User />,
+						children: [
+							{
+								path: ":tab",
+								element: <User />,
+							},
+						],
 					},
 					{
 						path: "setting",

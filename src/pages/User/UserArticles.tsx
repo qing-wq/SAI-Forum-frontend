@@ -1,24 +1,22 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { UserInfo } from "@/models/index";
 import { useNavigate } from "react-router-dom";
+import { HomeSelectType } from "@/apis/user";
+import { articleInteraction } from "@/apis/articles";
 
 type UserArticlesProp = {
 	articles: UserInfo["homeSelectList"];
+	tab: HomeSelectType;
 };
 
 /** 用户文章列表页 */
-export default function UserArticles({ articles }: UserArticlesProp) {
+export default function UserArticles({ articles, tab }: UserArticlesProp) {
 	const navigate = useNavigate();
 	const openArticle = (id: number) => {
 		navigate("/article/" + id);
 	};
 	return (
-		<div className='card w-[79%] min-h-screen bg-base-100 shadow-xl hover:shadow-2xl transition-all '>
-			<div className='tabs w-full'>
-				<a className='tab tab-lg tab-lifted !px-8 tab-active'>文章</a>
-				<a className='tab tab-lg tab-lifted !px-8'>收藏</a>
-				<a className='tab tab-lg tab-lifted !px-8'>草稿</a>
-			</div>
+		<div className=''>
 			{/* <div className='flex px-4 h-10 leading-10 rounded-t-xl border-solid border-b-2 border-opacity-50 border-b-primary'>
 				<div className='text-center w-24 font-black hover:text-primary border-b-2'>
 					动态
@@ -34,7 +32,12 @@ export default function UserArticles({ articles }: UserArticlesProp) {
 					onClick={() => {
 						openArticle(article.articleId);
 					}}
-				/>
+				>
+					<ArticleInteraction
+						articleId={article.articleId}
+						tab={tab}
+					/>
+				</Article>
 			))}
 		</div>
 	);
@@ -43,18 +46,19 @@ export default function UserArticles({ articles }: UserArticlesProp) {
 type ArticleProp = {
 	article: UserArticlesProp["articles"]["list"][number];
 	onClick?: MouseEventHandler<HTMLDivElement>;
+	children?: React.ReactNode;
 };
 
-function Article({ article, onClick }: ArticleProp) {
+function Article({ article, onClick, children }: ArticleProp) {
 	return (
-		<div
-			onClick={onClick}
-			className='w-full h-32 p-4  border-solid border-b-[1px] border-opacity-10 border-b-black bg-base-100 group cursor-pointer first:rounded-t-xl last:rounded-b-xl'
-		>
-			<div className='flex'>
+		<div className='w-full h-32 p-4  border-solid border-b-[1px] border-opacity-10 border-b-black bg-base-100'>
+			<div className='flex h-full'>
 				{/* text */}
 				<div className='flex-1'>
-					<h1 className='line-clamp-1 text-2xl group-hover:text-primary-focus mb-3'>
+					<h1
+						className='line-clamp-1 text-2xl hover:text-primary-focus mb-3 cursor-pointer'
+						onClick={onClick}
+					>
 						{article.title}
 					</h1>
 					<p className='line-clamp-2 text-gray-700'>
@@ -69,7 +73,48 @@ function Article({ article, onClick }: ArticleProp) {
 						alt='文章封面'
 					/>
 				</div>
+				{/* interaction */}
+				<div
+					className={`pl-5 h-full ${
+						article.cover ? "" : ""
+					} flex items-center`}
+				>
+					{children}
+				</div>
 			</div>
 		</div>
 	);
 }
+
+const ArticleInteraction = ({
+	articleId,
+	tab,
+}: {
+	articleId: number;
+	tab: HomeSelectType;
+}) => {
+	const [isCollection, setIsCollection] = useState<boolean>(true);
+	if (tab === "collection")
+		return (
+			<div
+				className={`btn ${
+					isCollection ? "btn-warning" : "btn-primary"
+				} btn-sm text-white`}
+				onClick={async () => {
+					try {
+						await articleInteraction(
+							articleId,
+							isCollection ? 5 : 3
+						);
+					} catch (e) {
+						return console.log(e);
+					}
+					return setIsCollection((isCollection) => !isCollection);
+				}}
+			>
+				{isCollection ? "取消收藏" : "收藏文章"}
+			</div>
+		);
+
+	return null;
+};

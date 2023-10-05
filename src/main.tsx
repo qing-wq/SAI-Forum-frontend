@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 import ReactDOM from "react-dom/client";
+
 // import router
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
