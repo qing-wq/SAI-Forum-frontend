@@ -41,7 +41,7 @@ const MainUserInfo = ({
 		handleTabChange(curTab);
 	}, [curTab]);
 	return (
-		<div className='card w-[79%] bg-base-100 shadow-xl hover:shadow-2xl transition-all p-2'>
+		<div className='mycard w-[79%] bg-base-100 p-2'>
 			<MianTab curTab={curTab} setCurTab={setCurTab} />
 			<UserArticles articles={articles} tab={curTab} />
 		</div>

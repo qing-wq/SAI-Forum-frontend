@@ -40,23 +40,27 @@ export default function User() {
 	return (
 		<>
 			{userData ? (
-				<MiddleViewVertical
-					top={
-						<UserInfo
-							info={userData.userHome}
-							refresh={() => {
-								if (id) getUserInfoById(id, curTab);
-							}}
+				<>
+					{" "}
+					<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
+					<MiddleViewVertical
+						top={
+							<UserInfo
+								info={userData.userHome}
+								refresh={() => {
+									if (id) getUserInfoById(id, curTab);
+								}}
+							/>
+						}
+					>
+						<MainUserInfo
+							handleTabChange={setCurTab}
+							articles={userData.homeSelectList}
 						/>
-					}
-				>
-					<MainUserInfo
-						handleTabChange={setCurTab}
-						articles={userData.homeSelectList}
-					/>
-					{/* <UserArticles articles={userData.homeSelectList} /> */}
-					<OtherData info={userData.userHome} />
-				</MiddleViewVertical>
+						{/* <UserArticles articles={userData.homeSelectList} /> */}
+						<OtherData info={userData.userHome} />
+					</MiddleViewVertical>
+				</>
 			) : (
 				<Loading />
 			)}

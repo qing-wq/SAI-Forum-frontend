@@ -5,6 +5,7 @@ import routes from "./router";
 
 import useGlobalStoreInit from "./stores/useGlobalStoreInit";
 import "./App.css";
+import "./style.scss";
 
 function App() {
 	const globalInit = useGlobalStoreInit();

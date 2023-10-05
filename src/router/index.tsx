@@ -38,6 +38,12 @@ export default [
 					{
 						path: "setting",
 						element: <UserSetting />,
+						children: [
+							{
+								path: ":tab",
+								element: <UserSetting />,
+							},
+						],
 					},
 				],
 			},

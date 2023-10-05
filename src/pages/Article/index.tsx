@@ -48,7 +48,7 @@ export default memo(function Article() {
 		<>
 			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
 			<MiddleViewVertical>
-				<div className='w-[79%] h-full overflow-x-hidden flex flex-col gap-[10px] items-center'>
+				<div className='w-[79%] h-full flex flex-col gap-[10px] items-center'>
 					<ArticleBlock articleInfo={articleInfo} />
 					<CommentsBlock />
 				</div>
@@ -76,10 +76,10 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
 				<img
 					src={articleInfo.cover}
 					alt='封面'
-					className='bg-base-100 w-full'
+					className='bg-base-100 w-full mycard'
 				/>
 			) : null}
-			<article className='markdown-body w-full px-10 py-3'>
+			<article className='mycard overflow-x-hidden markdown-body w-full px-10 py-3'>
 				<h1 className='pt-4 text-4xl font-black text-black'>
 					{articleInfo.title}
 				</h1>
@@ -109,7 +109,7 @@ function AuthorBlock({
 	refresh: () => Promise<boolean>;
 }) {
 	return (
-		<div className='w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3'>
+		<div className='mycard w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3 '>
 			<div className='flex flex-col items-center px-4'>
 				<UserAvatar
 					src={authorInfo.photo}
@@ -168,7 +168,7 @@ function ArticleManageBlock({ articleId }: { articleId: number }) {
  */
 function CatalogBlock({ content }: { content: string }) {
 	return (
-		<div className='w-full bg-base-100 flex flex-col gap-[1px] items-center py-3 px-3'>
+		<div className='mycard w-full bg-base-100 flex flex-col gap-[1px] items-center py-3 px-3'>
 			<h1 className='w-full font-black text-xl'>目录</h1>
 			<p className='divider m-0' />
 			<Toc value={content} />

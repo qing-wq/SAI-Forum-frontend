@@ -13,8 +13,9 @@ import { CommentInterationType, commentInteraction } from "@/apis/articles";
 export default function CommentsBlock() {
 	const comments = useArticleViewStore((state) => state.comments);
 	return (
-		<div className='px-10 w-full bg-base-100 py-3'>
+		<div className='mycard px-10 w-full bg-base-100 py-3'>
 			<h1 className='font-black text-2xl'>评论</h1>
+			<div className='divider m-0' />
 			<ArticleCommentBox />
 			{comments ? <CommentsList comments={comments} /> : null}
 		</div>

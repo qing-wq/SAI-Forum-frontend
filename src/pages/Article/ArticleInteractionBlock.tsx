@@ -28,7 +28,7 @@ export default function ArticleInteractionBlock({
 		);
 	};
 	return (
-		<div className='w-full bg-base-100 flex gap-[1px] items-center justify-around py-3 px-3'>
+		<div className='mycard w-full bg-base-100 flex !flex-row gap-[1px] items-center justify-around py-3 px-3'>
 			<ArticleInteractionItem
 				articleId={articleInfo.articleId}
 				actived={articleInfo.praised}
