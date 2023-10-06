@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import LoginBox from "./LoginBox";
 import RegisterBox from "./RegisterBox";
 import SquareBox from "../../layouts/SquareBox";
 
 import bg from "../../asset/images/login-bg.svg";
+import { useNavigate, useParams } from "react-router-dom";
 const Login = () => {
+	const { tab } = useParams();
+	const navigate = useNavigate();
 	const [boxActive, setBoxActive] = useState(false);
+	useLayoutEffect(() => {
+		if (tab === undefined) {
+			navigate("/login/login", { replace: true });
+		}
+		if (tab === "register") {
+			setBoxActive(true);
+		} else {
+			setBoxActive(false);
+		}
+	}, [tab]);
+
 	return (
 		<div className='group'>
 			{/* background */}

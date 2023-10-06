@@ -104,8 +104,11 @@ function UserInfo() {
 				</label>
 				<ul
 					tabIndex={0}
-					className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
+					className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-32'
 				>
+					<li>
+						<Link to={"/login/register"}>注册</Link>
+					</li>
 					<li>
 						<Link to={"/login"}>登录</Link>
 					</li>

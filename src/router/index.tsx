@@ -62,8 +62,14 @@ export default [
 		element: <EditArticle />,
 	},
 	{
-		path: "/login",
+		path: "login",
 		element: <Login />,
+		children: [
+			{
+				path: ":tab",
+				element: <Login />,
+			},
+		],
 	},
 	{
 		path: "*",

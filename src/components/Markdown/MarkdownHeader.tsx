@@ -21,9 +21,11 @@ export default memo(function MarkdownHeader() {
 	const { articleInfo } = useArticleEditInfo();
 	// 打开提交文章事件
 	const clickPublish = () => {
-		if (!articleInfo.summary) generateArticleSummart();
+		if (articleInfo != "await" && !articleInfo.summary)
+			generateArticleSummart();
 	};
 	const userInfo = useLoginStore((state) => state.userInfo);
+	const logout = useLoginStore((state) => state.logout);
 	return (
 		<header className='navbar gap-2 2xl:gap-6 bg-base-100  shadow-md z-10'>
 			{/* 文章信息 */}
@@ -65,19 +67,16 @@ export default memo(function MarkdownHeader() {
 					</label>
 					<ul
 						tabIndex={2}
-						className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
+						className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-32'
 					>
-						{/* <li>
-							<a className="justify-between">
-								配置
-								<span className="badge">New</span>
-							</a>
-						</li> */}
 						<li>
-							<Link to={"/user/self"}>主页</Link>
+							<Link to={"/user/self"}>我的主页</Link>
 						</li>
 						<li>
-							<a>登出</a>
+							<Link to={"/user/setting"}>账号设置</Link>
+						</li>
+						<li>
+							<a onClick={logout}>账号登出</a>
 						</li>
 					</ul>
 				</div>
@@ -90,11 +89,12 @@ export default memo(function MarkdownHeader() {
 function ArticleTitle() {
 	// 获取、绑定文章标题信息
 	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
-	const [title, setTitle] = useState<string>(articleInfo.title || "");
+	const curTitle = articleInfo != "await" ? articleInfo.title : undefined;
+	const [title, setTitle] = useState<string>(curTitle || "");
 	useEffect(() => {
-		if (articleInfo.title == title) return;
-		setTitle(articleInfo.title || "");
-	}, [articleInfo.title]);
+		if (curTitle == title) return;
+		setTitle(curTitle || "");
+	}, [curTitle]);
 	// 防抖保存文章标题
 	useEffect(() => {
 		debounce(() => {
@@ -121,6 +121,7 @@ function SubmitArticleBox() {
 		useArticleEditInfo();
 	// 验证文章信息是否完整
 	const isArticleInfoUseable =
+		articleInfo != "await" &&
 		articleInfo.content != "" &&
 		articleInfo.title != "" &&
 		articleInfo.category &&
