@@ -1,3 +1,4 @@
+import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
 import xFetch from ".";
 import { Await, LoginInfo, LogoutInfo, UserInfo } from "@/models";
 
@@ -55,6 +56,19 @@ export async function postLogin(
 /**
  * 用户登出
  */
-export async function getLogout() {
+export function getLogout() {
 	return xFetch<LogoutInfo>("admin/login/logout");
+}
+
+/**
+ * 用户数据修改
+ */
+export function postUserInfo(userInfo: Partial<BaseUserInfoDTO>) {
+	return xFetch<boolean>("user/saveInfo", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(userInfo),
+	});
 }

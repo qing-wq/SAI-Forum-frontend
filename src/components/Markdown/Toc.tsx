@@ -163,6 +163,7 @@ export default ({ value }: IProps) => {
 										? "active after:content-['🔍'] !text-primary"
 										: ""
 								} 
+								p-1
 								overflow-x-hidden 
 								cursor-pointer 
 								text-ellipsis 

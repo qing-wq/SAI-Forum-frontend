@@ -50,7 +50,7 @@ export default memo(function Articles({ homeData, category }: ArticlesProp) {
 		setPage(nextPage);
 	};
 	return (
-		<MiddleView>
+		<>
 			{articles.map((article) => (
 				<ArticleItem key={article.articleId} article={article} />
 			))}
@@ -66,7 +66,7 @@ export default memo(function Articles({ homeData, category }: ArticlesProp) {
 					<LoadMoreArticle loadHandler={loadMoreArticles} />
 				)}
 			</div>
-		</MiddleView>
+		</>
 	);
 });
 

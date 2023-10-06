@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { HomeSelectType, getUserInfo } from "../../apis/user";
-import MiddleView from "../../layouts/MiddleView";
-import UserInfo from "../../components/UserInfo";
+import { HomeSelectType, getUserInfo } from "../../../apis/user";
+import MiddleView from "../../../layouts/MiddleView";
+import UserInfo from "../../../components/UserInfo";
 import UserArticles from "./UserArticles";
 import OtherData from "./OtherData";
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 import { Await } from "@/models";
 import { useNavigate } from "react-router-dom";
 import useLoginStore from "@/stores/useLoginStore";

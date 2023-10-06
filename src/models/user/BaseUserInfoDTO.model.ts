@@ -5,11 +5,14 @@ type UserName = string;
 type Role = string;
 type Photo = string;
 type Profile = string;
-type Position = string;
-type Company = string;
+type StudentId = string;
+type College = string;
+type Major = string;
+type Email = string;
 type Extend = string;
-type Deleted = number;
+// type Deleted = number;
 type Region = string;
+type Time = string;
 
 export default interface BaseUserInfoDTO extends BaseDTO {
 	/**用户Id*/
@@ -22,14 +25,22 @@ export default interface BaseUserInfoDTO extends BaseDTO {
 	photo: Photo;
 	/**用户简介*/
 	profile: Profile;
-	/**职位*/
-	position: Position;
-	/**公司*/
-	company: Company;
+	/**学号*/
+	studentId: StudentId;
+	/**学院*/
+	college: College;
+	/** 专业 */
+	major: Major;
+	/** 邮箱 */
+	email: Email;
 	/**扩展字段*/
 	extend: Extend;
 	/**是否删除*/
-	deleted: Deleted;
+	// deleted: Deleted;
 	/**最后登陆区域*/
 	region: Region;
+	/** 账号创建时间 */
+	createTime: Time;
+	/** 账号更新时间 */
+	updateTime: Time;
 }

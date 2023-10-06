@@ -41,7 +41,7 @@ const MainUserInfo = ({
 		handleTabChange(curTab);
 	}, [curTab]);
 	return (
-		<div className='mycard w-[79%] bg-base-100 p-2'>
+		<div className='mycard w-[79%] bg-base-100 p-4'>
 			<MianTab curTab={curTab} setCurTab={setCurTab} />
 			<UserArticles articles={articles} tab={curTab} />
 		</div>
@@ -66,7 +66,7 @@ const MianTab = ({
 			{Object.entries(tabMap).map(([key, value]) => (
 				<a
 					key={key}
-					className={`tab tab-lg tab-lifted !px-8 ${
+					className={`tab tab-lg tab-lifted !px-8 rounded-t-xl ${
 						curTab === key ? "tab-active" : ""
 					}`}
 					onClick={() => setCurTab(key)}

@@ -5,29 +5,10 @@ import MarkdownHeader from "./MarkdownHeader";
 import plugins from "./plugins";
 import zh_Hans from "bytemd/locales/zh_Hans.json";
 import "./markdown.base.css";
-import { postImage } from "@/apis/articles";
 import useArticleEditStore from "@/stores/useArticleEditStore";
 import debounce from "@/utils/debounce";
 import useArticleViewStore from "@/stores/useArticleViewStore";
-
-/** 图片长传返回插入文章格式 */
-type ImageUploadRes = { title: string; alt: string; url: string };
-/**
- * 图片上传方法
- */
-const uploadImages = (images: File[]): Promise<ImageUploadRes[]> => {
-	return Promise.all(
-		images.map(
-			(image) =>
-				new Promise<ImageUploadRes>(async (resolve) => {
-					const title = image.name;
-					const alt = image.name;
-					const { imagePath: url } = await postImage(image);
-					resolve({ title, alt, url });
-				})
-		)
-	);
-};
+import { uploadImages } from "../../utils/uploadImages";
 
 /** 封装Markdown编辑器 */
 export default function MarkdownEditor() {

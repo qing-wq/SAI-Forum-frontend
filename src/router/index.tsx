@@ -4,7 +4,7 @@ import Main from "@/pages/Main";
 import Login from "@/pages/Login";
 import ArticleList from "@/pages/Home";
 import Article from "@/pages/Article";
-import User from "@/pages/User";
+import User from "@/pages/User/index";
 import EditArticle from "@/pages/EditArticle";
 import DraftList from "@/pages/Draft";
 import UserSetting from "@/pages/User/UserSetting";

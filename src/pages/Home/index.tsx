@@ -4,6 +4,24 @@ import useArticleCache from "./useArticlesCache";
 import Articles from "./Articles";
 import Loading from "../../components/Loading";
 import { HomeData } from "@/models";
+import MiddleViewVertical from "@/layouts/MiddleViewVertical";
+
+const Home = () => {
+	return (
+		<MiddleViewVertical
+			top={
+				<div className='mycard h-48 mt-2 overflow-hidden'>
+					<img src='/images/20231006104236428_97.jpg' alt='banner' />
+				</div>
+			}
+		>
+			<ArticleList />
+			<div className='w-[20%] mycard h-96 !sticky top-24 '>
+				推荐栏。。。
+			</div>
+		</MiddleViewVertical>
+	);
+};
 
 /**
  * 首页文章列表
@@ -20,7 +38,7 @@ const ArticleList = () => {
 		return () => {};
 	}, [category]);
 	return (
-		<>
+		<div className='mycard w-[79%] overflow-hidden'>
 			{/* 背景 */}
 			<div
 				onScroll={(e) => console.log(e)}
@@ -36,7 +54,7 @@ const ArticleList = () => {
 					/>
 				</div>
 			</Suspense>
-		</>
+		</div>
 	);
 };
 
@@ -56,4 +74,4 @@ const categoryBg: CategoryBg = {
 	阅读: "bg-read-bg",
 };
 
-export default ArticleList;
+export default Home;

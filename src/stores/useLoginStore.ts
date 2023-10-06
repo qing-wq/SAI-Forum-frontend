@@ -1,5 +1,5 @@
 import { getHomeData } from "@/apis/articles";
-import { getLogout, postLogin } from "@/apis/user";
+import { getLogout, postLogin, postUserInfo } from "@/apis/user";
 import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
 import { create } from "zustand";
 
@@ -12,10 +12,12 @@ type UseLoginStore = {
 	login: (username: string, password: string) => Promise<void>;
 	/** 登出 */
 	logout: () => Promise<void>;
+	/** 修改用户信息 */
+	updateUserInfo: (userInfo: Partial<BaseUserInfoDTO>) => Promise<boolean>;
 };
 
 /** 用户登陆状态管理 */
-const useLoginStore = create<UseLoginStore>((set) => ({
+const useLoginStore = create<UseLoginStore>((set, get) => ({
 	userInfo: undefined,
 	getUserInfo: async () => {
 		// TODO: 获取当前用户信息，顺便处理首页登陆逻辑
@@ -45,6 +47,11 @@ const useLoginStore = create<UseLoginStore>((set) => ({
 		} catch (e) {
 			alert(e);
 		}
+	},
+	updateUserInfo: async (userInfo: Partial<BaseUserInfoDTO>) => {
+		const isSuccess = await postUserInfo(userInfo);
+		get().getUserInfo();
+		return isSuccess;
 	},
 }));
 

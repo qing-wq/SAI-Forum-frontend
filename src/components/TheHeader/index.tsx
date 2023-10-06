@@ -69,7 +69,7 @@ export default memo(function TheHeader() {
 					<input
 						type='text'
 						placeholder='搜索'
-						className='input input-bordered'
+						className='input input-bordered input-disabled'
 						onChange={inputSearch}
 					/>
 				</div>
