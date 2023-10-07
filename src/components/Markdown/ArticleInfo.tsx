@@ -22,10 +22,8 @@ type ArticleCategoryRadioProp = {
 };
 /** 文章分类单选框 */
 function ArticleCategoryRadio() {
-	const {
-		articleInfo: { category },
-		saveArticleInfoBus,
-	} = useArticleEditInfo();
+	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
+	const category = articleInfo !== "await" ? articleInfo.category : undefined;
 	const categorys = useCategorysStore((state) => state.categorys);
 	const [categoryId, setCategoryId] = useState<number>(
 		category?.categoryId || categorys[0]?.categoryId || 0
@@ -69,10 +67,8 @@ function ArticleCategoryRadio() {
 type ArticleTageSelectProp = {};
 /** 文章标签单选框 */
 function ArticleTageSelect() {
-	const {
-		articleInfo: { tags: articleTags },
-		saveArticleInfoBus,
-	} = useArticleEditInfo();
+	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
+	const articleTags = articleInfo !== "await" ? articleInfo.tags : [];
 	const tags = useTagsStore((state) => state.tags);
 	const [tagId, setTagId] = useState<number>(
 		articleTags && articleTags[0] ? articleTags[0]?.tagId : -1
@@ -118,10 +114,8 @@ function ArticleTageSelect() {
 
 /** 文章封面上传框 */
 function ArticleCover() {
-	const {
-		articleInfo: { cover },
-		saveArticleInfoBus,
-	} = useArticleEditInfo();
+	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
+	const cover = articleInfo !== "await" ? articleInfo.cover : undefined;
 	const fileInput = useRef<HTMLInputElement>(null);
 	const [coverUrl, setCoverUrl] = useState<string | undefined>(cover);
 	useEffect(() => {
@@ -173,11 +167,9 @@ function ArticleCover() {
 
 /** 文章摘要 */
 function ArticleSummary() {
-	const {
-		articleInfo: { summary: articleSummary },
-		articleSummaryAutoGenerate,
-		saveArticleInfoBus,
-	} = useArticleEditInfo();
+	const { articleInfo, articleSummaryAutoGenerate, saveArticleInfoBus } =
+		useArticleEditInfo();
+	const articleSummary = articleInfo !== "await" ? articleInfo.summary : "";
 	const [summary, setSummary] = useState<string>(
 		articleSummary || articleSummaryAutoGenerate || ""
 	);

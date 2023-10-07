@@ -1,5 +1,6 @@
 import { deleteDraft, getDraftList } from "@/apis/draft";
 import useAuthTo from "@/auth/useAuthTo";
+import LoadPerPage from "@/components/LoadPerPage";
 import MiddleView from "@/layouts/MiddleView";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
 import dayjs from "dayjs";
@@ -45,6 +46,15 @@ const DraftList = () => {
 						}}
 					/>
 				))}
+				<LoadPerPage
+					ended={!hasMoreDraft}
+					loadFunc={() => {
+						getDraftListPerPage(++draftPage.current);
+					}}
+					successShow={<div>没有更多了</div>}
+				>
+					加载中
+				</LoadPerPage>
 			</div>
 		</MiddleView>
 	);

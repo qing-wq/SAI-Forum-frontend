@@ -1,5 +1,7 @@
+import PageListVo from "@/models/page/PageListVo.model";
 import xFetch from ".";
 import { ArticleCategory, ArticleTag } from "@/models";
+import TagDTO from "@/models/article/TagDTO.model";
 
 /** 查询文章分类 */
 export function getCategorys() {
@@ -7,9 +9,7 @@ export function getCategorys() {
 }
 
 /** 查询文章标签 */
-export function getTags() {
+export function getTags(page: number) {
 	// TODO: 分页查询
-	return xFetch<{ list: ArticleTag; hsaMore: boolean }>(
-		`article/tags?page=1`
-	);
+	return xFetch<PageListVo<TagDTO>>(`article/tags?page=${page}&pageSize=10`);
 }

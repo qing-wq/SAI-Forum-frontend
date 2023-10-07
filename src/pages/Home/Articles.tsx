@@ -128,7 +128,7 @@ function ArticleItem({ article }: ArticleItemProp) {
 				</div>
 
 				{/* tags */}
-				<div className=' inline-flex gap-1 overflow-hidden'>
+				<div className='z inline-flex gap-1 overflow-hidden'>
 					{article.tags.map((tag) => (
 						<span key={tag.tagId} className='badge'>
 							{tag.tag}
