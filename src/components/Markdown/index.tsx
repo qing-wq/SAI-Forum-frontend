@@ -48,7 +48,7 @@ export default function MarkdownEditor() {
 					saveArticleInfo({ content: value });
 				}
 			}}
-			className='h-screen max-h-scr een overflow-hidden markdown-page'
+			className='h-screen max-h-screen overflow-hidden markdown-page'
 		>
 			<MarkdownHeader />
 			<Editor

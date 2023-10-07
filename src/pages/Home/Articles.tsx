@@ -10,6 +10,7 @@ import numberFormat from "@/utils/numberFormat";
 import { getArticlesPerPage } from "@/apis/articles";
 import useCategorysStore from "@/stores/useCategorysStore";
 import UserAvatar from "@/components/UserAvatar";
+import dayjs from "dayjs";
 
 type ArticlesProp = {
 	homeData: {
@@ -56,12 +57,19 @@ export default memo(function Articles({ homeData, category }: ArticlesProp) {
 			))}
 			<div
 				key={"osdosd"}
-				className=' w-full h-[30px] leading-7 bg-purple-200 bg-opacity-10'
+				className=' w-full h-full bg-purple-200 bg-opacity-10'
 			>
-				{!hasMore ? (
-					<div className='w-full text-center leading-8'>
-						没有更多了
+				{articles.length === 0 ? (
+					<div className='w-full h-full text-center'>
+						这里没有东西噢
 					</div>
+				) : !hasMore ? (
+					<>
+						<div className='divider m-0 h-0' />
+						<div className='w-full h-8 text-center leading-8'>
+							没有更多了
+						</div>
+					</>
 				) : (
 					<LoadMoreArticle loadHandler={loadMoreArticles} />
 				)}
@@ -140,30 +148,15 @@ function ArticleItem({ article }: ArticleItemProp) {
 			<div className='flex gap-1 h-10 items-center justify-between whitespace-nowrap'>
 				{/* time */}
 				<p className=' text-gray-500 hidden xl:inline'>
-					{formatTime(article.createTime)}
+					{dayjs(article.createTime).format(
+						"YYYY年MM月DD日 HH:mm:ss"
+					)}
 				</p>
 				{/* counts */}
 				<CountView count={article.count} />
 			</div>
 		</div>
 	);
-}
-
-function formatTime(time: string) {
-	const date = new Date(time);
-	const str =
-		date.getFullYear() +
-		"年" +
-		(date.getMonth() + 1) +
-		"月" +
-		date.getDay() +
-		"日 " +
-		date.getHours() +
-		":" +
-		date.getMinutes() +
-		":" +
-		date.getSeconds();
-	return str;
 }
 
 type CountViewProp = {

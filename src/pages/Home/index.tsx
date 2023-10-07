@@ -10,7 +10,7 @@ const Home = () => {
 	return (
 		<MiddleViewVertical
 			top={
-				<div className='mycard h-48 mt-2 overflow-hidden'>
+				<div className='mycard h-60 mt-2 overflow-hidden'>
 					<img src='/images/20231006104236428_97.jpg' alt='banner' />
 				</div>
 			}
@@ -25,7 +25,6 @@ const Home = () => {
 
 /**
  * 首页文章列表
- *
  * @type {React.FC<null>}
  * @returns {React.ReactElement} theList
  */

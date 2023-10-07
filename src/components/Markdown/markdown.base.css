@@ -1,5 +1,6 @@
-.markdown-page > div:nth-child(2) {
+.markdown-page > div:nth-child(2) > div {
 	height: calc(100vh - 4rem);
+	/* height: 100%; */
 }
 
 .bytemd {
@@ -22,5 +23,9 @@
 
 /* 屏蔽源代码按钮 */
 .bytemd-toolbar-right div[bytemd-tippy-path="5"] {
+	display: none;
+}
+
+.bytemd-status-right > label {
 	display: none;
 }
