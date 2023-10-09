@@ -12,8 +12,6 @@ import UserStatisticInfoDTO from "@/models/user/UserStatisticInfoDTO.model";
 import ArticleInteractionBlock from "./ArticleInteractionBlock";
 import CommentsBlock from "./CommentsBlock";
 import Toc from "@/components/Markdown/Toc";
-import useAuth from "@/auth/useAuth";
-import useAuthTo from "@/auth/useAuthTo";
 
 /**
  * 文章详情页（展示）
@@ -48,14 +46,13 @@ export default memo(function Article() {
 		<>
 			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
 			<MiddleViewVertical>
-				<div className='w-[79%] h-full flex flex-col gap-[10px] items-center'>
+				<div className='w-[79%] h-full overflow-x-hidden flex flex-col gap-[10px] items-center'>
 					<ArticleBlock articleInfo={articleInfo} />
 					<CommentsBlock />
 				</div>
 				<div className='w-[20%] h-full border-solid flex flex-col gap-[10px] items-center sticky top-[5rem]'>
 					<AuthorBlock
 						authorInfo={authorInfo}
-						articleId={articleInfo.articleId}
 						refresh={reloadArticleInfo}
 					/>
 					<ArticleInteractionBlock articleInfo={articleInfo} />
@@ -79,7 +76,7 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
 					className='bg-base-100 w-full mycard'
 				/>
 			) : null}
-			<article className='mycard overflow-x-hidden markdown-body w-full px-10 py-3'>
+			<article className='mycard markdown-body w-full px-10 py-3'>
 				<h1 className='pt-4 text-4xl font-black text-black'>
 					{articleInfo.title}
 				</h1>
@@ -101,15 +98,13 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
  */
 function AuthorBlock({
 	authorInfo,
-	articleId,
 	refresh,
 }: {
 	authorInfo: UserStatisticInfoDTO;
-	articleId: number;
 	refresh: () => Promise<boolean>;
 }) {
 	return (
-		<div className='mycard w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3 '>
+		<div className='mycard w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3'>
 			<div className='flex flex-col items-center px-4'>
 				<UserAvatar
 					src={authorInfo.photo}
@@ -123,42 +118,23 @@ function AuthorBlock({
 				userId={authorInfo.id}
 				refresh={refresh}
 			>
-				<ArticleManageBlock articleId={articleId} />
-			</RelationalFunc>
-		</div>
-	);
-}
-
-/**
- * 个人文章管理
- */
-function ArticleManageBlock({ articleId }: { articleId: number }) {
-	const authTo = useAuthTo();
-	return (
-		<div className='dropdown dropdown-end'>
-			<label tabIndex={0} className='btn btn-sm'>
-				文章管理
-			</label>
-			<ul
-				tabIndex={0}
-				className='dropdown-content menu p-2 mt-2 shadow bg-base-100 rounded-box w-24 gap-1'
-			>
-				<li>
-					<a
-						className='h-8'
-						onClick={() => {
-							authTo(`/edit-article/${articleId}`);
-						}}
+				<div className='dropdown dropdown-end'>
+					<label tabIndex={0} className='btn btn-sm'>
+						文章管理
+					</label>
+					<ul
+						tabIndex={0}
+						className='dropdown-content menu p-2 mt-2 shadow bg-base-100 rounded-box w-24 gap-1'
 					>
-						编辑
-					</a>
-				</li>
-				<li>
-					<a className='h-8 bg-warning text-white' onClick={() => {}}>
-						删除
-					</a>
-				</li>
-			</ul>
+						<li>
+							<a className='h-8'>编辑</a>
+						</li>
+						<li>
+							<a className='h-8 bg-warning text-white'>删除</a>
+						</li>
+					</ul>
+				</div>
+			</RelationalFunc>
 		</div>
 	);
 }

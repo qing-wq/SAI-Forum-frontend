@@ -1,9 +1,9 @@
 import React, { useState, memo } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import "./TheHeader.css";
-import useLoginStore from "@/stores/useLoginStore";
 import { log } from "console";
 import useAuthTo from "@/auth/useAuthTo";
+import { HeaderUserInfo } from "./HeaderUserInfo";
 
 /**
  * 页头组件
@@ -74,7 +74,7 @@ export default memo(function TheHeader() {
 					/>
 				</div>
 				{/* user */}
-				<UserInfo />
+				<HeaderUserInfo />
 			</div>
 		</header>
 	);
@@ -91,58 +91,3 @@ const navList = [
 	"代码人生",
 	"阅读",
 ];
-
-/** 页头用户信息 */
-function UserInfo() {
-	const userInfo = useLoginStore((state) => state.userInfo);
-	const logout = useLoginStore((state) => state.logout);
-	if (!userInfo) {
-		return (
-			<div className='dropdown dropdown-end'>
-				<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-					游客
-				</label>
-				<ul
-					tabIndex={0}
-					className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-32'
-				>
-					<li>
-						<Link to={"/login/register"}>注册</Link>
-					</li>
-					<li>
-						<Link to={"/login"}>登录</Link>
-					</li>
-				</ul>
-			</div>
-		);
-	}
-	return (
-		<div className='dropdown dropdown-end'>
-			<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-				<div className='w-10 rounded-full'>
-					<img src={userInfo.photo} />
-				</div>
-			</label>
-			<ul
-				tabIndex={0}
-				className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-40'
-			>
-				{/* <li>
-			<a className="justify-between">
-				配置
-				<span className="badge">New</span>
-			</a>
-		</li> */}
-				<li>
-					<Link to={"/user/self"}>我的主页</Link>
-				</li>
-				<li>
-					<Link to={"/user/setting"}>账号设置</Link>
-				</li>
-				<li onClick={logout}>
-					<a>账号登出</a>
-				</li>
-			</ul>
-		</div>
-	);
-}

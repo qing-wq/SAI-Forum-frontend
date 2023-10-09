@@ -139,14 +139,14 @@ export default ({ value }: IProps) => {
 
 	return (
 		// container
-		<div className='w-full max-h-96'>
+		<div className='w-full min-h-16 h-[calc(50vh-4rem)] max-h-[40rem]'>
 			{items.length > 0 && (
 				// viewToc
 				<div>
 					{/* toc */}
 					<ul
 						className={
-							"w-full max-h-96 overflow-y-auto scroll-smooth " +
+							"w-full min-h-16 h-[calc(50vh-4rem)] max-h-[40rem] overflow-y-auto scroll-smooth " +
 							style.ul
 						}
 						ref={TocUlRef}

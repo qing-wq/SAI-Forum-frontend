@@ -5,6 +5,7 @@ import useArticleEditStore from "@/stores/useArticleEditStore";
 import useArticleEditInfo from "@/hooks/useArticleInfo";
 import debounce from "@/utils/debounce";
 import useLoginStore from "@/stores/useLoginStore";
+import { HeaderUserInfo } from "../TheHeader/HeaderUserInfo";
 // import "./TheHeader.css";
 
 /**
@@ -56,30 +57,7 @@ export default memo(function MarkdownHeader() {
 				</div>
 
 				{/* 用户 */}
-				<div className='dropdown dropdown-end'>
-					<label
-						tabIndex={1}
-						className='btn btn-ghost btn-circle avatar'
-					>
-						<div className='w-10 rounded-full'>
-							<img src={userInfo?.photo} />
-						</div>
-					</label>
-					<ul
-						tabIndex={2}
-						className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-32'
-					>
-						<li>
-							<Link to={"/user/self"}>我的主页</Link>
-						</li>
-						<li>
-							<Link to={"/user/setting"}>账号设置</Link>
-						</li>
-						<li>
-							<a onClick={logout}>账号登出</a>
-						</li>
-					</ul>
-				</div>
+				<HeaderUserInfo />
 			</div>
 		</header>
 	);
