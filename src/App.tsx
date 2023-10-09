@@ -9,9 +9,7 @@ import "./style.scss";
 
 function App() {
 	const globalInit = useGlobalStoreInit();
-	useEffect(() => {
-		globalInit();
-	}, []);
+	globalInit();
 	const router = useRoutes(routes);
 	return <>{router}</>;
 }

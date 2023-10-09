@@ -8,6 +8,8 @@ import TagDTO from "./article/TagDTO.model";
 import ArticleDTO from "./article/ArticleDTO.model";
 import PageListVo from "./page/PageListVo.model";
 import BaseUserInfoDTO from "./user/BaseUserInfoDTO.model";
+import NotifyMsgDTO from "./notify/NotifyMsgDTO.model";
+import { NoticeType } from "@/apis/notice";
 
 /** 反向推导Promise */
 export type Await<T extends Promise<any>> = T extends Promise<infer P>
@@ -49,3 +51,9 @@ export type LogoutInfo = string;
 
 /** 草稿分页查询接口  */
 export type DraftList = ArticleList;
+
+/** 消息查询接口 */
+export type NoticeResVo = {
+	list: PageListVo<NotifyMsgDTO>;
+	unreadCountMap: Record<NoticeType, number>;
+};

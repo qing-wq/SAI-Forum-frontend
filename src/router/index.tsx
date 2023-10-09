@@ -8,6 +8,7 @@ import User from "@/pages/User/index";
 import EditArticle from "@/pages/EditArticle";
 import DraftList from "@/pages/Draft";
 import UserSetting from "@/pages/User/UserSetting";
+import Message from "@/pages/Message";
 
 export default [
 	{
@@ -50,6 +51,10 @@ export default [
 			{
 				path: "draft",
 				element: <DraftList />,
+			},
+			{
+				path: "/message",
+				element: <Message />,
 			},
 			{
 				path: "",

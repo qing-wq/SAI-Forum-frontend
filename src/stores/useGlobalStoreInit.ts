@@ -1,6 +1,8 @@
+import { useLayoutEffect } from "react";
 import useCategorysStore from "./useCategorysStore";
 import useLoginStore from "./useLoginStore";
 import useTagsStore from "./useTags";
+import useNoticeStore from "./useNoticeStore";
 
 /**
  * 全局状态初始化数据
@@ -15,10 +17,22 @@ const useGlobalStoreInit = () => {
 	/** 初始化登陆数据 */
 	const loginInit = useLoginStore((state) => state.getUserInfo);
 
+	/** 获取消息数据 */
+	const getNoticeList = useNoticeStore((state) => state.loadNoticeList);
+
 	return () => {
-		categorysInit();
-		tagsInit();
-		loginInit();
+		useLayoutEffect(() => {
+			categorysInit();
+			tagsInit();
+			loginInit();
+			getNoticeList();
+			const timer = setInterval(() => {
+				getNoticeList();
+			}, 30000);
+			return () => {
+				clearInterval(timer);
+			};
+		}, []);
 	};
 };
 

@@ -72,3 +72,27 @@ export function postUserInfo(userInfo: Partial<BaseUserInfoDTO>) {
 		body: JSON.stringify(userInfo),
 	});
 }
+
+/**
+ * 用户注册
+ */
+export function postRegister(
+	/** 用户名 */
+	username: string,
+	/** 密码 */
+	password: string,
+	/** 邮箱 */
+	email: string,
+	/** 学号 */
+	studentId?: string,
+	/** 学院 */
+	college?: string
+) {
+	return xFetch<boolean>("user/register", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ username, password, email }),
+	});
+}
