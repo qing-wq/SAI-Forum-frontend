@@ -1,5 +1,7 @@
 import { postRegister } from "@/apis/user";
+import useLoginStore from "@/stores/useLoginStore";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 type RegisterBoxProp = {
 	change: React.Dispatch<React.SetStateAction<boolean>>;
@@ -74,6 +76,8 @@ const RegisterForm = () => {
 			});
 		};
 	};
+	const navigate = useNavigate();
+	const getUserInfo = useLoginStore((state) => state.getUserInfo);
 	const submitRegister = async () => {
 		console.log(registerInfo);
 		// 表单验证
@@ -100,19 +104,24 @@ const RegisterForm = () => {
 
 		// 发送请求
 		try {
-			await postRegister(
+			const a = await postRegister(
 				registerInfo.username,
 				registerInfo.password,
 				registerInfo.email
 			);
 			alert("注册成功");
+			getUserInfo();
+			navigate("/");
 		} catch (e) {
 			alert("注册失败");
 		}
 	};
 
 	return (
-		<form className='flex flex-col gap-2'>
+		<form
+			className='flex flex-col gap-2'
+			onSubmit={(e) => e.preventDefault()}
+		>
 			<input
 				type='text'
 				placeholder='用户名'

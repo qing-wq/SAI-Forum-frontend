@@ -21,18 +21,21 @@ const useGlobalStoreInit = () => {
 	const getNoticeList = useNoticeStore((state) => state.loadNoticeList);
 
 	return () => {
+		const userInfo = useLoginStore((state) => state.userInfo);
 		useLayoutEffect(() => {
 			categorysInit();
 			tagsInit();
 			loginInit();
-			getNoticeList();
 			const timer = setInterval(() => {
-				getNoticeList();
+				if (userInfo) getNoticeList();
 			}, 30000);
 			return () => {
 				clearInterval(timer);
 			};
 		}, []);
+		useLayoutEffect(() => {
+			if (userInfo) getNoticeList();
+		}, [userInfo]);
 	};
 };
 

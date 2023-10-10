@@ -2,6 +2,7 @@ import { deleteDraft, getDraftList } from "@/apis/draft";
 import useAuthTo from "@/auth/useAuthTo";
 import LoadPerPage from "@/components/LoadPerPage";
 import MiddleView from "@/layouts/MiddleView";
+import MiddleViewVertical from "@/layouts/MiddleViewVertical";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
 import dayjs from "dayjs";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -32,7 +33,7 @@ const DraftList = () => {
 	}, []);
 	// TODO: 加载更多
 	return (
-		<MiddleView>
+		<MiddleViewVertical>
 			<div className='w-[800px] m-auto'>
 				<h1 className='text-3xl font-bold pt-4'>草稿箱</h1>
 				<div className='divider my-1' />
@@ -56,7 +57,7 @@ const DraftList = () => {
 					加载中
 				</LoadPerPage>
 			</div>
-		</MiddleView>
+		</MiddleViewVertical>
 	);
 };
 

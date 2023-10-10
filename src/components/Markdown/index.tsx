@@ -29,14 +29,13 @@ export default function MarkdownEditor() {
 		};
 	}, []);
 	useLayoutEffect(() => {
-		// if (articleInfo === "await") return;
 		setValue(articleInfo === "await" ? "" : articleInfo.content || "");
 	}, [articleInfo]);
 	/** 文章防抖保存 */
 	const saveArticleContent = (value: string) => {
-		if (value === "") return;
+		if (value === "" || articleInfo == "await") return;
 		setValue(value);
-		debounce(() => saveArticleInfo({ content: value }), 1000);
+		debounce(() => saveArticleInfo({ content: value }), 500);
 	};
 	const [theme, changeTheme, themeKeys] = useMarkdownTheme();
 	if (articleInfo === "await") return null;

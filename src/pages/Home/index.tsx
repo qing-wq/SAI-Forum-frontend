@@ -1,25 +1,56 @@
 import React, { Suspense, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useArticleCache from "./useArticlesCache";
 import Articles from "./Articles";
 import Loading from "../../components/Loading";
 import { HomeData } from "@/models";
 import MiddleViewVertical from "@/layouts/MiddleViewVertical";
+import { Banner } from "./Banner";
 
 const Home = () => {
 	return (
 		<MiddleViewVertical
 			top={
-				<div className='mycard h-60 mt-2 overflow-hidden'>
-					<img src='/images/20231006104236428_97.jpg' alt='banner' />
-				</div>
+				// <Link to='/article/236'>
+				// 	<div className='mycard h-60 mt-2 overflow-hidden'>
+				// 		<img
+				// 			src='/images/20231010061938561_5.png'
+				// 			alt='banner'
+				// 			className='object-fill'
+				// 		/>
+				// 	</div>
+				// </Link>
+				<BannerBlock />
 			}
 		>
 			<ArticleList />
-			<div className='w-[20%] mycard h-96 !sticky top-24 '>
-				推荐栏。。。
+			<div className='w-[20%] mycard h-96 !sticky top-24 text-center leading-[24rem]'>
+				---推荐栏施工中---
 			</div>
 		</MiddleViewVertical>
+	);
+};
+
+/**
+ * 首页轮播图区块
+ */
+const BannerBlock = () => {
+	const navigate = useNavigate();
+	return (
+		<Banner
+			banners={[
+				{
+					img: "/images/20231010084019073_25.png",
+					title: "基地招新啦",
+					onClick: () => navigate("/article/236"),
+				},
+				{
+					img: "/images/20231010083223061_28.png",
+					title: "基地网盘上线啦",
+					onClick: () => window.open("https://pan.cxjd.zone/"),
+				},
+			]}
+		/>
 	);
 };
 

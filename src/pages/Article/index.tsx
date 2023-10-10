@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MiddleViewVertical from "../../layouts/MiddleViewVertical";
 import "github-markdown-css";
 import { MarkdownViewer } from "@/components/Markdown";
@@ -46,13 +46,14 @@ export default memo(function Article() {
 		<>
 			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
 			<MiddleViewVertical>
-				<div className='w-[79%] h-full overflow-x-hidden flex flex-col gap-[10px] items-center'>
+				<div className='w-[79%] h-full flex flex-col gap-[10px] items-center'>
 					<ArticleBlock articleInfo={articleInfo} />
 					<CommentsBlock />
 				</div>
 				<div className='w-[20%] h-full border-solid flex flex-col gap-[10px] items-center sticky top-[5rem]'>
 					<AuthorBlock
 						authorInfo={authorInfo}
+						articleId={articleInfo.articleId}
 						refresh={reloadArticleInfo}
 					/>
 					<ArticleInteractionBlock articleInfo={articleInfo} />
@@ -98,9 +99,11 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
  */
 function AuthorBlock({
 	authorInfo,
+	articleId,
 	refresh,
 }: {
 	authorInfo: UserStatisticInfoDTO;
+	articleId: number;
 	refresh: () => Promise<boolean>;
 }) {
 	return (
@@ -127,7 +130,12 @@ function AuthorBlock({
 						className='dropdown-content menu p-2 mt-2 shadow bg-base-100 rounded-box w-24 gap-1'
 					>
 						<li>
-							<a className='h-8'>编辑</a>
+							<Link
+								to={`/edit-article/${articleId}`}
+								className='h-8'
+							>
+								编辑
+							</Link>
 						</li>
 						<li>
 							<a className='h-8 bg-warning text-white'>删除</a>

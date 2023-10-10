@@ -33,7 +33,8 @@ function ArticleCategoryRadio() {
 	}, [categorys, category]);
 	// 保存分类Id
 	useEffect(() => {
-		if (categoryId == category?.categoryId) return;
+		if (categoryId == category?.categoryId || articleInfo === "await")
+			return;
 		let activeCategory;
 		categorys.forEach((cate) => {
 			if (cate.categoryId === categoryId) activeCategory = cate;
@@ -78,7 +79,9 @@ function ArticleTageSelect() {
 	}, [tags]);
 	useEffect(() => {
 		if (
-			tagId == (articleTags && articleTags[0] ? articleTags[0].tagId : -1)
+			tagId ==
+				(articleTags && articleTags[0] ? articleTags[0].tagId : -1) ||
+			articleInfo === "await"
 		)
 			return;
 		let activeTag: (typeof tags)[number];
@@ -119,7 +122,7 @@ function ArticleCover() {
 	const fileInput = useRef<HTMLInputElement>(null);
 	const [coverUrl, setCoverUrl] = useState<string | undefined>(cover);
 	useEffect(() => {
-		if (coverUrl == cover) return;
+		if (coverUrl == cover || articleInfo === "await") return;
 		saveArticleInfoBus({ cover: coverUrl });
 	}, [coverUrl]);
 	// "https://tse3-mm.cn.bing.net/th/id/OIP-C.Z6vqTlDElTOVJcsujPVbigHaGL"
@@ -174,6 +177,7 @@ function ArticleSummary() {
 		articleSummary || articleSummaryAutoGenerate || ""
 	);
 	useEffect(() => {
+		if (articleInfo === "await") return;
 		setSummary(articleSummary || articleSummaryAutoGenerate || "");
 	}, [ArticleInfo, articleSummaryAutoGenerate]);
 	const changeSummary = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

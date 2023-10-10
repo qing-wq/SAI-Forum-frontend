@@ -80,7 +80,7 @@ export function SubCommitsList({
 	topCommentId,
 }: SubCommitsListProp) {
 	return (
-		<div className='bg-slate-50 px-2 py-4 mt-4'>
+		<div className='bg-slate-50 px-2 py-4 mt-4 rounded-xl'>
 			{subCommits.map((subComment) => (
 				<CommentItem
 					key={subComment.commentId}
@@ -224,7 +224,7 @@ function CommentItemReference({ comment }: CommentItemProp) {
 	} else if (!isTopComment && comment.parentContent) {
 		return (
 			<div
-				className={`before:content-["↪_"]  px-3 mr-3 mt-2 bg-base-200 text-ellipsis whitespace-nowrap`}
+				className={`before:content-["↪_"]  px-3 mr-3 mt-2 bg-base-200 text-ellipsis whitespace-nowrap rounded-xl`}
 			>
 				{comment.parentContent}
 			</div>

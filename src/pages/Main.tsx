@@ -17,6 +17,7 @@ const Mian = () => {
 		<main className='h-[100vh] overflow-y-auto' ref={mainRef}>
 			<TheHeader />
 			<Outlet />
+			<TheFooter />
 		</main>
 	);
 };

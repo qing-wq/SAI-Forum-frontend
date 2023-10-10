@@ -70,14 +70,14 @@ function ArticleTitle() {
 	const curTitle = articleInfo != "await" ? articleInfo.title : undefined;
 	const [title, setTitle] = useState<string>(curTitle || "");
 	useEffect(() => {
-		if (curTitle == title) return;
+		if (curTitle == title || articleInfo == "await") return;
 		setTitle(curTitle || "");
 	}, [curTitle]);
 	// 防抖保存文章标题
 	useEffect(() => {
 		debounce(() => {
 			saveArticleInfoBus({ title });
-		}, 2000);
+		}, 500);
 	}, [title]);
 	return (
 		<div className='form-control w-full'>
