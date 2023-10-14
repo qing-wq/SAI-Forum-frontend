@@ -89,7 +89,7 @@ function Article({ article, onClick, children }: ArticleProp) {
 				{/* cover */}
 				<div className={`pl-5 ${article.picture ? "" : "hidden"}`}>
 					<img
-						className=' inline-block max-h-24 rounded-md'
+						className=' inline-block max-h-24 w-40 rounded-md object-cover'
 						src={article.picture}
 						alt='文章封面'
 					/>

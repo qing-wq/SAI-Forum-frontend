@@ -86,7 +86,7 @@ function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
 				<img
 					src={articleInfo.picture}
 					alt='封面'
-					className='bg-base-100 w-full mycard'
+					className='bg-base-100 w-full mycard max-h-[30vw] object-cover'
 				/>
 			) : null}
 			<article className='mycard markdown-body w-full px-10 py-3'>

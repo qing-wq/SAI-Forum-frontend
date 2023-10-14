@@ -68,13 +68,13 @@ const useArticleEditStore = createWithEqualityFn<
 			if (articleId === 0 || articleId === -1) {
 				get().cleanArticleInfo();
 				console.log("初始化草稿");
-				const articleId = await postArticleInit({});
+				const id = await postArticleInit({});
 				set((state) => {
 					return {
 						articleInfo: {
 							// ...articleInfo,
 							content: "",
-							articleId,
+							id,
 						},
 						onSave: false,
 					};
@@ -97,11 +97,7 @@ const useArticleEditStore = createWithEqualityFn<
 		},
 		saveArticleInfoDirect: async (newArticleInfo) => {
 			let articleInfo = get().articleInfo;
-			if (
-				articleInfo === "await" ||
-				(!articleInfo.articleId && !articleInfo.id)
-			)
-				return;
+			if (articleInfo === "await" || !articleInfo.id) return;
 			set(() => ({
 				onSave: true,
 			}));
@@ -154,6 +150,7 @@ const useArticleEditStore = createWithEqualityFn<
 				...articleInfo,
 				...newArticleInfo,
 				articleId: articleInfo.articleId,
+				draftId: articleInfo.id,
 			});
 		},
 	}),
