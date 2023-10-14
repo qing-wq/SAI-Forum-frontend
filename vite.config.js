@@ -8,11 +8,11 @@ export default defineConfig({
 	server: {
 		hmr: true,
 		proxy: {
-			"/proxy": {
+			"/api": {
 				target: "http://10.60.102.53:8080",
 				// target: "https://mock.apifox.cn/m1/2654035-0-default",
 				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/proxy/, ""),
+				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
 			"/images": {
 				target: "http://10.60.102.53:8080",

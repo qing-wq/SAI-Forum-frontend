@@ -1,5 +1,10 @@
 import React, { useState, memo, useEffect } from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import {
+	Link,
+	useSearchParams,
+	useNavigate,
+	useParams,
+} from "react-router-dom";
 import ArticleInfo from "./ArticleInfo";
 import useArticleEditStore from "@/stores/useArticleEditStore";
 import useArticleEditInfo from "@/hooks/useArticleInfo";
@@ -95,6 +100,7 @@ function ArticleTitle() {
 /** 文章其他信息编辑框 */
 function SubmitArticleBox() {
 	const navigate = useNavigate();
+	const { type } = useParams();
 	const { saveArticleInfoBus, articleInfo, postArticle } =
 		useArticleEditInfo();
 	// 验证文章信息是否完整
@@ -102,8 +108,8 @@ function SubmitArticleBox() {
 		articleInfo != "await" &&
 		articleInfo.content != "" &&
 		articleInfo.title != "" &&
-		articleInfo.category &&
-		articleInfo.tags &&
+		articleInfo.categoryId &&
+		articleInfo.tagIds &&
 		articleInfo.summary &&
 		articleInfo.summary.length >= 50;
 	// 发布文章方法
@@ -118,7 +124,9 @@ function SubmitArticleBox() {
 			className='card mt-3 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-[40rem]'
 		>
 			<div className='card-body'>
-				<h2 className='card-title'>发布文章</h2>
+				<h2 className='card-title'>
+					{Number(type) === 0 ? "发布文章" : "修改文章"}
+				</h2>
 				<div className='divider' />
 
 				<ArticleInfo />
@@ -134,7 +142,7 @@ function SubmitArticleBox() {
 						}
 						onClick={publishArticle}
 					>
-						确认并发布
+						{Number(type) === 0 ? "确认并发布" : "确认修改"}
 					</button>
 				</div>
 			</div>

@@ -4,11 +4,12 @@ import LoadPerPage from "@/components/LoadPerPage";
 import MiddleView from "@/layouts/MiddleView";
 import MiddleViewVertical from "@/layouts/MiddleViewVertical";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
+import DraftDTO from "@/models/article/DraftDTO.model";
 import dayjs from "dayjs";
 import { useLayoutEffect, useRef, useState } from "react";
 
 const DraftList = () => {
-	const [draftList, setDraftList] = useState<ArticleDTO[]>([]);
+	const [draftList, setDraftList] = useState<DraftDTO[]>([]);
 	const draftPage = useRef<number>(0);
 	const [hasMoreDraft, setHasMoreDraft] = useState<boolean>(true);
 	const authTo = useAuthTo();
@@ -25,7 +26,7 @@ const DraftList = () => {
 	};
 	useLayoutEffect(() => {
 		// 获取草稿列表
-		getDraftListPerPage(++draftPage.current);
+		// getDraftListPerPage(++draftPage.current);
 		return () => {
 			setDraftList([]);
 			setHasMoreDraft(true);
@@ -39,11 +40,11 @@ const DraftList = () => {
 				<div className='divider my-1' />
 				{draftList.map((draft) => (
 					<DraftItem
-						key={draft.articleId}
+						key={draft.id}
 						draftInfo={draft}
 						onClick={authTo}
 						reloadData={() => {
-							getDraftListPerPage(0, true);
+							getDraftListPerPage(1, true);
 						}}
 					/>
 				))}
@@ -66,7 +67,7 @@ const DraftItem = ({
 	onClick,
 	reloadData,
 }: {
-	draftInfo: ArticleDTO;
+	draftInfo: DraftDTO;
 	onClick: Function;
 	reloadData: Function;
 }) => {
@@ -75,20 +76,18 @@ const DraftItem = ({
 			<h1
 				className='text-xl font-black hover:text-primary cursor-pointer'
 				onClick={() =>
-					onClick("/edit-article/" + draftInfo.articleId, false, true)
+					onClick("/edit-article/" + draftInfo.id + "/0", false, true)
 				}
 			>
 				{draftInfo.title || "无标题"}
 			</h1>
 			<span className='text-gray-500 inline-flex gap-8'>
 				<p>
-					{dayjs(draftInfo.lastUpdateTime).format(
-						"YYYY年MM月DD日 HH:mm"
-					)}
+					{dayjs(draftInfo.updateTime).format("YYYY年MM月DD日 HH:mm")}
 				</p>
 				<DraftInteraction
 					onClick={onClick}
-					articleId={draftInfo.articleId}
+					draftId={draftInfo.id}
 					reloadData={reloadData}
 				/>
 			</span>
@@ -102,11 +101,11 @@ const DraftItem = ({
  */
 const DraftInteraction = ({
 	onClick,
-	articleId,
+	draftId,
 	reloadData,
 }: {
 	onClick: Function;
-	articleId: number;
+	draftId: number;
 	reloadData: Function;
 }) => (
 	<div className='dropdown dropdown-hover'>
@@ -120,7 +119,7 @@ const DraftInteraction = ({
 			<li>
 				<a
 					onClick={() =>
-						onClick("/edit-article/" + articleId, false, true)
+						onClick("/edit-article/" + draftId + "/0", false, true)
 					}
 				>
 					编辑
@@ -130,7 +129,7 @@ const DraftInteraction = ({
 				<a
 					onClick={async () => {
 						try {
-							await deleteDraft(articleId);
+							await deleteDraft(draftId);
 							reloadData();
 						} catch (e) {
 							// TODO: 删除失败提醒

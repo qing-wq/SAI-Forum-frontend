@@ -4,7 +4,7 @@
 
 import ResVo from "@/models/Response/Response.model";
 
-const getBaseURL = () => window.location.origin + "/proxy/";
+const getBaseURL = () => window.location.origin + "/api/";
 const OriginFetch = window.fetch;
 
 /**

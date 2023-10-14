@@ -10,6 +10,7 @@ import PageListVo from "./page/PageListVo.model";
 import BaseUserInfoDTO from "./user/BaseUserInfoDTO.model";
 import NotifyMsgDTO from "./notify/NotifyMsgDTO.model";
 import { NoticeType } from "@/apis/notice";
+import DraftDTO from "./article/DraftDTO.model";
 
 /** 反向推导Promise */
 export type Await<T extends Promise<any>> = T extends Promise<infer P>
@@ -50,7 +51,7 @@ export type LoginInfo = BaseUserInfoDTO;
 export type LogoutInfo = string;
 
 /** 草稿分页查询接口  */
-export type DraftList = ArticleList;
+export type DraftList = PageListVo<DraftDTO>;
 
 /** 消息查询接口 */
 export type NoticeResVo = {

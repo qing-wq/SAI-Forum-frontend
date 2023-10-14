@@ -112,10 +112,10 @@ function ArticleItem({ article }: ArticleItemProp) {
 					</p>
 				</div>
 				{/* cover */}
-				<div className={`pl-5 ${article.cover ? "" : "hidden"}`}>
+				<div className={`pl-5 ${article.picture ? "" : "hidden"}`}>
 					<img
 						className=' inline-block max-h-24 rounded-md'
-						src={article.cover}
+						src={article.picture}
 						alt='cover'
 					/>
 				</div>

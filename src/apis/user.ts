@@ -1,6 +1,8 @@
 import BaseUserInfoDTO from "@/models/user/BaseUserInfoDTO.model";
 import xFetch from ".";
 import { Await, LoginInfo, LogoutInfo, UserInfo } from "@/models";
+import PageListVo from "@/models/page/PageListVo.model";
+import ArticleDTO from "@/models/article/ArticleDTO.model";
 
 export type HomeSelectType = "article" | "read" | "follow" | "collection";
 type FollowSelectType = "follow" | "fans";
@@ -95,4 +97,22 @@ export function postRegister(
 		},
 		body: JSON.stringify({ username, password, email }),
 	});
+}
+
+/**
+ * 用户数据分页获取
+ */
+export function getUserList(
+	/** 用户Id */
+	userId: number,
+	/** 页码 */
+	page: number,
+	/** 类型 */
+	homeSelectType: HomeSelectType = "article",
+	/** 每页数量 */
+	pageSize: number = 20
+) {
+	return xFetch<PageListVo<ArticleDTO>>(
+		`user/list?page=${page}&pageSize=${pageSize}&homeSelectType=${homeSelectType}&userId=${userId}`
+	);
 }

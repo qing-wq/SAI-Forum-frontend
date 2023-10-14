@@ -6,7 +6,7 @@ import useArticleEditStore from "@/stores/useArticleEditStore";
  * 文章编辑页面
  */
 export default function EditArticle() {
-	const { id } = useParams<string>();
+	const { id, type } = useParams<string>();
 	const navigate = useNavigate();
 	const getArticleInfo = useArticleEditStore((state) => state.getArticleInfo);
 	// 处理param参数，数值化、异常参数处理
@@ -24,12 +24,14 @@ export default function EditArticle() {
 	//当params参数错误时跳转至新建文章页面
 	useEffect(() => {
 		if (articleID === -1) {
-			navigate("/edit-article/new", { replace: true });
+			navigate("/edit-article/new/0", { replace: true });
 		} else {
+			let t = Number(type);
+			if (t !== 0 && t !== 1) t = 0;
 			// 获取文章信息
-			getArticleInfo(articleID);
+			getArticleInfo(articleID, t);
 		}
-	}, [articleID]);
+	}, [articleID, type]);
 
 	return (
 		<div style={{ height: "100%" }}>

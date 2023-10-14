@@ -66,7 +66,7 @@ export function postArticle(articleInfo: ArticlePostReq) {
 
 /** 初始化草稿接口 */
 export function postArticleInit(articleInfo: ArticlePostReq) {
-	return xFetch<ArticleSave>("article/api/init", {
+	return xFetch<ArticleSave>("draft/init", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -75,15 +75,20 @@ export function postArticleInit(articleInfo: ArticlePostReq) {
 	});
 }
 
-/**
- * 文章修改获取信息接口
- */
-export function getArticleEdit(id: number) {
-	return xFetch<ArticleDTO>(`common/edit/${id}`);
+export enum DcoType {
+	"draft" = 0,
+	"article" = 1,
 }
 
 /**
- * 文章自动保存接口(草稿)
+ * 文章修改获取信息接口
+ */
+export function getArticleEdit(id: number, type: DcoType) {
+	return xFetch<ArticleDTO>(`common/edit/${id}/${type}`);
+}
+
+/**
+ * 文章自动保存接口
  */
 export function saveArticle(articleInfo: ArticlePostReq) {
 	return xFetch<ArticleSave>("common/update", {
@@ -168,4 +173,11 @@ export function commentInteraction(
 	return xFetch<boolean>(
 		`comment/api/favor?commentId=${commentId}&type=${type}`
 	);
+}
+
+/**
+ * 删除文章
+ */
+export function deleteArticle(articleId: number) {
+	return xFetch<boolean>(`article/api/delete/${articleId}`);
 }

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import UserArticles from "./UserArticles";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { HomeSelectType } from "@/apis/user";
+import { HomeSelectType, getUserList } from "@/apis/user";
 import { UserInfo } from "@/models";
 
 const MainUserInfo = ({
@@ -14,7 +14,6 @@ const MainUserInfo = ({
 	const navigate = useNavigate();
 	const [curTab, setCurTab] = useState<HomeSelectType>("article");
 	const { id, tab } = useParams();
-
 	useEffect(() => {
 		// 路由tab参数处理
 		switch (tab) {
@@ -43,7 +42,13 @@ const MainUserInfo = ({
 	return (
 		<div className='mycard w-[79%] bg-base-100 p-4'>
 			<MianTab curTab={curTab} setCurTab={setCurTab} />
-			<UserArticles articles={articles} tab={curTab} />
+			<UserArticles
+				articles={articles}
+				tab={curTab}
+				loadFunc={(page: number) =>
+					getUserList(Number(id), page, curTab)
+				}
+			/>
 		</div>
 	);
 };

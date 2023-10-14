@@ -58,12 +58,12 @@ export default [
 			},
 			{
 				path: "",
-				element: <Navigate to='home/?category=全部' />,
+				element: <Navigate to='home/?category=全部' replace />,
 			},
 		],
 	},
 	{
-		path: "edit-article/:id",
+		path: "edit-article/:id/:type",
 		element: <EditArticle />,
 	},
 	{
@@ -78,6 +78,6 @@ export default [
 	},
 	{
 		path: "*",
-		element: <Navigate to='/' />,
+		element: <Navigate to='/' replace />,
 	},
 ];

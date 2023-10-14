@@ -23,7 +23,6 @@ export default function User() {
 	const navigate = useNavigate();
 	const getUserInfoById = (id: string, tab: HomeSelectType) => {
 		getUserInfo(id, tab).then((res) => {
-			console.log(res, "userData");
 			setUserData(res);
 		});
 	};
@@ -31,7 +30,7 @@ export default function User() {
 		// 访问自己主页路由跳转
 		if (id === "self") {
 			if (!currentUser) navigate("/", { replace: true });
-			else navigate(`/user/${currentUser.id}`, { replace: true });
+			else navigate(`/user/${currentUser.userId}`, { replace: true });
 		} else if (isNaN(Number(id))) navigate("/", { replace: true });
 		else if (id) getUserInfoById(id, curTab);
 		return () => {};
@@ -41,7 +40,6 @@ export default function User() {
 		<>
 			{userData ? (
 				<>
-					{" "}
 					<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
 					<MiddleViewVertical
 						top={

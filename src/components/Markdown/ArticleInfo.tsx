@@ -23,23 +23,27 @@ type ArticleCategoryRadioProp = {
 /** 文章分类单选框 */
 function ArticleCategoryRadio() {
 	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
-	const category = articleInfo !== "await" ? articleInfo.category : undefined;
+	const categoryId =
+		articleInfo !== "await" ? articleInfo.categoryId : undefined;
 	const categorys = useCategorysStore((state) => state.categorys);
-	const [categoryId, setCategoryId] = useState<number>(
-		category?.categoryId || categorys[0]?.categoryId || 0
-	);
-	useEffect(() => {
-		setCategoryId(category?.categoryId || categorys[0]?.categoryId || 0);
-	}, [categorys, category]);
+	// const [categoryId, setCategoryId] = useState<number>(
+	// 	categoryId?.categoryId ||
+	// 		(articleInfo != "await" && categorys[0]?.categoryId) ||
+	// 		0
+	// );
+	// useEffect(() => {
+	// 	setCategoryId(categoryId?.categoryId || categorys[0]?.categoryId || 0);
+	// }, [categorys, categoryId]);
 	// 保存分类Id
 	useEffect(() => {
-		if (categoryId == category?.categoryId || articleInfo === "await")
-			return;
-		let activeCategory;
-		categorys.forEach((cate) => {
-			if (cate.categoryId === categoryId) activeCategory = cate;
-		});
-		saveArticleInfoBus({ categoryId, category: activeCategory });
+		// if (categoryId == categoryId?.categoryId || articleInfo === "await")
+		// 	return;
+		// let activeCategory;
+		// categorys.forEach((cate) => {
+		// 	if (cate.categoryId === categoryId) activeCategory = cate;
+		// });
+
+		saveArticleInfoBus({ categoryId });
 	}, [categoryId]);
 	return (
 		<div className='form-control w-full '>
@@ -54,7 +58,9 @@ function ArticleCategoryRadio() {
 						data-title={category.category}
 						className='btn btn-outline btn-primary	 btn-sm w-[8.5rem] !rounded-md overflow-hidden'
 						onChange={() => {
-							setCategoryId(category.categoryId);
+							saveArticleInfoBus({
+								categoryId: category.categoryId,
+							});
 						}}
 						checked={category.categoryId == categoryId}
 						key={categoryIndex}
@@ -69,27 +75,28 @@ type ArticleTageSelectProp = {};
 /** 文章标签单选框 */
 function ArticleTageSelect() {
 	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
-	const articleTags = articleInfo !== "await" ? articleInfo.tags : [];
+	const articleTagIds =
+		articleInfo !== "await" ? articleInfo.tagIds || [] : [];
 	const tags = useTagsStore((state) => state.tags);
-	const [tagId, setTagId] = useState<number>(
-		articleTags && articleTags[0] ? articleTags[0]?.tagId : -1
-	);
-	useEffect(() => {
-		setTagId(articleTags && articleTags[0] ? articleTags[0].tagId : -1);
-	}, [tags]);
-	useEffect(() => {
-		if (
-			tagId ==
-				(articleTags && articleTags[0] ? articleTags[0].tagId : -1) ||
-			articleInfo === "await"
-		)
-			return;
-		let activeTag: (typeof tags)[number];
-		tags.forEach((tag) => {
-			if (tag.tagId === tagId) activeTag = tag;
-		});
-		saveArticleInfoBus({ tagIds: [tagId], tags: [activeTag!] });
-	}, [tagId]);
+	// const [tagId, setTagId] = useState<number>(
+	// 	articleTags && articleTags[0] ? articleTags[0]?.tagId : -1
+	// );
+	// useEffect(() => {
+	// 	setTagId(articleTags && articleTags[0] ? articleTags[0].tagId : -1);
+	// }, [tags]);
+	// useEffect(() => {
+	// 	if (
+	// 		tagId ==
+	// 			(articleTags && articleTags[0] ? articleTags[0].tagId : -1) ||
+	// 		articleInfo === "await"
+	// 	)
+	// 		return;
+	// 	let activeTag: (typeof tags)[number];
+	// 	tags.forEach((tag) => {
+	// 		if (tag.tagId === tagId) activeTag = tag;
+	// 	});
+	// 	saveArticleInfoBus({ tagIds: [tagId] });
+	// }, [tagId]);
 	return (
 		<div className='form-control w-full'>
 			<label className='label'>
@@ -97,9 +104,11 @@ function ArticleTageSelect() {
 			</label>
 			<select
 				className='select select-primary select-sm w-full max-w-xl'
-				value={tagId}
+				value={articleTagIds[0]}
 				onChange={(e) => {
-					setTagId(Number(e.target.value) || -1);
+					saveArticleInfoBus({
+						tagIds: [Number(e.target.value) || -1],
+					});
 				}}
 			>
 				<option disabled value={-1}>
@@ -118,12 +127,12 @@ function ArticleTageSelect() {
 /** 文章封面上传框 */
 function ArticleCover() {
 	const { articleInfo, saveArticleInfoBus } = useArticleEditInfo();
-	const cover = articleInfo !== "await" ? articleInfo.cover : undefined;
+	const cover = articleInfo !== "await" ? articleInfo.picture : undefined;
 	const fileInput = useRef<HTMLInputElement>(null);
 	const [coverUrl, setCoverUrl] = useState<string | undefined>(cover);
 	useEffect(() => {
 		if (coverUrl == cover || articleInfo === "await") return;
-		saveArticleInfoBus({ cover: coverUrl });
+		saveArticleInfoBus({ picture: coverUrl });
 	}, [coverUrl]);
 	// "https://tse3-mm.cn.bing.net/th/id/OIP-C.Z6vqTlDElTOVJcsujPVbigHaGL"
 	/** 上传封面方法 */

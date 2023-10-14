@@ -53,7 +53,7 @@ export default interface ArticleDTO {
 	/** 简介 */
 	summary: Summary;
 	/** 封面 */
-	cover: Cover;
+	picture: Cover;
 	/** 正文 */
 	content: Content;
 	/**

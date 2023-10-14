@@ -50,7 +50,7 @@ export default memo(function TheHeader() {
 					<button
 						className='btn btn-primary text-base font-black'
 						onClick={() => {
-							authTo("./edit-article/new", false, true);
+							authTo("./edit-article/new/0", false, true);
 						}}
 					>
 						写文章

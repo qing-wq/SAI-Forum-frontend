@@ -1,5 +1,6 @@
 import { getArticle } from "@/apis/articles";
 import ArticleDTO from "@/models/article/ArticleDTO.model";
+import ArticleDetailVo from "@/models/article/ArticleDetailVo.model";
 import TopCommentDTO from "@/models/comment/TopCommentDTO.model";
 import UserStatisticInfoDTO from "@/models/user/UserStatisticInfoDTO.model";
 import { shallow } from "zustand/shallow";
@@ -15,6 +16,8 @@ type UseArticleViewStore = {
 	comments?: TopCommentDTO[];
 	/** 文章id */
 	articleId?: number;
+	/** 文章状态 */
+	status: "loading" | "success" | "error";
 	/** 获取文章信息 */
 	getArticleInfo: (articleId: number) => Promise<void>;
 	/** 重置文章信息 */
@@ -40,14 +43,23 @@ const useArticleViewStore = createWithEqualityFn<
 		comments: undefined,
 		articleId: undefined,
 		viewer: null,
+		status: "success",
 		getArticleInfo: async (articleId: number) => {
-			const res = await getArticle(articleId);
+			set({ status: "loading" });
+			let res: ArticleDetailVo;
+			try {
+				res = await getArticle(articleId);
+			} catch (e) {
+				set({ status: "error" });
+				return;
+			}
 			// TODO: 类型检查
 			set(() => ({
 				articleId: articleId,
 				articleInfo: res.article,
 				authorInfo: res.author,
 				comments: res.comments,
+				status: "success",
 			}));
 		},
 		resetArticleInfo: () => {
@@ -57,6 +69,7 @@ const useArticleViewStore = createWithEqualityFn<
 				authorInfo: undefined,
 				comments: undefined,
 				viewer: null,
+				status: "success",
 			}));
 		},
 		setViewer(viewer) {

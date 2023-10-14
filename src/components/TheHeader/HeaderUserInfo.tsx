@@ -32,7 +32,7 @@ export function HeaderUserInfo() {
 		<div className='dropdown dropdown-end'>
 			<label
 				tabIndex={0}
-				className='btn btn-ghost btn-circle avatar indicator'
+				className='btn btn-ghost btn-circle avatar indicator w-12'
 			>
 				{newNoticeCount ? (
 					<span className='indicator-item badge badge-secondary badge-sm top-2 right-2' />

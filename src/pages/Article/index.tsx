@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import MiddleViewVertical from "../../layouts/MiddleViewVertical";
 import "github-markdown-css";
 import { MarkdownViewer } from "@/components/Markdown";
@@ -12,15 +12,18 @@ import UserStatisticInfoDTO from "@/models/user/UserStatisticInfoDTO.model";
 import ArticleInteractionBlock from "./ArticleInteractionBlock";
 import CommentsBlock from "./CommentsBlock";
 import Toc from "@/components/Markdown/Toc";
+import { deleteArticle } from "@/apis/articles";
 
 /**
  * 文章详情页（展示）
  */
 export default memo(function Article() {
 	const { id } = useParams();
+	console.log("Article", id);
 	const {
 		articleInfo,
 		authorInfo,
+		status,
 		getArticleInfo,
 		resetArticleInfo,
 		reloadArticleInfo,
@@ -30,10 +33,13 @@ export default memo(function Article() {
 		getArticleInfo: state.getArticleInfo,
 		resetArticleInfo: state.resetArticleInfo,
 		reloadArticleInfo: state.reloadArticleInfo,
+		status: state.status,
 	}));
+	const naviget = useNavigate();
 	useEffect(() => {
 		if (isNaN(Number(id))) {
 			// TODO: 403处理
+			naviget("/404", { replace: true });
 			return;
 		}
 		getArticleInfo(Number(id));
@@ -41,7 +47,13 @@ export default memo(function Article() {
 			resetArticleInfo();
 		};
 	}, [id]);
-	if (!articleInfo || !authorInfo) return <></>;
+	useEffect(() => {
+		if (status === "error") {
+			naviget("/404", { replace: true });
+		}
+	}, [status]);
+	if (!articleInfo || !authorInfo)
+		return <div className='h-full'>loading</div>;
 	return (
 		<>
 			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />
@@ -70,9 +82,9 @@ export default memo(function Article() {
 function ArticleBlock({ articleInfo }: { articleInfo: ArticleDTO }) {
 	return (
 		<>
-			{articleInfo.cover != "" ? (
+			{articleInfo.picture != "" ? (
 				<img
-					src={articleInfo.cover}
+					src={articleInfo.picture}
 					alt='封面'
 					className='bg-base-100 w-full mycard'
 				/>
@@ -106,6 +118,7 @@ function AuthorBlock({
 	articleId: number;
 	refresh: () => Promise<boolean>;
 }) {
+	const navigate = useNavigate();
 	return (
 		<div className='mycard w-full bg-base-100 flex flex-col md:flex-row gap-[10px] items-center justify-center py-3'>
 			<div className='flex flex-col items-center px-4'>
@@ -118,7 +131,7 @@ function AuthorBlock({
 			</div>
 			<RelationalFunc
 				followed={authorInfo.followed}
-				userId={authorInfo.id}
+				userId={authorInfo.userId}
 				refresh={refresh}
 			>
 				<div className='dropdown dropdown-end'>
@@ -131,14 +144,23 @@ function AuthorBlock({
 					>
 						<li>
 							<Link
-								to={`/edit-article/${articleId}`}
+								to={`/edit-article/${articleId}/1`}
 								className='h-8'
 							>
 								编辑
 							</Link>
 						</li>
 						<li>
-							<a className='h-8 bg-warning text-white'>删除</a>
+							<a
+								className='h-8 bg-warning text-white'
+								onClick={() => {
+									// TODO: 删除提示
+									deleteArticle(articleId);
+									navigate("/");
+								}}
+							>
+								删除
+							</a>
 						</li>
 					</ul>
 				</div>

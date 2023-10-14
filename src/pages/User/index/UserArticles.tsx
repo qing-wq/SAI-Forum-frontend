@@ -1,31 +1,41 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import { UserInfo } from "@/models/index";
 import { useNavigate } from "react-router-dom";
 import { HomeSelectType } from "@/apis/user";
 import { articleInteraction } from "@/apis/articles";
+import LoadPerPage from "@/components/LoadPerPage";
+import ArticleDTO from "@/models/article/ArticleDTO.model";
+import PageListVo from "@/models/page/PageListVo.model";
 
 type UserArticlesProp = {
 	articles: UserInfo["homeSelectList"];
 	tab: HomeSelectType;
+	loadFunc: (page: number) => Promise<PageListVo<ArticleDTO>>;
 };
 
 /** 用户文章列表页 */
-export default function UserArticles({ articles, tab }: UserArticlesProp) {
+export default function UserArticles({
+	articles,
+	tab,
+	loadFunc,
+}: UserArticlesProp) {
 	const navigate = useNavigate();
+	const [ended, setEnded] = useState<boolean>(!articles.hasMore);
+	const [articlesList, setArticlesList] = useState<ArticleDTO[]>(
+		articles.list
+	);
+	const [curPage, setCurPage] = useState<number>(1);
+	useEffect(() => {
+		setArticlesList(articles.list);
+		setEnded(!articles.hasMore);
+		setCurPage(1);
+	}, [articles]);
 	const openArticle = (id: number) => {
 		navigate("/article/" + id);
 	};
 	return (
 		<div className=''>
-			{/* <div className='flex px-4 h-10 leading-10 rounded-t-xl border-solid border-b-2 border-opacity-50 border-b-primary'>
-				<div className='text-center w-24 font-black hover:text-primary border-b-2'>
-					动态
-				</div>
-				<div className='text-center w-24 font-black'>文章</div>
-				<div className='text-center w-24 font-black'>专栏</div>
-				<div className='text-center w-24 font-black'>收藏</div>
-			</div> */}
-			{articles.list.map((article) => (
+			{articlesList.map((article) => (
 				<Article
 					key={article.articleId}
 					article={article}
@@ -39,6 +49,17 @@ export default function UserArticles({ articles, tab }: UserArticlesProp) {
 					/>
 				</Article>
 			))}
+			<LoadPerPage
+				ended={ended}
+				successShow={<div>没有更多了</div>}
+				loadFunc={async () => {
+					const res = await loadFunc(curPage + 1);
+					setArticlesList(articlesList.concat(res.list));
+					setEnded(!res.hasMore);
+				}}
+			>
+				加载中...
+			</LoadPerPage>
 		</div>
 	);
 }
@@ -66,17 +87,17 @@ function Article({ article, onClick, children }: ArticleProp) {
 					</p>
 				</div>
 				{/* cover */}
-				<div className={`pl-5 ${article.cover ? "" : "hidden"}`}>
+				<div className={`pl-5 ${article.picture ? "" : "hidden"}`}>
 					<img
 						className=' inline-block max-h-24 rounded-md'
-						src={article.cover}
+						src={article.picture}
 						alt='文章封面'
 					/>
 				</div>
 				{/* interaction */}
 				<div
 					className={`pl-5 h-full ${
-						article.cover ? "" : ""
+						article.picture ? "" : ""
 					} flex items-center`}
 				>
 					{children}

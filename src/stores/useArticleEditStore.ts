@@ -1,4 +1,5 @@
 import {
+	DcoType,
 	generateSummary,
 	getArticle,
 	getArticleEdit,
@@ -8,6 +9,7 @@ import {
 } from "@/apis/articles";
 import type { Await } from "@/models";
 import ArticlePostReq from "@/models/article/ArticlePostReq.model";
+import DraftDTO from "@/models/article/DraftDTO.model";
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 
@@ -22,15 +24,13 @@ type UseArticleEditStore = {
 	/** 请求中状态 */
 	onSave: boolean;
 	/** 文章详情信息 */
-	articleInfo:
-		| (Partial<ArticleVO["article"]> & { content: string })
-		| "await";
+	articleInfo: (Partial<DraftDTO> & { content: string }) | "await";
 	/** 自动生成的文章简介 */
 	articleSummaryAutoGenerate: string;
 	/** 自动生成文章简介 */
 	generateArticleSummart: Function;
 	/** 获取文章信息 */
-	getArticleInfo: (articleId: number) => Promise<void>;
+	getArticleInfo: (articleId: number, doctype?: DcoType) => Promise<void>;
 	/** 初始化文章信息 */
 	cleanArticleInfo: () => void;
 	/** 保存文章信息(直接保存) */
@@ -63,7 +63,7 @@ const useArticleEditStore = createWithEqualityFn<
 			const summary = await generateSummary(articleInfo.content);
 			set(() => ({ articleSummaryAutoGenerate: summary }));
 		},
-		getArticleInfo: async (articleId) => {
+		getArticleInfo: async (articleId, doctype = 0) => {
 			// 新建文章，初始化
 			if (articleId === 0 || articleId === -1) {
 				get().cleanArticleInfo();
@@ -82,7 +82,7 @@ const useArticleEditStore = createWithEqualityFn<
 				return;
 			}
 			// 获取文章信息
-			const articleInfo = await getArticleEdit(articleId);
+			const articleInfo = await getArticleEdit(articleId, doctype);
 			set(() => ({ articleInfo }));
 			return;
 		},
@@ -96,15 +96,18 @@ const useArticleEditStore = createWithEqualityFn<
 			onSaveArticleInfo = false;
 		},
 		saveArticleInfoDirect: async (newArticleInfo) => {
+			let articleInfo = get().articleInfo;
+			if (
+				articleInfo === "await" ||
+				(!articleInfo.articleId && !articleInfo.id)
+			)
+				return;
 			set(() => ({
 				onSave: true,
 			}));
-			let articleInfo = get().articleInfo;
-			if (articleInfo === "await" || !articleInfo.articleId) return;
-
 			console.log("自动保存", articleInfo);
 			await saveArticle({
-				articleId: articleInfo.articleId,
+				draftId: articleInfo.id,
 				...newArticleInfo,
 			});
 			set((state) => {
@@ -148,6 +151,7 @@ const useArticleEditStore = createWithEqualityFn<
 			const articleInfo = get().articleInfo;
 			if (articleInfo === "await") return;
 			await postArticle({
+				...articleInfo,
 				...newArticleInfo,
 				articleId: articleInfo.articleId,
 			});
