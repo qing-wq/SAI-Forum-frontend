@@ -83,11 +83,11 @@ export default memo(function TheHeader() {
 const navList = [
 	"全部",
 	"人工智能",
-	"大数据",
 	"前端",
 	"后端",
 	"Android",
-	"开发工具",
-	"代码人生",
-	"阅读",
+	"小车",
+	"定位",
+	"无人机",
+	"ros",
 ];

@@ -71,7 +71,7 @@ export function postUserInfo(userInfo: Partial<BaseUserInfoDTO>) {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(userInfo),
+		body: JSON.stringify({ ...userInfo, username: userInfo.userName }),
 	});
 }
 

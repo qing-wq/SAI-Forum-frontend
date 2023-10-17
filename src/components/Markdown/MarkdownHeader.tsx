@@ -115,8 +115,9 @@ function SubmitArticleBox() {
 	// 发布文章方法
 	const publishArticle = async () => {
 		// await saveArticleInfoBus({ actionType: "POST" });
-		await postArticle({ status: 1 });
-		navigate("/");
+		const articleId = await postArticle({ status: 1 });
+		if (articleId === -1) navigate("/");
+		else navigate(`/article/${articleId}`);
 	};
 	return (
 		<div

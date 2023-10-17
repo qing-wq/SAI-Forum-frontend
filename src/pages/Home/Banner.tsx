@@ -57,7 +57,7 @@ export const Banner = ({ banners }: { banners: BannerItem[] }) => {
 	};
 
 	return (
-		<div className='mycard h-fit max-h-80 mt-2 overflow-hidden p-2 hover:p-1'>
+		<div className='mycard h-fit max-h-80 mt-2 overflow-hidden p-2'>
 			<div ref={carouselRef} className='carousel w-full rounded-2xl'>
 				{banners.map((banner) => (
 					<div

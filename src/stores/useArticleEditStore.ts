@@ -43,7 +43,7 @@ type UseArticleEditStore = {
 	/** 保存文章信息(汇总节流) */
 	saveArticleInfoBus: (articleInfo: ArticlePostReq) => Promise<void>;
 	/** 发布文章 */
-	postArticle: (articleInfo: ArticlePostReq) => Promise<void>;
+	postArticle: (articleInfo: ArticlePostReq) => Promise<number>;
 };
 
 /** 文章详情数据(编辑) */
@@ -91,6 +91,7 @@ const useArticleEditStore = createWithEqualityFn<
 				articleInfo: "await",
 				comments: [],
 				author: undefined,
+				articleSummaryAutoGenerate: "",
 			}));
 			articleInfoCache = {};
 			onSaveArticleInfo = false;
@@ -145,13 +146,19 @@ const useArticleEditStore = createWithEqualityFn<
 		},
 		postArticle: async (newArticleInfo) => {
 			const articleInfo = get().articleInfo;
-			if (articleInfo === "await") return;
-			await postArticle({
-				...articleInfo,
-				...newArticleInfo,
-				articleId: articleInfo.articleId,
-				draftId: articleInfo.id,
-			});
+			if (articleInfo === "await") return -1;
+			try {
+				const articleId = await postArticle({
+					...articleInfo,
+					...newArticleInfo,
+					articleId: articleInfo.articleId,
+					draftId: articleInfo.id,
+				});
+				return articleId;
+			} catch (e) {
+				console.log(e);
+			}
+			return -1;
 		},
 	}),
 	shallow

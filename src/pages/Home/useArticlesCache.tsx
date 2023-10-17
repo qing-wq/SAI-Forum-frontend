@@ -26,13 +26,13 @@ function getData(category: string) {
  * @returns
  */
 function wrapPromise<T = unknown>(category: string, promise: () => Promise<T>) {
-	if (dataCache[category]) {
-		return {
-			read() {
-				return dataCache[category];
-			},
-		};
-	}
+	// if (dataCache[category]) {
+	// 	return {
+	// 		read() {
+	// 			return dataCache[category];
+	// 		},
+	// 	};
+	// }
 	let status = 0;
 	let result: T | Error;
 	const callPromise = promise().then(

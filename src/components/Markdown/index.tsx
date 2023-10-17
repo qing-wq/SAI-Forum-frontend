@@ -12,8 +12,10 @@ import { uploadImages } from "../../utils/uploadImages";
 
 /** 封装Markdown编辑器 */
 export default function MarkdownEditor() {
+	const [willGetNewInfo, setWillGetNewInfo] = useState(false);
 	// 获取、绑定文章信息
 	const articleInfo = useArticleEditStore((state) => state.articleInfo);
+	console.log(articleInfo);
 	const saveArticleInfo = useArticleEditStore(
 		(state) => state.saveArticleInfo
 	);
@@ -29,11 +31,16 @@ export default function MarkdownEditor() {
 		};
 	}, []);
 	useLayoutEffect(() => {
-		setValue(articleInfo === "await" ? "" : articleInfo.content || "");
+		if (articleInfo === "await" || articleInfo.content === "")
+			setWillGetNewInfo(true);
+		if (willGetNewInfo) {
+			setWillGetNewInfo(false);
+			setValue(articleInfo === "await" ? "" : articleInfo.content || "");
+		}
 	}, [articleInfo]);
 	/** 文章防抖保存 */
 	const saveArticleContent = (value: string) => {
-		if (value === "" || articleInfo == "await") return;
+		if (articleInfo == "await") return;
 		setValue(value);
 		debounce(() => saveArticleInfo({ content: value }), 500);
 	};

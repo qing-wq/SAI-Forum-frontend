@@ -40,6 +40,11 @@ const BannerBlock = () => {
 		<Banner
 			banners={[
 				{
+					img: "/images/20231018125220038_99.png",
+					title: "SAI论坛测试",
+					onClick: () => navigate("/article/251"),
+				},
+				{
 					img: "/images/20231010084019073_25.png",
 					title: "基地招新啦",
 					onClick: () => navigate("/article/236"),
@@ -73,7 +78,9 @@ const ArticleList = () => {
 			<div
 				onScroll={(e) => console.log(e)}
 				className={`${
-					category ? categoryBg[category] : categoryBg["全部"]
+					category
+						? categoryBg[category] || categoryBg["全部"]
+						: categoryBg["全部"]
 				} bg-cover bg-no-repeat bg-fixed fixed top-0 left-0 origin-left scale-x-20 md:scale-x-40 2xl:scale-x-95 z-bg min-w-bg md:min-w-screen min-h-screen `}
 			/>
 			<Suspense fallback={<Loading />}>

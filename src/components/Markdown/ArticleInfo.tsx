@@ -104,7 +104,7 @@ function ArticleTageSelect() {
 			</label>
 			<select
 				className='select select-primary select-sm w-full max-w-xl'
-				value={articleTagIds[0]}
+				value={articleTagIds[0] || -1}
 				onChange={(e) => {
 					saveArticleInfoBus({
 						tagIds: [Number(e.target.value) || -1],
@@ -134,8 +134,11 @@ function ArticleCover() {
 		if (coverUrl == cover || articleInfo === "await") return;
 		saveArticleInfoBus({ picture: coverUrl });
 	}, [coverUrl]);
-	// "https://tse3-mm.cn.bing.net/th/id/OIP-C.Z6vqTlDElTOVJcsujPVbigHaGL"
-	/** 上传封面方法 */
+	const deleteCover = async () => {
+		await saveArticleInfoBus({ picture: undefined });
+		setCoverUrl(undefined);
+	};
+
 	const submitCover = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.currentTarget.files || !e.currentTarget.files[0]) {
 			return;
@@ -151,7 +154,13 @@ function ArticleCover() {
 			</label>
 			{coverUrl ? (
 				// TODO:设置封面大小
-				<div className='border-primary border-solid rounded-xl overflow-hidden max-h-40 max-w-[15rem]'>
+				<div className='border-primary border-solid rounded-xl overflow-hidden max-h-40 max-w-[15rem] relative'>
+					<div
+						className='absolute w-full h-full hover:opacity-70 opacity-0 bg-slate-300 flex justify-center items-center text-2xl cursor-pointer'
+						onClick={deleteCover}
+					>
+						删除
+					</div>
 					<img className='' src={coverUrl} alt='文章封面' />
 				</div>
 			) : (
@@ -188,6 +197,9 @@ function ArticleSummary() {
 	useEffect(() => {
 		if (articleInfo === "await") return;
 		setSummary(articleSummary || articleSummaryAutoGenerate || "");
+		saveArticleInfoBus({
+			summary: articleSummary || articleSummaryAutoGenerate || "",
+		});
 	}, [ArticleInfo, articleSummaryAutoGenerate]);
 	const changeSummary = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setSummary(e.target.value);
