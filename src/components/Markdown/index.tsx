@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Editor, Viewer } from "@bytemd/react";
-import useMarkdownTheme from "./useMarkdownTheme";
+import useMarkdownTheme, { themeNames } from "./useMarkdownTheme";
 import MarkdownHeader from "./MarkdownHeader";
 import plugins from "./plugins";
 import zh_Hans from "bytemd/locales/zh_Hans.json";
@@ -44,7 +44,10 @@ export default function MarkdownEditor() {
 		setValue(value);
 		debounce(() => saveArticleInfo({ content: value }), 500);
 	};
-	const [theme, changeTheme, themeKeys] = useMarkdownTheme();
+	const [theme, changeTheme, themeKeys] = useMarkdownTheme(
+		// 从themeNames中随机取出
+		themeNames[Math.floor(Math.random() * themeNames.length)]
+	);
 	if (articleInfo === "await") return null;
 	return (
 		<div
@@ -75,6 +78,9 @@ type MarkdownViewerProp = {
  * Markdown查看器
  */
 export function MarkdownViewer({ content }: MarkdownViewerProp) {
+	const [theme, changeTheme, themeKeys] = useMarkdownTheme(
+		themeNames[Math.floor(Math.random() * themeNames.length)]
+	);
 	const ref = useRef<HTMLDivElement>(null);
 	const setViewer = useArticleViewStore((state) => state.setViewer);
 	useLayoutEffect(() => {

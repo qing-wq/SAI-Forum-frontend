@@ -1,17 +1,70 @@
 import { useState, useEffect } from "react";
-import themes from "juejin-markdown-themes";
+import ThemeKey from "juejin-markdown-themes";
 
 /** 掘金Markdown主题列表 */
-const themeKeys: string[] = Object.keys(themes);
+const ThemeKeys: string[] = Object.keys(ThemeKey);
+type ThemeKey =
+	| "juejin"
+	| "github"
+	| "smartblue"
+	| "cyanosis"
+	| "channing-cyan"
+	| "fancy"
+	| "hydrogen"
+	| "condensed-night-purple"
+	| "greenwillow"
+	| "v-green"
+	| "vue-pro"
+	| "healer-readable"
+	| "mk-cute"
+	| "jzman"
+	| "geek-black"
+	| "awesome-green"
+	| "qklhk-chocolate"
+	| "orange"
+	| "scrolls-light"
+	| "simplicity-green"
+	| "arknights"
+	| "vuepress"
+	| "Chinese-red"
+	| "nico"
+	| "devui-blue";
 
+export const themeNames: ThemeKey[] = [
+	"juejin",
+	"github",
+	"smartblue",
+	"cyanosis",
+	"channing-cyan",
+	"fancy",
+	"hydrogen",
+	"condensed-night-purple",
+	"greenwillow",
+	"v-green",
+	"vue-pro",
+	"healer-readable",
+	"mk-cute",
+	"jzman",
+	"geek-black",
+	"awesome-green",
+	"qklhk-chocolate",
+	"orange",
+	"scrolls-light",
+	"simplicity-green",
+	"arknights",
+	"vuepress",
+	"Chinese-red",
+	"nico",
+	"devui-blue",
+];
 /** Markdown主题Hook */
-const useMarkdownTheme = (initialTheme = "juejin") => {
+const useMarkdownTheme = (initialTheme: ThemeKey = "juejin") => {
 	/** 当前主题 */
 	const [theme, setTheme] = useState<string>(initialTheme);
 	/** 修改当前主题 */
-	const changeTheme = (themeName: (typeof themeKeys)[number] = "juejin") => {
+	const changeTheme = (themeName: (typeof ThemeKeys)[number] = "juejin") => {
 		// 主题不存在时设为默认
-		if (!themeKeys.includes(themeName)) themeName = "juejin";
+		if (!ThemeKeys.includes(themeName)) themeName = "juejin";
 		if (theme != themeName) setTheme(themeName);
 	};
 	// 挂载主题
@@ -28,7 +81,7 @@ const useMarkdownTheme = (initialTheme = "juejin") => {
 			document.head.removeChild(link);
 		};
 	}, [theme]);
-	return [theme, changeTheme, themeKeys];
+	return [theme, changeTheme, ThemeKeys];
 };
 
 export default useMarkdownTheme;

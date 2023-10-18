@@ -3,12 +3,22 @@
 	/* height: 100%; */
 }
 
+/* @font-face {
+	font-weight: normal;
+	font-weight: normal;
+	font-family: XWWK;
+	font-style: normal;
+	font-style: normal;
+	src: url(/fonts/LXGWWenKaiMono-Regular.ttf);
+} */
+
 .bytemd {
 	height: 100%;
 }
 
 .markdown-body {
 	height: 100%;
+	/* font-family: XWWK; */
 }
 
 /* ol缺失序列号样式修复 */
