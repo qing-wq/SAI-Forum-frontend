@@ -112,12 +112,21 @@ function SubmitArticleBox() {
 		articleInfo.tagIds &&
 		articleInfo.summary &&
 		articleInfo.summary.length >= 50;
+	const [isPublishing, setIsPublishing] = useState(false);
 	// 发布文章方法
 	const publishArticle = async () => {
 		// await saveArticleInfoBus({ actionType: "POST" });
-		const articleId = await postArticle({ status: 1 });
+		setIsPublishing(true);
+		let articleId = -1;
+		try {
+			articleId = await postArticle({ status: 1 });
+		} catch (e) {
+			console.log(e);
+			setIsPublishing(false);
+		}
 		if (articleId === -1) navigate("/");
 		else navigate(`/article/${articleId}`);
+		setIsPublishing(false);
 	};
 	return (
 		<div
@@ -139,7 +148,9 @@ function SubmitArticleBox() {
 					<button
 						className={
 							"btn btn-primary btn-sm" +
-							(isArticleInfoUseable ? "" : " btn-disabled")
+							(isArticleInfoUseable && !isPublishing
+								? ""
+								: " btn-disabled")
 						}
 						onClick={publishArticle}
 					>
