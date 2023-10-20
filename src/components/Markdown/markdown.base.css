@@ -21,6 +21,10 @@
 	/* font-family: XWWK; */
 }
 
+.CodeMirror-vscrollbar {
+	z-index: 0;
+}
+
 /* ol缺失序列号样式修复 */
 .markdown-body ol li {
 	list-style-type: auto !important;
