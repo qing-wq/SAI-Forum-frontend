@@ -85,17 +85,28 @@ export function postRegister(
 	password: string,
 	/** 邮箱 */
 	email: string,
-	/** 学号 */
-	studentId?: string,
-	/** 学院 */
-	college?: string
+	/** 验证码 */
+	code: string
 ) {
-	return xFetch<boolean>("user/register", {
+	return xFetch<boolean>("admin/login/register", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ username, password, email }),
+		body: JSON.stringify({ username, password, email, code }),
+	});
+}
+
+/*
+* 获取验证码
+*/
+export function postCaptcha(email: string) {
+	return xFetch("admin/login/code", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+		},
+		body: `email=${email}`,
 	});
 }
 

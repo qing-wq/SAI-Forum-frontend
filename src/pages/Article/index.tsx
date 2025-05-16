@@ -13,6 +13,7 @@ import ArticleInteractionBlock from "./ArticleInteractionBlock";
 import CommentsBlock from "./CommentsBlock";
 import Toc from "@/components/Markdown/Toc";
 import { deleteArticle } from "@/apis/articles";
+import Loading from "@/components/Loading";
 
 /**
  * 文章详情页（展示）
@@ -52,8 +53,14 @@ export default memo(function Article() {
 			naviget("/404", { replace: true });
 		}
 	}, [status]);
-	if (!articleInfo || !authorInfo)
-		return <div className='h-full'>loading</div>;
+
+if (!articleInfo || !authorInfo)
+	return (
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+			<Loading />
+		</div>
+	);
+
 	return (
 		<>
 			<div className='bg-article-bg blur-sm opacity-10 fixed top-0 left-0 w-screen h-screen bg-no-repeat bg-cover z-bg' />

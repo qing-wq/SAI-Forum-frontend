@@ -57,37 +57,42 @@ export const Banner = ({ banners }: { banners: BannerItem[] }) => {
 	};
 
 	return (
-		<div className='mycard h-fit max-h-80 mt-2 overflow-hidden p-2'>
-			<div ref={carouselRef} className='carousel w-full rounded-2xl'>
+		<div className='mycard h-fit max-h-85 mt-2 overflow-hidden p-2'>
+			<div ref={carouselRef} className='carousel w-full rounded-2xl relative'>
 				{banners.map((banner) => (
 					<div
 						id='item1'
-						className='carousel-item w-full'
+						className='carousel-item w-full relative group'
 						onClick={banner.onClick}
 						key={banner.img}
 					>
+						{/* 图片 */}
 						<img
 							src={banner.img}
-							className='w-full'
+							className='w-full h-auto transition-transform duration-500 group-hover:scale-105'
 							alt={banner.title}
 							title={banner.title}
 						/>
+						{/* 渐变遮罩 */}
+						{/* <div className='absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(0,0,0,0.5)]'></div> */}
+						{/* 标题 */}
+						<div className='absolute bottom-0 left-0 right-0 p-3 text-gray-200 font-medium text-sm'>
+							{banner.title}
+						</div>
 					</div>
 				))}
 			</div>
-			<div className='absolute bottom-2 flex justify-center self-center  py-2 gap-2 '>
+			<div className='absolute bottom-2 flex justify-center self-center py-2 gap-2 w-full'>
 				{[...Array(maxBannerNum).keys()].map((item) => (
-					<a
+					<span
 						key={item}
 						onClick={() => scrollBanner(item)}
-						className={`btn btn-xs btn-circle opacity-30 hover:opacity-90 ${
+						className={`cursor-pointer w-3 h-3 rounded-full mx-1 transition-all duration-300 inline-block border border-gray-300 ${
 							currentBanner === item
-								? "btn-primary opacity-70 "
-								: ""
-						}}`}
-					>
-						{item + 1}
-					</a>
+								? "bg-[#ff1aff] border-[#ff1aff] shadow-md"
+								: "bg-gray-300 hover:bg-[#ff1aff] hover:border-[#ff1aff]"
+						}`}
+					/>
 				))}
 			</div>
 		</div>

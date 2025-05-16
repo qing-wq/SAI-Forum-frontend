@@ -45,8 +45,8 @@ export default function MarkdownEditor() {
 		debounce(() => saveArticleInfo({ content: value }), 500);
 	};
 	const [theme, changeTheme, themeKeys] = useMarkdownTheme(
-		// 从themeNames中随机取出
-		themeNames[Math.floor(Math.random() * themeNames.length)]
+		// 使用固定的日间模式主题
+		"github"
 	);
 	if (articleInfo === "await") return null;
 	return (
@@ -79,7 +79,8 @@ type MarkdownViewerProp = {
  */
 export function MarkdownViewer({ content }: MarkdownViewerProp) {
 	const [theme, changeTheme, themeKeys] = useMarkdownTheme(
-		themeNames[Math.floor(Math.random() * themeNames.length)]
+		// 使用固定的日间模式主题，与编辑器保持一致
+		"github"
 	);
 	const ref = useRef<HTMLDivElement>(null);
 	const setViewer = useArticleViewStore((state) => state.setViewer);

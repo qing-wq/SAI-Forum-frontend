@@ -10,22 +10,49 @@ import { Banner } from "./Banner";
 const Home = () => {
 	return (
 		<MiddleViewVertical
-			top={
-				// <Link to='/article/236'>
-				// 	<div className='mycard h-60 mt-2 overflow-hidden'>
-				// 		<img
-				// 			src='/images/20231010061938561_5.png'
-				// 			alt='banner'
-				// 			className='object-fill'
-				// 		/>
-				// 	</div>
-				// </Link>
-				<BannerBlock />
-			}
+			top={<BannerBlock />}
 		>
-			<ArticleList />
-			<div className='w-[20%] mycard h-96 !sticky top-24 text-center leading-[24rem]'>
-				---推荐栏施工中---
+			<div className="flex w-full gap-5">
+				<ArticleList />
+				<div className='w-[280px] mycard !sticky top-24 rounded-lg overflow-hidden border border-purple-50 h-fit max-h-[500px]'>
+				{/* 推荐栏标题 */}
+				<div className='bg-[#f7f5fe] text-[#7c3aed] font-bold py-3 px-4 text-lg border-b border-purple-100'>
+					热门推荐
+				</div>
+				
+				{/* 推荐内容 */}
+				<div className='p-4 space-y-4'>
+					
+					{/* 热门话题 */}
+					<div className='pt-2'>
+						<div className='font-bold text-[#7c3aed] mb-2 flex items-center'>
+							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+							</svg>
+							热门话题
+						</div>
+						<div className='space-y-2'>
+							<div className='text-sm hover:text-[#ff1aff] cursor-pointer transition-colors duration-300'>#人工智能</div>
+							<div className='text-sm hover:text-[#ff1aff] cursor-pointer transition-colors duration-300'>#Spring Boot</div>
+							<div className='text-sm hover:text-[#ff1aff] cursor-pointer transition-colors duration-300'>#前端开发</div>
+						</div>
+					</div>
+					
+					{/* 热门作者 */}
+					<div className='pt-2'>
+						<div className='font-bold text-[#7c3aed] mb-2 flex items-center'>
+							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+							</svg>
+							活跃作者
+						</div>
+						<div className='space-y-2'>
+							<div className='text-sm hover:text-[#ff1aff] cursor-pointer transition-colors duration-300'>管理员</div>
+							<div className='text-sm hover:text-[#ff1aff] cursor-pointer transition-colors duration-300'>LunaSeki</div>
+						</div>
+					</div>
+				</div>
+				</div>
 			</div>
 		</MiddleViewVertical>
 	);
@@ -40,19 +67,14 @@ const BannerBlock = () => {
 		<Banner
 			banners={[
 				{
-					img: "/images/20231018125220038_99.png",
-					title: "SAI论坛测试",
+					img: "/images/20241118110221240_54.png",
+					title: "SAI论坛开放测试",
 					onClick: () => navigate("/article/251"),
 				},
 				{
-					img: "/images/20231010084019073_25.png",
-					title: "基地招新啦",
-					onClick: () => navigate("/article/236"),
-				},
-				{
-					img: "/images/20231010083223061_28.png",
-					title: "基地网盘上线啦",
-					onClick: () => window.open("https://pan.cxjd.zone/"),
+					img: "/images/20241118110221240_54.png",
+					title: "SAI论坛开放测试",
+					onClick: () => navigate("/article/251"),
 				},
 			]}
 		/>

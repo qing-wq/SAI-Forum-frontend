@@ -1,4 +1,4 @@
-import { postRegister } from "@/apis/user";
+import { postRegister, postCaptcha } from "@/apis/user";
 import useLoginStore from "@/stores/useLoginStore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +35,7 @@ type RegisterInfo = {
 	password: string;
 	confirmPassword: string;
 	email: string;
-	// captcha: string;
+	code: string;
 };
 type Action = {
 	type: string;
@@ -54,8 +54,8 @@ const RegisterForm = () => {
 					return { ...state, confirmPassword: action.value };
 				case "email":
 					return { ...state, email: action.value };
-				// case "captcha":
-				// 	return { ...state, captcha: action.value };
+				case "captcha":
+					return { ...state, code: action.value };
 				default:
 					return state;
 			}
@@ -65,7 +65,7 @@ const RegisterForm = () => {
 			password: "",
 			confirmPassword: "",
 			email: "",
-			// captcha: "",
+			code: "",
 		}
 	);
 	const changeRegisterInfo = (type: string) => {
@@ -78,6 +78,14 @@ const RegisterForm = () => {
 	};
 	const navigate = useNavigate();
 	const getUserInfo = useLoginStore((state) => state.getUserInfo);
+	const getCaptcha = async () => {
+		try {
+			await postCaptcha(registerInfo.email);
+			alert("验证码发送成功");
+		}catch(e){
+			alert("验证码发送失败!" + e);
+		}
+	}
 	const submitRegister = async () => {
 		console.log(registerInfo);
 		// 表单验证
@@ -101,13 +109,18 @@ const RegisterForm = () => {
 			alert("两次密码不一致");
 			return;
 		}
+		if (registerInfo.code === "") {
+			alert("验证码不能为空");
+			return;
+		}
 
 		// 发送请求
 		try {
 			const a = await postRegister(
 				registerInfo.username,
 				registerInfo.password,
-				registerInfo.email
+				registerInfo.email,
+				registerInfo.code
 			);
 			alert("注册成功");
 			getUserInfo();
@@ -150,11 +163,19 @@ const RegisterForm = () => {
 				value={registerInfo.email}
 				onChange={changeRegisterInfo("email")}
 			/>
-			{/* <input
-	type='text'
-	placeholder='验证码'
-	className='input input-bordered w-full max-w-xs bg-transparent'
-/> */}
+			<button 
+				className='btn btn-primary'
+				onClick={getCaptcha}
+				>
+				获取验证码
+			</button>
+			<input
+				type='text'
+				placeholder='验证码'
+				value={registerInfo.code}
+				className='input input-bordered w-full max-w-xs bg-transparent'
+				onChange={changeRegisterInfo("captcha")}
+			/>
 			<div className='card-actions justify-end'>
 				<button className='btn btn-primary' onClick={submitRegister}>
 					注 册

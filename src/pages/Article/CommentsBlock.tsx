@@ -32,7 +32,7 @@ function ArticleCommentBox() {
 			<div>
 				<UserAvatar
 					src={
-						userInfo ? userInfo.photo : "/images/initial-avatar.jpg"
+						userInfo ? userInfo.photo : "https://s2.loli.net/2023/09/26/jeckGsFW1u4HgNv.png"
 					}
 					size='mid'
 				/>

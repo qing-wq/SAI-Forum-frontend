@@ -35,30 +35,48 @@ const DraftList = () => {
 	// TODO: 加载更多
 	return (
 		<MiddleViewVertical>
-			<div className='w-[800px] m-auto'>
-				<h1 className='text-3xl font-bold pt-4'>草稿箱</h1>
-				<div className='divider my-1' />
-				{draftList.map((draft) => (
-					<DraftItem
-						key={draft.id}
-						draftInfo={draft}
-						onClick={authTo}
-						reloadData={() => {
-							getDraftListPerPage(1, true);
-						}}
-					/>
-				))}
-				<LoadPerPage
-					ended={!hasMoreDraft}
-					loadFunc={() => {
-						getDraftListPerPage(++draftPage.current);
-					}}
-					successShow={<div>没有更多了</div>}
-				>
-					加载中
-				</LoadPerPage>
-			</div>
-		</MiddleViewVertical>
+  <div className="max-w-[700px] w-full mx-auto py-6">
+    <h1 className="text-2xl font-bold mb-4 text-[#222] flex items-center gap-2">
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#7c3aed]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 7V5a2 2 0 012-2h6a2 2 0 012 2v2m-10 0h10m-10 0v10a2 2 0 002 2h6a2 2 0 002-2V7m-10 0v10m10-10v10" />
+  </svg>
+  草稿箱
+</h1>
+    <div className="border-b border-purple-100 mb-4" />
+    {draftList.length === 0 ? (
+      <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+        <p className="text-lg">暂无草稿，快去创作一篇吧～</p>
+      </div>
+    ) : (
+      <div className="space-y-4">
+        {draftList.map((draft) => (
+          <DraftItem
+            key={draft.id}
+            draftInfo={draft}
+            onClick={authTo}
+            reloadData={() => {
+              getDraftListPerPage(1, true);
+            }}
+          />
+        ))}
+      </div>
+    )}
+    <div className="mt-6">
+      <LoadPerPage
+        ended={!hasMoreDraft}
+        loadFunc={() => {
+          getDraftListPerPage(++draftPage.current);
+        }}
+        successShow={<div></div>}
+      >
+        <div className="text-gray-400 text-center">加载中...</div>
+      </LoadPerPage>
+    </div>
+  </div>
+</MiddleViewVertical>
 	);
 };
 
@@ -72,76 +90,49 @@ const DraftItem = ({
 	reloadData: Function;
 }) => {
 	return (
-		<div className='w-full'>
-			<h1
-				className='text-xl font-black hover:text-primary cursor-pointer'
-				onClick={() =>
-					onClick("/edit-article/" + draftInfo.id + "/0", false, true)
-				}
-			>
-				{draftInfo.title || "无标题"}
-			</h1>
-			<span className='text-gray-500 inline-flex gap-8'>
-				<p>
-					{dayjs(draftInfo.updateTime).format("YYYY年MM月DD日 HH:mm")}
-				</p>
-				<DraftInteraction
-					onClick={onClick}
-					draftId={draftInfo.id}
-					reloadData={reloadData}
-				/>
-			</span>
-			<div className='my-1 divider' />
-		</div>
+		<div className="w-full bg-white rounded-xl shadow-sm border border-purple-50 px-6 py-4 transition hover:shadow-md flex flex-col gap-2">
+  <div className="flex items-center justify-between">
+    <h2
+      className="text-l font-medium text-gray-800 hover:text-[#7c3aed] cursor-pointer line-clamp-1"
+      onClick={() => onClick("/edit-article/" + draftInfo.id + "/0", false, true)}
+    >
+      {draftInfo.title || "无标题"}
+    </h2>
+    <div className="flex gap-2">
+  <button
+    className="btn btn-sm px-3 py-1 btn-primary text-white rounded-md hover:bg-blue-600 transition font-bold"
+    onClick={() => onClick("/edit-article/" + draftInfo.id + "/0", false, true)}
+  >
+    编辑
+  </button>
+  <button
+    className="btn btn-sm px-3 py-1 btn-secondary text-white rounded-md hover:bg-red-600 transition font-bold"
+    onClick={async () => {
+      try {
+        await deleteDraft(draftInfo.id);
+        reloadData();
+      } catch (e) {
+        // TODO: 删除失败提醒
+        console.error(e);
+      }
+    }}
+  >
+    删除
+  </button>
+</div>
+  </div>
+  <div className="flex items-center text-xs text-gray-400 gap-4">
+    <span>
+      {dayjs(draftInfo.updateTime).format("YYYY年MM月DD日 HH:mm")}
+    </span>
+  </div>
+</div>
 	);
 };
 
 /**
  * 草稿交互
  */
-const DraftInteraction = ({
-	onClick,
-	draftId,
-	reloadData,
-}: {
-	onClick: Function;
-	draftId: number;
-	reloadData: Function;
-}) => (
-	<div className='dropdown dropdown-hover'>
-		<label tabIndex={0} className='inline-block min-w-[2rem] text-center'>
-			...
-		</label>
-		<ul
-			tabIndex={0}
-			className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-20'
-		>
-			<li>
-				<a
-					onClick={() =>
-						onClick("/edit-article/" + draftId + "/0", false, true)
-					}
-				>
-					编辑
-				</a>
-			</li>
-			<li>
-				<a
-					onClick={async () => {
-						try {
-							await deleteDraft(draftId);
-							reloadData();
-						} catch (e) {
-							// TODO: 删除失败提醒
-							console.error(e);
-						}
-					}}
-				>
-					删除
-				</a>
-			</li>
-		</ul>
-	</div>
-);
+// 已废弃 DraftInteraction 组件
 
 export default DraftList;

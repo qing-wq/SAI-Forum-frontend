@@ -51,7 +51,11 @@ export default function UserArticles({
 			))}
 			<LoadPerPage
 				ended={ended}
-				successShow={<div>没有更多了</div>}
+				successShow={
+					<div className='w-full h-12 text-center leading-12 text-gray-500 py-3'>
+						没有更多了
+					</div>
+				}
 				loadFunc={async () => {
 					const res = await loadFunc(curPage + 1);
 					setArticlesList(articlesList.concat(res.list));
@@ -72,17 +76,17 @@ type ArticleProp = {
 
 function Article({ article, onClick, children }: ArticleProp) {
 	return (
-		<div className='w-full h-32 p-4  border-solid border-b-[1px] border-opacity-10 border-b-black bg-base-100'>
+		<div
+			className='w-full h-32 p-4 group hover:bg-[#f7f5fe] border border-transparent border-b-purple-100 transition-colors cursor-pointer'
+			onClick={onClick}
+		>
 			<div className='flex h-full'>
 				{/* text */}
 				<div className='flex-1'>
-					<h1
-						className='line-clamp-1 text-2xl hover:text-primary-focus mb-3 cursor-pointer'
-						onClick={onClick}
-					>
+					<h1 className='line-clamp-1 text-xl font-medium group-hover:text-primary-focus mb-3 cursor-pointer'>
 						{article.title}
 					</h1>
-					<p className='line-clamp-2 text-gray-700'>
+					<p className='line-clamp-2 text-gray-600 text-sm'>
 						{article.summary}
 					</p>
 				</div>
@@ -96,9 +100,8 @@ function Article({ article, onClick, children }: ArticleProp) {
 				</div>
 				{/* interaction */}
 				<div
-					className={`pl-5 h-full ${
-						article.picture ? "" : ""
-					} flex items-center`}
+					className={`pl-5 h-full ${article.picture ? "" : ""
+						} flex items-center`}
 				>
 					{children}
 				</div>
@@ -118,9 +121,8 @@ const ArticleInteraction = ({
 	if (tab === "collection")
 		return (
 			<div
-				className={`btn ${
-					isCollection ? "btn-warning" : "btn-primary"
-				} btn-sm text-white`}
+				className={`btn ${isCollection ? "btn-warning" : "btn-primary"
+					} btn-sm text-white`}
 				onClick={async () => {
 					try {
 						await articleInteraction(

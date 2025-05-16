@@ -9,6 +9,7 @@ import EditArticle from "@/pages/EditArticle";
 import DraftList from "@/pages/Draft";
 import UserSetting from "@/pages/User/UserSetting";
 import Message from "@/pages/Message";
+import AISearch from "@/pages/AISearch";
 
 export default [
 	{
@@ -55,6 +56,10 @@ export default [
 			{
 				path: "/message",
 				element: <Message />,
+			},
+			{
+				path: "ai-search",
+				element: <AISearch />,
 			},
 			{
 				path: "",

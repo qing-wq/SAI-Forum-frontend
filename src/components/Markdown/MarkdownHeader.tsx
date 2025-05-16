@@ -46,7 +46,7 @@ export default memo(function MarkdownHeader() {
 				<div className='dropdown dropdown-end'>
 					<label tabIndex={0}>
 						<button
-							className='btn btn-primary text-base font-black'
+							className='h-9 px-4 rounded-md btn-primary text-white font-bold text-base shadow-none border-none hover:bg-[#6a3ce3] transition'
 							onClick={clickPublish}
 							// TODO: 失焦处理
 							// onBlur={(e) => {
@@ -55,7 +55,7 @@ export default memo(function MarkdownHeader() {
 							// }}
 							// onClick={openSubmitArticleBox}
 						>
-							发 布
+							发布
 						</button>{" "}
 					</label>
 					<SubmitArticleBox />
@@ -111,7 +111,7 @@ function SubmitArticleBox() {
 		articleInfo.categoryId &&
 		articleInfo.tagIds &&
 		articleInfo.summary &&
-		articleInfo.summary.length >= 50;
+		articleInfo.summary.length > 0;
 	const [isPublishing, setIsPublishing] = useState(false);
 	// 发布文章方法
 	const publishArticle = async () => {
