@@ -5,7 +5,9 @@ import gfm from "@bytemd/plugin-gfm";
 import gfm_zh_Hans from "@bytemd/plugin-gfm/locales/zh_Hans.json";
 import highlight from "@bytemd/plugin-highlight";
 // import highlight from "@bytemd/plugin-highlight-ssr";
-import "highlight.js/styles/default.css";
+import "highlight.js/styles/github.css";
+import codeStylePlugin from "./codeStylePlugin";
+import "./code-style.css";
 import math from "@bytemd/plugin-math";
 // import math from "@bytemd/plugin-math-ssr";
 import math_zh_Hans from "@bytemd/plugin-math/locales/zh_Hans.json";
@@ -23,6 +25,7 @@ const plugins = [
 	gemoji(),
 	gfm({ locale: gfm_zh_Hans }),
 	highlight(),
+	// codeStylePlugin(), // 自定义代码样式插件
 	math({ locale: math_zh_Hans }),
 	mediumZoom(),
 	mermaid({ locale: mermaid_zh_Hans }),

@@ -134,55 +134,63 @@ export const UsrInfoEditBlock = ({
 	};
 
 	return (
-		<form className='mycard p-8 first:flex-row gap-10'>
-			<div className='w-[40%] flex flex-col gap-4'>
-				{Object.keys(leftPartOfForm).map((key) => {
-					const item =
-						leftPartOfForm[key as keyof typeof leftPartOfForm];
-					return (
-						<span key={item["label"]}>
-							<h2 className='font-bold text-2xl pb-2'>
-								{item["label"]}
-								{item["required"] ? "*" : ""}
-							</h2>
-							<input
-								type='text'
-								placeholder={item["label"]}
-								className='input input-bordered w-full'
-								value={
-									userInfo[key as keyof typeof leftPartOfForm]
-								}
-								onChange={changeValue(
-									key as keyof typeof leftPartOfForm
-								)}
-							/>
-						</span>
-					);
-				})}
-				<div className='btn btn-primary w-full mt-4' onClick={submit}>
-					保存
+		<form className='mycard p-8 bg-white shadow-sm rounded-xl'>
+			<div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+				<div className='flex flex-col gap-6'>
+					{Object.keys(leftPartOfForm).map((key) => {
+						const item =
+							leftPartOfForm[key as keyof typeof leftPartOfForm];
+						return (
+							<div key={item["label"]} className="space-y-2">
+								<label className='text-gray-700 font-medium text-sm block'>
+									{item["label"]}
+									{item["required"] ? <span className="text-red-500 ml-1">*</span> : ""}
+								</label>
+								<input
+									type='text'
+									placeholder={`请输入${item["label"]}`}
+									className='w-full px-4 py-2.5 rounded-md border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all duration-200'
+									value={
+										userInfo[key as keyof typeof leftPartOfForm]
+									}
+									onChange={changeValue(
+										key as keyof typeof leftPartOfForm
+									)}
+								/>
+							</div>
+						);
+					})}
 				</div>
-			</div>
-			<div className='flex-1 flex flex-col gap-4'>
-				<span className='flex flex-col'>
-					<h2 className='font-bold text-2xl pb-2'>头像</h2>
-					<AvatarEdit
-						photo={userInfo.photo}
-						setPhoto={(photo: string) => {
-							changeValue("photo")({ target: { value: photo } });
-						}}
-					/>
-				</span>
-				<span className='flex-1 flex flex-col'>
-					<h2 className='font-bold text-2xl pb-2'>个人简介</h2>
-					<textarea
-						className='textarea textarea-bordered w-full flex-1 resize-none'
-						placeholder='个人简介'
-						value={userInfo.profile}
-						onChange={changeValue("profile")}
-						maxLength={100}
-					/>
-				</span>
+			<div className='flex flex-col gap-6'>
+					<div className='space-y-2'>
+						<label className='text-gray-700 font-medium text-sm block'>头像</label>
+						<AvatarEdit
+							photo={userInfo.photo}
+							setPhoto={(photo: string) => {
+								changeValue("photo")({ target: { value: photo } });
+							}}
+						/>
+					</div>
+					<div className='space-y-2'>
+						<label className='text-gray-700 font-medium text-sm block'>个人简介</label>
+						<textarea
+							className='w-full px-4 py-2.5 rounded-md border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all duration-200 h-32 resize-none'
+							placeholder='简单介绍一下自己...'
+							value={userInfo.profile}
+							onChange={changeValue("profile")}
+							maxLength={100}
+						/>
+						<div className="text-xs text-gray-400 text-right">{userInfo.profile?.length || 0}/100</div>
+					</div>
+					<div className="col-span-full mt-4">
+						<button 
+							className='w-full md:w-auto px-6 py-2.5 bg-purple-500 text-white font-medium rounded-md shadow-sm hover:shadow-md transition-all duration-200 hover:from-purple-700 hover:to-purple-800 focus:ring-2 focus:ring-purple-200' 
+							onClick={submit}
+						>
+							保存修改
+						</button>
+					</div>
+				</div>
 			</div>
 		</form>
 	);
@@ -200,17 +208,21 @@ const AvatarEdit = ({
 }) => {
 	const imgUploadRef = useRef<HTMLInputElement>(null);
 	return (
-		<div className='avatar group self-center'>
+		<div className='avatar group self-center relative'>
 			<div
-				className='w-64 rounded absolute leading-[15rem] text-center text-white text-lg font-bold cursor-pointer group-hover:block first:hidden bg-slate-600 bg-opacity-50'
+				className='w-32 h-32 rounded-full absolute inset-0 flex items-center justify-center text-white font-medium text-sm cursor-pointer opacity-0 group-hover:opacity-100 bg-black bg-opacity-40 transition-all duration-200'
 				onClick={() => {
 					imgUploadRef.current?.click();
 				}}
 			>
-				修改头像 🖋
+				<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+				</svg>
+				更换
 			</div>
-			<div className='w-64 rounded'>
-				<img src={photo} />
+			<div className='w-32 h-32 rounded-full shadow-md border-2 border-gray-100 overflow-hidden'>
+				<img src={photo} className="w-full h-full object-cover" alt="用户头像" />
 			</div>
 			<input
 				type='file'

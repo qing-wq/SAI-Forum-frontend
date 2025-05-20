@@ -147,7 +147,7 @@ export default memo(function TheHeader() {
 				</a>
 			</div>
 			{/* navigate */}
-			<div className='flex-auto flex gap-1 2xl:gap-2 items-center ml-2'>
+			<div className='flex-auto flex gap-1 2xl:gap-2 items-center ml-2 min-w-[600px]'>
 				{navList.map((nav) => (
 					<Link
 						key={nav}
@@ -171,15 +171,23 @@ export default memo(function TheHeader() {
 					</svg>
 					AI搜索
 				</Link>
+
 				{/* write */}
-				<button
+				<Link to="/edit-article/new/0" className='h-9 px-4 rounded-md bg-gradient-to-r btn-primary text-white font-bold flex items-center text-base shadow-none border-none hover:opacity-90 transition'>
+					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+					</svg>
+					写文章
+				</Link>
+
+				{/* <button
 					className='h-9 px-4 rounded-md btn-primary text-white font-bold text-base shadow-none border-none hover:bg-[#6a3ce3] transition'
 					onClick={() => {
 						authTo("./edit-article/new/0", false, true);
 					}}
 				>
 					写文章
-				</button>
+				</button> */}
 				<button className='h-9 px-4 rounded-md bg-gray-100 text-[#7c3aed] font-bold text-base shadow-none border border-gray-200 hover:bg-[#f7f5fe] transition'
 				onClick={() => {
 					authTo("./draft", false, true);
@@ -242,5 +250,5 @@ const navList = [
 	"小车",
 	"定位",
 	"无人机",
-	"ros",
+	"ROS",
 ];

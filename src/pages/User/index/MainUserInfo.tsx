@@ -62,9 +62,9 @@ const MianTab = ({
 }) => {
 	const tabMap: Partial<Record<HomeSelectType, string>> = {
 		article: "发布文章",
-		// follow: "关注",
 		collection: "收藏夹",
-		read: "历史记录",
+		read: "浏览记录",
+		follow: "关注列表",
 	};
 	return (
 		<div className='tabs w-full flex-nowrap font-bold'>

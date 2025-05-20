@@ -83,7 +83,7 @@ const MianTab = ({
 					)}
 					{/* 数字徽章，当前tab才显示数字 */}
 					{unreadCountMap[key as NoticeType] > 0 && curTab === key && (
-						<span className='indicator-item badge bg-gradient-to-r from-[#7c3aed] to-[#ff1aff] border-0 text-white'>
+						<span className='indicator-item badge bg-[#7c3aed] border-0 text-white'>
 							{unreadCountMap[key as NoticeType]}
 						</span>
 					)}
